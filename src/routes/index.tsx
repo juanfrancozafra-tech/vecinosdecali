@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Camera,
@@ -23,6 +23,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { guardarRolElegido, useAuth } from "@/lib/auth";
+import type { RolVecino } from "@/lib/database.types";
 
 const OG_IMAGE_URL = "/og-image.jpg";
 
@@ -197,6 +199,18 @@ function useScrolledPastHero() {
 
 function Index() {
   const showFixedBar = useScrolledPastHero();
+  const navigate = useNavigate();
+  const { usuario, perfilCompleto } = useAuth();
+
+  function empezar(rol: RolVecino) {
+    guardarRolElegido(rol);
+    if (!usuario) {
+      navigate({ to: "/entrar" });
+      return;
+    }
+    navigate({ to: perfilCompleto ? "/mi-cuenta" : "/completar-perfil" });
+  }
+
 
   return (
     <div className="relative min-h-screen bg-background">
@@ -219,19 +233,19 @@ function Index() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
-              asChild
               size="lg"
+              onClick={() => empezar("doy")}
               className="h-12 w-full rounded-xl bg-violet px-6 text-base font-medium text-white hover:bg-violet/90 sm:w-auto"
             >
-              <a href="/publicar">Quiero regalar algo</a>
+              Quiero regalar algo
             </Button>
             <Button
-              asChild
               size="lg"
               variant="outline"
+              onClick={() => empezar("recibo")}
               className="h-12 w-full rounded-xl border-violet-border bg-white px-6 text-base font-medium text-violet-dark hover:bg-violet-light sm:w-auto"
             >
-              <a href="/articulos">Necesito algo</a>
+              Necesito algo
             </Button>
           </div>
           <p className="mt-4 text-small text-muted-foreground">Gratis siempre. Acá nada tiene precio.</p>
@@ -397,17 +411,17 @@ function Index() {
       >
         <div className="mx-auto flex max-w-3xl gap-3">
           <Button
-            asChild
+            onClick={() => empezar("doy")}
             className="h-12 flex-1 rounded-xl bg-violet text-base font-medium text-white hover:bg-violet/90"
           >
-            <a href="/publicar">Quiero regalar algo</a>
+            Quiero regalar algo
           </Button>
           <Button
-            asChild
             variant="outline"
+            onClick={() => empezar("recibo")}
             className="h-12 flex-1 rounded-xl border-violet-border bg-white text-base font-medium text-violet-dark hover:bg-violet-light"
           >
-            <a href="/articulos">Necesito algo</a>
+            Necesito algo
           </Button>
         </div>
       </div>
