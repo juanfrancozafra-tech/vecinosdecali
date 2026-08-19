@@ -16,6 +16,7 @@ import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
 import { Route as PublicarRouteImport } from './routes/publicar'
 import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
 import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
+import { Route as MisPublicacionesIndexRouteImport } from './routes/mis-publicaciones.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const ArticulosIdRoute = ArticulosIdRouteImport.update({
   path: '/articulos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MisPublicacionesIndexRoute = MisPublicacionesIndexRouteImport.update({
+  id: '/mis-publicaciones/',
+  path: '/mis-publicaciones/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos/': typeof ArticulosIndexRoute
+  '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos': typeof ArticulosIndexRoute
+  '/mis-publicaciones': typeof MisPublicacionesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos/': typeof ArticulosIndexRoute
+  '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/articulos/'
+    | '/mis-publicaciones/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/articulos'
+    | '/mis-publicaciones'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/articulos/'
+    | '/mis-publicaciones/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   PublicarRoute: typeof PublicarRoute
   ArticulosIdRoute: typeof ArticulosIdRoute
   ArticulosIndexRoute: typeof ArticulosIndexRoute
+  MisPublicacionesIndexRoute: typeof MisPublicacionesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticulosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mis-publicaciones/': {
+      id: '/mis-publicaciones/'
+      path: '/mis-publicaciones'
+      fullPath: '/mis-publicaciones/'
+      preLoaderRoute: typeof MisPublicacionesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicarRoute: PublicarRoute,
   ArticulosIdRoute: ArticulosIdRoute,
   ArticulosIndexRoute: ArticulosIndexRoute,
+  MisPublicacionesIndexRoute: MisPublicacionesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
