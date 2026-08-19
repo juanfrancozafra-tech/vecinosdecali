@@ -413,29 +413,22 @@ function Publicacion() {
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={confirmandoEntrega} onOpenChange={setConfirmandoEntrega}>
-        <AlertDialogContent className="rounded-xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>¿Ya se lo entregaste a {nombreAceptado}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Al confirmar, el artículo sale del catálogo y queda como entregado.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="h-12 rounded-xl">Todavía no</AlertDialogCancel>
-            <AlertDialogAction
-              className="h-12 rounded-xl"
-              disabled={trabajando}
-              onClick={(e) => {
-                e.preventDefault()
-                void confirmarEntrega()
-              }}
-            >
-              Sí, lo entregué
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {confirmandoEntrega ? (
+        <FlujoEntrega
+          articuloId={articulo.id}
+          tituloArticulo={articulo.titulo}
+          onCerrar={() => setConfirmandoEntrega(false)}
+          onListo={() => {
+            setConfirmandoEntrega(false)
+            void cargar()
+          }}
+          onPublicarOtra={() => {
+            setConfirmandoEntrega(false)
+            void navigate({ to: '/publicar' })
+          }}
+        />
+      ) : null}
+
 
       <AlertDialog open={noApareceAbierto} onOpenChange={setNoApareceAbierto}>
         <AlertDialogContent className="rounded-xl">
