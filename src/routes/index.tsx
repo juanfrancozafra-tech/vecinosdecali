@@ -219,19 +219,19 @@ function Index() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
-              asChild
               size="lg"
+              onClick={() => empezar("doy")}
               className="h-12 w-full rounded-xl bg-violet px-6 text-base font-medium text-white hover:bg-violet/90 sm:w-auto"
             >
-              <a href="/publicar">Quiero regalar algo</a>
+              Quiero regalar algo
             </Button>
             <Button
-              asChild
               size="lg"
               variant="outline"
+              onClick={() => empezar("recibo")}
               className="h-12 w-full rounded-xl border-violet-border bg-white px-6 text-base font-medium text-violet-dark hover:bg-violet-light sm:w-auto"
             >
-              <a href="/articulos">Necesito algo</a>
+              Necesito algo
             </Button>
           </div>
           <p className="mt-4 text-small text-muted-foreground">Gratis siempre. Acá nada tiene precio.</p>
