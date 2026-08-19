@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
 import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const EntrarRoute = EntrarRouteImport.update({
   path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MiCuentaRoute = MiCuentaRouteImport.update({
+  id: '/mi-cuenta',
+  path: '/mi-cuenta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
+  '/mi-cuenta': typeof MiCuentaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
+  '/mi-cuenta': typeof MiCuentaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
+  '/mi-cuenta': typeof MiCuentaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/completar-perfil' | '/entrar'
+  fullPaths: '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/completar-perfil' | '/entrar'
-  id: '__root__' | '/' | '/completar-perfil' | '/entrar'
+  to: '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
+  id: '__root__' | '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompletarPerfilRoute: typeof CompletarPerfilRoute
   EntrarRoute: typeof EntrarRoute
+  MiCuentaRoute: typeof MiCuentaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mi-cuenta': {
+      id: '/mi-cuenta'
+      path: '/mi-cuenta'
+      fullPath: '/mi-cuenta'
+      preLoaderRoute: typeof MiCuentaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompletarPerfilRoute: CompletarPerfilRoute,
   EntrarRoute: EntrarRoute,
+  MiCuentaRoute: MiCuentaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
