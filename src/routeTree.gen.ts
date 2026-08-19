@@ -19,6 +19,7 @@ import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
 import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
 import { Route as MisPublicacionesIndexRouteImport } from './routes/mis-publicaciones.index'
 import { Route as MisPublicacionesIdRouteImport } from './routes/mis-publicaciones.$id'
+import { Route as VecinoIdRouteImport } from './routes/vecino.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,11 @@ const MisPublicacionesIdRoute = MisPublicacionesIdRouteImport.update({
   path: '/mis-publicaciones/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VecinoIdRoute = VecinoIdRouteImport.update({
+  id: '/vecino/$id',
+  path: '/vecino/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
+  '/vecino/$id': typeof VecinoIdRoute
   '/articulos/': typeof ArticulosIndexRoute
   '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
+  '/vecino/$id': typeof VecinoIdRoute
   '/articulos': typeof ArticulosIndexRoute
   '/mis-publicaciones': typeof MisPublicacionesIndexRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
+  '/vecino/$id': typeof VecinoIdRoute
   '/articulos/': typeof ArticulosIndexRoute
   '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
+    | '/vecino/$id'
     | '/articulos/'
     | '/mis-publicaciones/'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
+    | '/vecino/$id'
     | '/articulos'
     | '/mis-publicaciones'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/publicar'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
+    | '/vecino/$id'
     | '/articulos/'
     | '/mis-publicaciones/'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   PublicarRoute: typeof PublicarRoute
   ArticulosIdRoute: typeof ArticulosIdRoute
   MisPublicacionesIdRoute: typeof MisPublicacionesIdRoute
+  VecinoIdRoute: typeof VecinoIdRoute
   ArticulosIndexRoute: typeof ArticulosIndexRoute
   MisPublicacionesIndexRoute: typeof MisPublicacionesIndexRoute
 }
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MisPublicacionesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vecino/$id': {
+      id: '/vecino/$id'
+      path: '/vecino/$id'
+      fullPath: '/vecino/$id'
+      preLoaderRoute: typeof VecinoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicarRoute: PublicarRoute,
   ArticulosIdRoute: ArticulosIdRoute,
   MisPublicacionesIdRoute: MisPublicacionesIdRoute,
+  VecinoIdRoute: VecinoIdRoute,
   ArticulosIndexRoute: ArticulosIndexRoute,
   MisPublicacionesIndexRoute: MisPublicacionesIndexRoute,
 }
