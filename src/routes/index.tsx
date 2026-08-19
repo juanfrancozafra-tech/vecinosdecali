@@ -223,7 +223,7 @@ function Index() {
               size="lg"
               className="h-12 w-full rounded-xl bg-violet px-6 text-base font-medium text-white hover:bg-violet/90 sm:w-auto"
             >
-              <Link to="/publicar">Quiero regalar algo</Link>
+              <a href="/publicar">Quiero regalar algo</a>
             </Button>
             <Button
               asChild
@@ -231,7 +231,7 @@ function Index() {
               variant="outline"
               className="h-12 w-full rounded-xl border-violet-border bg-white px-6 text-base font-medium text-violet-dark hover:bg-violet-light sm:w-auto"
             >
-              <Link to="/articulos">Necesito algo</Link>
+              <a href="/articulos">Necesito algo</a>
             </Button>
           </div>
           <p className="mt-4 text-small text-muted-foreground">Gratis siempre. Acá nada tiene precio.</p>
