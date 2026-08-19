@@ -400,14 +400,14 @@ function Index() {
             asChild
             className="h-12 flex-1 rounded-xl bg-violet text-base font-medium text-white hover:bg-violet/90"
           >
-            <Link to="/publicar">Quiero regalar algo</Link>
+            <a href="/publicar">Quiero regalar algo</a>
           </Button>
           <Button
             asChild
             variant="outline"
             className="h-12 flex-1 rounded-xl border-violet-border bg-white text-base font-medium text-violet-dark hover:bg-violet-light"
           >
-            <Link to="/articulos">Necesito algo</Link>
+            <a href="/articulos">Necesito algo</a>
           </Button>
         </div>
       </div>
