@@ -13,7 +13,6 @@ import {
   Flag,
   Check,
   X,
-  HeartHandshake,
   User,
 } from "lucide-react";
 
@@ -24,7 +23,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import ogImage from "../../public/og-image.jpg";
+
+const OG_IMAGE_URL = "/og-image.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -34,12 +34,12 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
       { property: "og:title", content: "Vecinos de Cali" },
       { property: "og:description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
-      { property: "og:image", content: ogImage },
+      { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Vecinos de Cali" },
       { name: "twitter:description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
-      { name: "twitter:image", content: ogImage },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
 });
