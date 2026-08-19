@@ -63,6 +63,10 @@ const ETIQUETA_NIVEL: Record<NivelVecino, string> = {
 
 export const Route = createFileRoute('/mis-publicaciones/$id')({
   ssr: false,
+  validateSearch: (search: Record<string, unknown>): { confirmar?: boolean } =>
+    search['confirmar'] === true || search['confirmar'] === 'true'
+      ? { confirmar: true }
+      : {},
   component: () => (
     <RutaProtegida>
       <Publicacion />
@@ -179,6 +183,12 @@ function Publicacion() {
   useEffect(() => {
     void cargar()
   }, [cargar])
+
+  // Si llegó desde la franja de pendientes, abrimos el flujo de confirmación.
+  const { confirmar } = Route.useSearch()
+  useEffect(() => {
+    if (confirmar && articulo?.estado === 'reservado') setConfirmandoEntrega(true)
+  }, [confirmar, articulo?.estado])
 
   const pendientes = useMemo(
     () => solicitudes.filter((s) => !descartadas.includes(s.id)),
