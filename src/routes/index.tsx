@@ -397,17 +397,17 @@ function Index() {
       >
         <div className="mx-auto flex max-w-3xl gap-3">
           <Button
-            asChild
+            onClick={() => empezar("doy")}
             className="h-12 flex-1 rounded-xl bg-violet text-base font-medium text-white hover:bg-violet/90"
           >
-            <a href="/publicar">Quiero regalar algo</a>
+            Quiero regalar algo
           </Button>
           <Button
-            asChild
             variant="outline"
+            onClick={() => empezar("recibo")}
             className="h-12 flex-1 rounded-xl border-violet-border bg-white text-base font-medium text-violet-dark hover:bg-violet-light"
           >
-            <a href="/articulos">Necesito algo</a>
+            Necesito algo
           </Button>
         </div>
       </div>
