@@ -280,7 +280,11 @@ function DetalleArticulo() {
           </div>
         ) : (
           <div className="mt-6 rounded-xl border border-border p-4">
-            <a href={`/vecino/${articulo.donante_id}`} className="flex items-center gap-3">
+            <Link
+              to="/vecino/$id"
+              params={{ id: articulo.donante_id }}
+              className="flex items-center gap-3"
+            >
               <span className="size-12 overflow-hidden rounded-full bg-muted">
                 {vecino?.foto_url ? (
                   <img
@@ -306,7 +310,7 @@ function DetalleArticulo() {
                   </span>
                 ) : null}
               </span>
-            </a>
+            </Link>
             {contador ? (
               <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted-foreground">
                 {contador}
