@@ -171,7 +171,9 @@ function Formulario({
       const destino = indice + delta
       if (destino < 0 || destino >= prev.length) return prev
       const copia = [...prev]
-      const [item] = copia.splice(indice, 1)
+      const item = copia[indice]
+      if (!item) return prev
+      copia.splice(indice, 1)
       copia.splice(destino, 0, item)
       return copia
     })
