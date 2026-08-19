@@ -63,9 +63,10 @@ const ETIQUETA_NIVEL: Record<NivelVecino, string> = {
 
 export const Route = createFileRoute('/mis-publicaciones/$id')({
   ssr: false,
-  validateSearch: (search: Record<string, unknown>) => ({
-    confirmar: search['confirmar'] === true || search['confirmar'] === 'true',
-  }),
+  validateSearch: (search: Record<string, unknown>): { confirmar?: boolean } =>
+    search['confirmar'] === true || search['confirmar'] === 'true'
+      ? { confirmar: true }
+      : {},
   component: () => (
     <RutaProtegida>
       <Publicacion />
