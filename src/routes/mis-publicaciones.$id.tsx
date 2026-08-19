@@ -25,6 +25,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { RutaProtegida } from '@/components/RutaProtegida'
+import { FlujoEntrega } from '@/components/FlujoEntrega'
+
 import { cn } from '@/lib/utils'
 import { db, mensajeDeError } from '@/lib/db'
 import { fotoTransformada } from '@/lib/imagenes'
