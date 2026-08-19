@@ -189,7 +189,7 @@ function DetalleArticulo() {
   async function enviarSolicitud() {
     setEnviando(true)
     const { error } = await db.from('solicitudes').insert({
-      articulo_id: articulo.id,
+      articulo_id: id,
       mensaje: mensaje.trim() ? mensaje.trim() : null,
     })
     setEnviando(false)
