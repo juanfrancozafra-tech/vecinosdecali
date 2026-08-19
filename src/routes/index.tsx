@@ -197,6 +197,18 @@ function useScrolledPastHero() {
 
 function Index() {
   const showFixedBar = useScrolledPastHero();
+  const navigate = useNavigate();
+  const { usuario, perfilCompleto } = useAuth();
+
+  function empezar(rol: RolVecino) {
+    guardarRolElegido(rol);
+    if (!usuario) {
+      navigate({ to: "/entrar" });
+      return;
+    }
+    navigate({ to: perfilCompleto ? "/mi-cuenta" : "/completar-perfil" });
+  }
+
 
   return (
     <div className="relative min-h-screen bg-background">
