@@ -23,6 +23,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { guardarRolElegido, useAuth } from "@/lib/auth";
+import type { RolVecino } from "@/lib/database.types";
 
 const OG_IMAGE_URL = "/og-image.jpg";
 
