@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -56,6 +56,7 @@ function MiCuenta() {
   const [nuevoBarrioId, setNuevoBarrioId] = useState<number | null>(null)
   const [nuevaSituacion, setNuevaSituacion] = useState('')
   const [guardandoRol, setGuardandoRol] = useState(false)
+  const [esAdmin, setEsAdmin] = useState(false)
   const rolDestino: RolVecino = rol === 'doy' ? 'recibo' : 'doy'
 
   useEffect(() => {
@@ -67,6 +68,17 @@ function MiCuenta() {
   useEffect(() => {
     setTelefono(whatsapp ?? '')
   }, [whatsapp])
+
+  // La entrada a moderación solo aparece si soy_admin() es verdadero.
+  useEffect(() => {
+    let activo = true
+    db.rpc('soy_admin').then(({ data }) => {
+      if (activo) setEsAdmin(data === true)
+    })
+    return () => {
+      activo = false
+    }
+  }, [])
 
   async function guardar(e: React.FormEvent) {
     e.preventDefault()
@@ -284,6 +296,12 @@ function MiCuenta() {
             </Button>
           )}
         </section>
+
+        {esAdmin ? (
+          <Button asChild variant="outline" className="mt-6 h-11 w-full rounded-xl">
+            <Link to="/moderacion">Moderación</Link>
+          </Button>
+        ) : null}
 
         <Button
           type="button"
