@@ -60,7 +60,7 @@ const ETIQUETA_ESTADO: Record<EstadoArticulo, string> = {
 
 const COLOR_ESTADO: Record<EstadoArticulo, string> = {
   disponible: 'bg-primary/10 text-primary',
-  reservado: 'bg-[hsl(var(--aviso))]/25 text-[hsl(var(--aviso-foreground))]',
+  reservado: 'bg-aviso text-aviso-foreground',
   entregado: 'bg-emerald-100 text-emerald-800',
   retirado: 'bg-muted text-muted-foreground',
   oculto: 'bg-muted text-muted-foreground',
