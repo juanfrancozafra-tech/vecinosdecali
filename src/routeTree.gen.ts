@@ -16,6 +16,8 @@ import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
 import { Route as PublicarRouteImport } from './routes/publicar'
 import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
 import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
+import { Route as MisPublicacionesIndexRouteImport } from './routes/mis-publicaciones.index'
+import { Route as MisPublicacionesIdRouteImport } from './routes/mis-publicaciones.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,16 @@ const ArticulosIdRoute = ArticulosIdRouteImport.update({
   path: '/articulos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MisPublicacionesIndexRoute = MisPublicacionesIndexRouteImport.update({
+  id: '/mis-publicaciones/',
+  path: '/mis-publicaciones/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MisPublicacionesIdRoute = MisPublicacionesIdRouteImport.update({
+  id: '/mis-publicaciones/$id',
+  path: '/mis-publicaciones/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +72,9 @@ export interface FileRoutesByFullPath {
   '/mi-cuenta': typeof MiCuentaRoute
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
+  '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/articulos/': typeof ArticulosIndexRoute
+  '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +83,9 @@ export interface FileRoutesByTo {
   '/mi-cuenta': typeof MiCuentaRoute
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
+  '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/articulos': typeof ArticulosIndexRoute
+  '/mis-publicaciones': typeof MisPublicacionesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -79,7 +95,9 @@ export interface FileRoutesById {
   '/mi-cuenta': typeof MiCuentaRoute
   '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
+  '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/articulos/': typeof ArticulosIndexRoute
+  '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,7 +108,9 @@ export interface FileRouteTypes {
     | '/mi-cuenta'
     | '/publicar'
     | '/articulos/$id'
+    | '/mis-publicaciones/$id'
     | '/articulos/'
+    | '/mis-publicaciones/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,7 +119,9 @@ export interface FileRouteTypes {
     | '/mi-cuenta'
     | '/publicar'
     | '/articulos/$id'
+    | '/mis-publicaciones/$id'
     | '/articulos'
+    | '/mis-publicaciones'
   id:
     | '__root__'
     | '/'
@@ -108,7 +130,9 @@ export interface FileRouteTypes {
     | '/mi-cuenta'
     | '/publicar'
     | '/articulos/$id'
+    | '/mis-publicaciones/$id'
     | '/articulos/'
+    | '/mis-publicaciones/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,7 +142,9 @@ export interface RootRouteChildren {
   MiCuentaRoute: typeof MiCuentaRoute
   PublicarRoute: typeof PublicarRoute
   ArticulosIdRoute: typeof ArticulosIdRoute
+  MisPublicacionesIdRoute: typeof MisPublicacionesIdRoute
   ArticulosIndexRoute: typeof ArticulosIndexRoute
+  MisPublicacionesIndexRoute: typeof MisPublicacionesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +198,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticulosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mis-publicaciones/': {
+      id: '/mis-publicaciones/'
+      path: '/mis-publicaciones'
+      fullPath: '/mis-publicaciones/'
+      preLoaderRoute: typeof MisPublicacionesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mis-publicaciones/$id': {
+      id: '/mis-publicaciones/$id'
+      path: '/mis-publicaciones/$id'
+      fullPath: '/mis-publicaciones/$id'
+      preLoaderRoute: typeof MisPublicacionesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -182,7 +222,9 @@ const rootRouteChildren: RootRouteChildren = {
   MiCuentaRoute: MiCuentaRoute,
   PublicarRoute: PublicarRoute,
   ArticulosIdRoute: ArticulosIdRoute,
+  MisPublicacionesIdRoute: MisPublicacionesIdRoute,
   ArticulosIndexRoute: ArticulosIndexRoute,
+  MisPublicacionesIndexRoute: MisPublicacionesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
