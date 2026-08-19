@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
+import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
+import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +36,32 @@ const MiCuentaRoute = MiCuentaRouteImport.update({
   path: '/mi-cuenta',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticulosIndexRoute = ArticulosIndexRouteImport.update({
+  id: '/articulos/',
+  path: '/articulos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticulosIdRoute = ArticulosIdRouteImport.update({
+  id: '/articulos/$id',
+  path: '/articulos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/articulos/$id': typeof ArticulosIdRoute
+  '/articulos/': typeof ArticulosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/articulos/$id': typeof ArticulosIdRoute
+  '/articulos': typeof ArticulosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,34 @@ export interface FileRoutesById {
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/articulos/$id': typeof ArticulosIdRoute
+  '/articulos/': typeof ArticulosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
+  fullPaths:
+    | '/'
+    | '/completar-perfil'
+    | '/entrar'
+    | '/mi-cuenta'
+    | '/articulos/$id'
+    | '/articulos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
-  id: '__root__' | '/' | '/completar-perfil' | '/entrar' | '/mi-cuenta'
+  to:
+    | '/'
+    | '/completar-perfil'
+    | '/entrar'
+    | '/mi-cuenta'
+    | '/articulos/$id'
+    | '/articulos'
+  id:
+    | '__root__'
+    | '/'
+    | '/completar-perfil'
+    | '/entrar'
+    | '/mi-cuenta'
+    | '/articulos/$id'
+    | '/articulos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +104,8 @@ export interface RootRouteChildren {
   CompletarPerfilRoute: typeof CompletarPerfilRoute
   EntrarRoute: typeof EntrarRoute
   MiCuentaRoute: typeof MiCuentaRoute
+  ArticulosIdRoute: typeof ArticulosIdRoute
+  ArticulosIndexRoute: typeof ArticulosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +138,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MiCuentaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articulos/': {
+      id: '/articulos/'
+      path: '/articulos'
+      fullPath: '/articulos/'
+      preLoaderRoute: typeof ArticulosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articulos/$id': {
+      id: '/articulos/$id'
+      path: '/articulos/$id'
+      fullPath: '/articulos/$id'
+      preLoaderRoute: typeof ArticulosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +160,8 @@ const rootRouteChildren: RootRouteChildren = {
   CompletarPerfilRoute: CompletarPerfilRoute,
   EntrarRoute: EntrarRoute,
   MiCuentaRoute: MiCuentaRoute,
+  ArticulosIdRoute: ArticulosIdRoute,
+  ArticulosIndexRoute: ArticulosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
