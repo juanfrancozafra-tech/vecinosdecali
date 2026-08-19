@@ -170,7 +170,7 @@ function DetalleArticulo() {
     return { texto: 'Solicitar', tipo: 'solicitar' as const }
   }, [articulo, usuario, perfil?.rol_principal, perfilCompleto, yaSolicitado])
 
-  if (oculto) return <NoDisponible />
+  if (!articulo || oculto) return <NoDisponible />
 
   function tocarAccion() {
     if (accion.tipo === 'entrar') {
