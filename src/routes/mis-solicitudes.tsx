@@ -271,7 +271,6 @@ function MisSolicitudes() {
             <TarjetaSolicitud
               key={item.solicitud.id}
               item={item}
-              miNombre={perfil?.nombre ?? null}
               onCalificar={() => setCalificando(item)}
             />
           ))}
@@ -292,11 +291,9 @@ function MisSolicitudes() {
 
 function TarjetaSolicitud({
   item,
-  miNombre,
   onCalificar,
 }: {
   item: Item
-  miNombre: string | null
   onCalificar: () => void
 }) {
   const { solicitud, articulo, vecino, otros } = item
@@ -369,7 +366,7 @@ function TarjetaSolicitud({
 
       {solicitud.estado === 'aceptada' ? (
         <>
-          <p className="mt-3 rounded-xl bg-[hsl(var(--aviso))] px-3 py-3 text-[15px] leading-relaxed text-[hsl(var(--aviso-foreground))]">
+          <p className="mt-3 rounded-xl bg-aviso px-3 py-3 text-[15px] leading-relaxed text-aviso-foreground">
             {nombreVecino} te escribe por WhatsApp. Revisá tus mensajes y acordá dónde y cuándo
             recogerlo. Vos no tenés que buscarla.
           </p>
@@ -425,7 +422,6 @@ function TarjetaSolicitud({
         </Button>
       ) : null}
 
-      {miNombre === null ? null : null}
     </article>
   )
 }
