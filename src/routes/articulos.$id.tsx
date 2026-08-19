@@ -20,6 +20,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import { ModalReporte } from '@/components/ModalReporte'
 import { db, mensajeDeError } from '@/lib/db'
 import { fotoTransformada } from '@/lib/imagenes'
 import { guardarRutaOrigen, useAuth } from '@/lib/auth'
@@ -126,6 +127,7 @@ function DetalleArticulo() {
   const [modalAbierto, setModalAbierto] = useState(false)
   const [mensaje, setMensaje] = useState('')
   const [enviando, setEnviando] = useState(false)
+  const [reportando, setReportando] = useState(false)
 
   const oculto =
     !articulo || articulo.estado === 'retirado' || articulo.estado === 'oculto'
@@ -328,13 +330,14 @@ function DetalleArticulo() {
             <Share2 className="mr-2 size-4" />
             Compartir por WhatsApp
           </Button>
-          <a
-            href={`/reportar?articulo=${articulo.id}`}
+          <button
+            type="button"
+            onClick={() => setReportando(true)}
             className="inline-flex items-center gap-1.5 self-start text-[13px] text-muted-foreground underline"
           >
             <Flag className="size-3.5" />
             Reportar
-          </a>
+          </button>
         </div>
       </main>
 
@@ -356,6 +359,12 @@ function DetalleArticulo() {
           ) : null}
         </div>
       </div>
+
+      <ModalReporte
+        abierto={reportando}
+        onOpenChange={setReportando}
+        articuloId={articulo.id}
+      />
 
       <Dialog open={modalAbierto} onOpenChange={setModalAbierto}>
         <DialogContent className="rounded-xl">
