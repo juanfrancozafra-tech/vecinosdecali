@@ -182,6 +182,7 @@ function useScrolledPastHero() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return;
         setVisible(!entry.isIntersecting);
       },
       { threshold: 0.05, rootMargin: "0px" },
