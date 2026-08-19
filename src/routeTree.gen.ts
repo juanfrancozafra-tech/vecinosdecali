@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
 import { Route as EntrarRouteImport } from './routes/entrar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompletarPerfilRoute = CompletarPerfilRouteImport.update({
+  id: '/completar-perfil',
+  path: '/completar-perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EntrarRoute = EntrarRouteImport.update({
@@ -25,27 +31,31 @@ const EntrarRoute = EntrarRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/entrar'
+  fullPaths: '/' | '/completar-perfil' | '/entrar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/entrar'
-  id: '__root__' | '/' | '/entrar'
+  to: '/' | '/completar-perfil' | '/entrar'
+  id: '__root__' | '/' | '/completar-perfil' | '/entrar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompletarPerfilRoute: typeof CompletarPerfilRoute
   EntrarRoute: typeof EntrarRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/completar-perfil': {
+      id: '/completar-perfil'
+      path: '/completar-perfil'
+      fullPath: '/completar-perfil'
+      preLoaderRoute: typeof CompletarPerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/entrar': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompletarPerfilRoute: CompletarPerfilRoute,
   EntrarRoute: EntrarRoute,
 }
 export const routeTree = rootRouteImport
