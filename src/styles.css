@@ -65,6 +65,8 @@
   --color-violet-border: var(--violet-border);
   --color-violet-dark: var(--violet-dark);
   --color-neutral-bg: var(--neutral-bg);
+  --color-aviso: var(--aviso);
+  --color-aviso-foreground: var(--aviso-foreground);
 
   /* Typography scale for Vecinos de Cali */
   --text-display: var(--text-display-size);
@@ -83,6 +85,8 @@
   --violet-border: #cecbf6;
   --violet-dark: #26215c;
   --neutral-bg: #fafaf9;
+  --aviso: #faeeda;
+  --aviso-foreground: #412402;
 
   /* Semantic mapping: light mode uses the violet brand as primary */
   --background: var(--neutral-bg);
@@ -161,6 +165,8 @@
   --sidebar-ring: #8b85d6;
 
   /* Dark brand tokens */
+  --aviso: #3a2a10;
+  --aviso-foreground: #f7e6c8;
   --violet: #8b85d6;
   --violet-light: #26215c;
   --violet-border: #3f3980;
