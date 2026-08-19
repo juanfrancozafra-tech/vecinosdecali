@@ -183,6 +183,12 @@ function Publicacion() {
     void cargar()
   }, [cargar])
 
+  // Si llegó desde la franja de pendientes, abrimos el flujo de confirmación.
+  const { confirmar } = Route.useSearch()
+  useEffect(() => {
+    if (confirmar && articulo?.estado === 'reservado') setConfirmandoEntrega(true)
+  }, [confirmar, articulo?.estado])
+
   const pendientes = useMemo(
     () => solicitudes.filter((s) => !descartadas.includes(s.id)),
     [solicitudes, descartadas],
