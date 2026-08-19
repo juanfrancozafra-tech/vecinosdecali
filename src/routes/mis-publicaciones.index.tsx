@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { RutaProtegida } from '@/components/RutaProtegida'
+import { marcarSolicitudesVistas } from '@/lib/pendientes'
 import { cn } from '@/lib/utils'
 import { db, mensajeDeError } from '@/lib/db'
 import { fotoTransformada } from '@/lib/imagenes'
@@ -127,6 +128,10 @@ function MisPublicaciones() {
     }
     setFilas(articulos.map((a) => ({ ...a, foto: fotos[a.id] ?? null })))
   }
+
+  useEffect(() => {
+    marcarSolicitudesVistas()
+  }, [])
 
   useEffect(() => {
     void cargar()
