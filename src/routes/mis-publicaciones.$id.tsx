@@ -219,22 +219,8 @@ function Publicacion() {
     abrirWhatsApp(String(data), mensaje)
   }
 
-  const confirmarEntrega = async () => {
-    if (!articulo) return
-    setTrabajando(true)
-    const { error } = await db.rpc('confirmar_entrega', {
-      p_articulo_id: articulo.id,
-      p_receptor_id: articulo.reservado_para ?? aceptada?.solicitante_id ?? null,
-    })
-    setTrabajando(false)
-    if (error) {
-      toast.error(mensajeDeError(error))
-      return
-    }
-    setConfirmandoEntrega(false)
-    toast.success('¡Gracias! Ya cerraste el ciclo.')
-    void cargar()
-  }
+
+
 
   const noAparecio = async () => {
     if (!articulo) return
