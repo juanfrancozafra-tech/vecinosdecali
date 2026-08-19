@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
+import { Route as PublicarRouteImport } from './routes/publicar'
 import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
 import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
 
@@ -36,6 +37,11 @@ const MiCuentaRoute = MiCuentaRouteImport.update({
   path: '/mi-cuenta',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicarRoute = PublicarRouteImport.update({
+  id: '/publicar',
+  path: '/publicar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticulosIndexRoute = ArticulosIndexRouteImport.update({
   id: '/articulos/',
   path: '/articulos/',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos/': typeof ArticulosIndexRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos': typeof ArticulosIndexRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/completar-perfil': typeof CompletarPerfilRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
+  '/publicar': typeof PublicarRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/articulos/': typeof ArticulosIndexRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/completar-perfil'
     | '/entrar'
     | '/mi-cuenta'
+    | '/publicar'
     | '/articulos/$id'
     | '/articulos/'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/completar-perfil'
     | '/entrar'
     | '/mi-cuenta'
+    | '/publicar'
     | '/articulos/$id'
     | '/articulos'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/completar-perfil'
     | '/entrar'
     | '/mi-cuenta'
+    | '/publicar'
     | '/articulos/$id'
     | '/articulos/'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   CompletarPerfilRoute: typeof CompletarPerfilRoute
   EntrarRoute: typeof EntrarRoute
   MiCuentaRoute: typeof MiCuentaRoute
+  PublicarRoute: typeof PublicarRoute
   ArticulosIdRoute: typeof ArticulosIdRoute
   ArticulosIndexRoute: typeof ArticulosIndexRoute
 }
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MiCuentaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/publicar': {
+      id: '/publicar'
+      path: '/publicar'
+      fullPath: '/publicar'
+      preLoaderRoute: typeof PublicarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/articulos/': {
       id: '/articulos/'
       path: '/articulos'
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompletarPerfilRoute: CompletarPerfilRoute,
   EntrarRoute: EntrarRoute,
   MiCuentaRoute: MiCuentaRoute,
+  PublicarRoute: PublicarRoute,
   ArticulosIdRoute: ArticulosIdRoute,
   ArticulosIndexRoute: ArticulosIndexRoute,
 }
