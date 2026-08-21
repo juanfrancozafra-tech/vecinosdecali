@@ -202,10 +202,10 @@ function Moderacion() {
     <main className="min-h-screen bg-background pb-16">
       <header className="border-b border-border">
         <div className="mx-auto max-w-2xl px-4 py-4">
-          <Link to="/" className="text-[13px] text-muted-foreground">
+          <Link to="/" className="text-small text-muted-foreground">
             ← Inicio
           </Link>
-          <h1 className="mt-2 text-[24px] font-semibold text-foreground">Moderación</h1>
+          <h1 className="mt-2 text-screen font-semibold text-foreground">Moderación</h1>
         </div>
       </header>
 
@@ -218,7 +218,7 @@ function Moderacion() {
         />
 
         {visibles.length === 0 ? (
-          <p className="mt-8 text-[15px] text-muted-foreground">
+          <p className="mt-8 text-chip text-muted-foreground">
             {filas.length === 0 ? 'No hay reportes sin resolver.' : 'Nada coincide con la búsqueda.'}
           </p>
         ) : (
@@ -227,7 +227,7 @@ function Moderacion() {
               const abierta = confirmacion?.fila.reporte_id === f.reporte_id
               return (
                 <li key={f.reporte_id} className="rounded-xl border border-border p-4">
-                  <p className="text-[15px] font-medium text-foreground">
+                  <p className="text-chip font-medium text-foreground">
                     {f.articulo_id ? (
                       <Link
                         to="/articulos/$id"
@@ -244,22 +244,22 @@ function Moderacion() {
                       'Reporte sin objeto'
                     )}
                   </p>
-                  <p className="mt-1 text-[15px] text-foreground">
+                  <p className="mt-1 text-chip text-foreground">
                     {ETIQUETA_MOTIVO[f.motivo] ?? f.motivo}
                   </p>
                   {f.detalle ? (
-                    <p className="mt-1 whitespace-pre-line text-[15px] text-muted-foreground">
+                    <p className="mt-1 whitespace-pre-line text-chip text-muted-foreground">
                       {f.detalle}
                     </p>
                   ) : null}
-                  <p className="mt-2 text-[13px] text-muted-foreground">
+                  <p className="mt-2 text-small text-muted-foreground">
                     Reportó {f.reportante_nombre ?? 'un vecino'}
                     {f.creado_en ? ` · ${new Date(f.creado_en).toLocaleString('es-CO')}` : ''}
                   </p>
 
                   {abierta && confirmacion ? (
                     <div className="mt-4 rounded-xl border border-border bg-muted/40 p-3">
-                      <p className="text-[15px] font-medium text-foreground">
+                      <p className="text-chip font-medium text-foreground">
                         {confirmacion.tipo === 'ocultar'
                           ? '¿Ocultar este artículo del catálogo?'
                           : confirmacion.tipo === 'bloquear'

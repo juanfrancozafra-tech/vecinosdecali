@@ -36,6 +36,13 @@ export type EstadoPendientes = {
   hayAlgo: boolean
   solicitudesSinVer: number
   entregasSinConfirmar: number
+  /**
+   * Solicitudes propias ya aceptadas. Es el contador de la navegación inferior
+   * de quien recibe, y su única señal dentro de la app de que alguien lo
+   * eligió. No lleva lógica de "ya lo vi", igual que el prototipo: sigue ahí
+   * hasta que la solicitud deja de estar aceptada.
+   */
+  aceptadas: number
   /** El pendiente más antiguo: es el que se muestra en la franja. */
   principal: Pendiente | null
   refrescar: () => void
@@ -46,9 +53,32 @@ export function usePendientes(): EstadoPendientes {
   const [solicitudes, setSolicitudes] = useState<Pendiente | null>(null)
   const [entrega, setEntrega] = useState<Pendiente | null>(null)
   const [entregas, setEntregas] = useState(0)
+  const [aceptadas, setAceptadas] = useState(0)
   const [tic, setTic] = useState(0)
 
   const refrescar = useCallback(() => setTic((n) => n + 1), [])
+
+  // Rama de quien recibe. Antes no existía: el vecino que pedía algo no tenía
+  // ninguna señal dentro de la app de que lo habían elegido, y como él nunca
+  // puede escribir primero, se quedaba esperando sin saber.
+  useEffect(() => {
+    const userId = usuario?.id
+    if (!userId || perfil?.rol_principal !== 'recibo') {
+      setAceptadas(0)
+      return
+    }
+    let activo = true
+    db.from('solicitudes')
+      .select('id', { count: 'exact', head: true })
+      .eq('solicitante_id', userId)
+      .eq('estado', 'aceptada')
+      .then(({ count }) => {
+        if (activo) setAceptadas(count ?? 0)
+      })
+    return () => {
+      activo = false
+    }
+  }, [usuario?.id, perfil?.rol_principal, tic])
 
   useEffect(() => {
     const userId = usuario?.id
@@ -128,9 +158,10 @@ export function usePendientes(): EstadoPendientes {
   candidatos.sort((a, b) => a.desde - b.desde)
 
   return {
-    hayAlgo: candidatos.length > 0,
+    hayAlgo: candidatos.length > 0 || aceptadas > 0,
     solicitudesSinVer: solicitudes?.tipo === 'solicitudes' ? solicitudes.cantidad : 0,
     entregasSinConfirmar: entregas,
+    aceptadas,
     principal: candidatos[0] ?? null,
     refrescar,
   }

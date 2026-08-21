@@ -34,7 +34,7 @@ export function FranjaPendientes() {
     <div className="sticky top-0 z-40 bg-aviso text-aviso-foreground">
       <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5">
         {principal.tipo === 'solicitudes' ? (
-          <Link to="/mis-publicaciones" className="min-w-0 flex-1 truncate text-[15px] underline">
+          <Link to="/mis-publicaciones" className="min-w-0 flex-1 truncate text-chip underline">
             {texto}
           </Link>
         ) : (
@@ -42,7 +42,7 @@ export function FranjaPendientes() {
             to="/mis-publicaciones/$id"
             params={{ id: principal.articuloId }}
             search={{ confirmar: true }}
-            className="min-w-0 flex-1 truncate text-[15px] underline"
+            className="min-w-0 flex-1 truncate text-chip underline"
           >
             {texto}
           </Link>

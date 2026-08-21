@@ -206,8 +206,8 @@ function MisSolicitudes() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="max-w-sm text-center">
-          <h1 className="text-[22px] font-semibold text-foreground">Esta cuenta regala cosas</h1>
-          <p className="mt-3 text-[17px] leading-relaxed text-foreground">
+          <h1 className="text-screen font-semibold text-foreground">Esta cuenta regala cosas</h1>
+          <p className="mt-3 text-body leading-relaxed text-foreground">
             Acá aparecen las solicitudes de quien recibe. Mirá{' '}
             <Link to="/mis-publicaciones" className="font-medium text-primary underline">
               tus publicaciones
@@ -222,7 +222,7 @@ function MisSolicitudes() {
   return (
     <div className="min-h-screen bg-background pb-28">
       <header className="border-b border-border bg-background px-4 pb-3 pt-6">
-        <h1 className="text-[22px] font-semibold text-foreground">Mis solicitudes</h1>
+        <h1 className="text-screen font-semibold text-foreground">Mis solicitudes</h1>
         <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTROS.map((f) => (
             <button
@@ -230,7 +230,7 @@ function MisSolicitudes() {
               type="button"
               onClick={() => setFiltro(f.clave)}
               className={cn(
-                'shrink-0 rounded-xl border px-3 py-2 text-[15px] font-medium transition-colors',
+                'shrink-0 rounded-xl border px-3 py-2 text-chip font-medium transition-colors',
                 filtro === f.clave
                   ? 'border-primary bg-primary text-primary-foreground'
                   : 'border-border bg-background text-foreground',
@@ -239,7 +239,7 @@ function MisSolicitudes() {
               {f.etiqueta}
               <span
                 className={cn(
-                  'ml-2 text-[13px]',
+                  'ml-2 text-small',
                   filtro === f.clave ? 'text-primary-foreground/80' : 'text-muted-foreground',
                 )}
               >
@@ -258,7 +258,7 @@ function MisSolicitudes() {
         </div>
       ) : visibles.length === 0 ? (
         <div className="px-4 pt-16 text-center">
-          <p className="text-[17px] text-foreground">
+          <p className="text-body text-foreground">
             {items.length === 0 ? 'Todavía no pediste nada.' : 'Acá no hay nada por ahora.'}
           </p>
           <Button asChild className="mt-6 h-12 rounded-xl px-6">
@@ -331,33 +331,33 @@ function TarjetaSolicitud({
             <Link
               to="/articulos/$id"
               params={{ id: articulo.id }}
-              className="block truncate text-[17px] font-medium text-foreground"
+              className="block truncate text-body font-medium text-foreground"
             >
               {titulo}
             </Link>
           ) : (
-            <p className="truncate text-[17px] font-medium text-foreground">{titulo}</p>
+            <p className="truncate text-body font-medium text-foreground">{titulo}</p>
           )}
 
           {solicitud.estado === 'pendiente' ? (
-            <p className="mt-1 text-[15px] text-muted-foreground">
+            <p className="mt-1 text-chip text-muted-foreground">
               Esperando respuesta de {nombreVecino}.
             </p>
           ) : null}
           {solicitud.estado === 'aceptada' ? (
-            <p className="mt-1 text-[15px] font-medium text-primary">
+            <p className="mt-1 text-chip font-medium text-primary">
               {horas !== null && horas > 0
                 ? `Te lo aceptaron. Quedan ${horas} ${horas === 1 ? 'hora' : 'horas'}.`
                 : 'Te lo aceptaron.'}
             </p>
           ) : null}
           {solicitud.estado === 'completada' ? (
-            <p className="mt-1 text-[15px] text-foreground">
+            <p className="mt-1 text-chip text-foreground">
               Recibiste {titulo} de {nombreVecino}.
             </p>
           ) : null}
           {solicitud.estado === 'rechazada' || solicitud.estado === 'expirada' ? (
-            <p className="mt-1 text-[15px] text-muted-foreground">
+            <p className="mt-1 text-chip text-muted-foreground">
               {nombreVecino} eligió a otra persona. Seguí buscando.
             </p>
           ) : null}
@@ -366,14 +366,14 @@ function TarjetaSolicitud({
 
       {solicitud.estado === 'aceptada' ? (
         <>
-          <p className="mt-3 rounded-xl bg-aviso px-3 py-3 text-[15px] leading-relaxed text-aviso-foreground">
+          <p className="mt-3 rounded-xl bg-aviso px-3 py-3 text-chip leading-relaxed text-aviso-foreground">
             {nombreVecino} te escribe por WhatsApp. Revisá tus mensajes y acordá dónde y cuándo
             recogerlo. Vos no tenés que buscarla.
           </p>
 
           {otros.length > 0 ? (
             <div className="mt-3">
-              <p className="text-[15px] text-foreground">
+              <p className="text-chip text-foreground">
                 {nombreVecino} también está regalando:
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
@@ -382,13 +382,13 @@ function TarjetaSolicitud({
                     key={a.id}
                     to="/articulos/$id"
                     params={{ id: a.id }}
-                    className="rounded-xl border border-border bg-background px-3 py-2 text-[15px] text-foreground"
+                    className="rounded-xl border border-border bg-background px-3 py-2 text-chip text-foreground"
                   >
                     {a.titulo}
                   </Link>
                 ))}
               </div>
-              <p className="mt-2 text-[15px] text-muted-foreground">
+              <p className="mt-2 text-chip text-muted-foreground">
                 Pedilas ahora y recogé todo en el mismo viaje.
               </p>
             </div>
@@ -410,7 +410,7 @@ function TarjetaSolicitud({
       {solicitud.estado === 'rechazada' || solicitud.estado === 'expirada' ? (
         <Link
           to="/articulos"
-          className="mt-3 inline-block text-[15px] font-medium text-primary underline"
+          className="mt-3 inline-block text-chip font-medium text-primary underline"
         >
           Ver el catálogo
         </Link>
@@ -492,11 +492,11 @@ function ModalCalificar({
           value={comentario}
           onChange={(e) => setComentario(e.target.value.slice(0, 300))}
           placeholder="¿Algo que quieras contar? (opcional)"
-          className="min-h-24 rounded-xl text-[17px]"
+          className="min-h-24 rounded-xl text-body"
         />
-        <p className="text-right text-[13px] text-muted-foreground">{comentario.length}/300</p>
+        <p className="text-right text-small text-muted-foreground">{comentario.length}/300</p>
         <Button
-          className="h-12 w-full rounded-xl text-[17px]"
+          className="h-12 w-full rounded-xl text-body"
           disabled={estrellas === 0 || enviando}
           onClick={() => void enviar()}
         >

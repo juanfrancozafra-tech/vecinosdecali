@@ -266,7 +266,7 @@ function Publicacion() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="text-center">
-          <h1 className="text-[22px] font-semibold text-foreground">Esta publicación no está</h1>
+          <h1 className="text-screen font-semibold text-foreground">Esta publicación no está</h1>
           <Button asChild className="mt-6 h-12 rounded-xl px-6">
             <Link to="/mis-publicaciones">Ver mis publicaciones</Link>
           </Button>
@@ -281,7 +281,7 @@ function Publicacion() {
   return (
     <div className="min-h-screen bg-background pb-32">
       <header className="border-b border-border bg-background px-4 pb-4 pt-6">
-        <Link to="/mis-publicaciones" className="text-[15px] text-primary">
+        <Link to="/mis-publicaciones" className="text-chip text-primary">
           ← Mis publicaciones
         </Link>
         <div className="mt-4 flex gap-3">
@@ -298,7 +298,7 @@ function Publicacion() {
             <h1 className="text-[19px] font-semibold text-foreground">{articulo.titulo}</h1>
             <span
               className={cn(
-                'mt-2 inline-block rounded-lg px-2 py-1 text-[13px] font-medium',
+                'mt-2 inline-block rounded-lg px-2 py-1 text-small font-medium',
                 COLOR_ESTADO[articulo.estado],
               )}
             >
@@ -311,11 +311,11 @@ function Publicacion() {
       {articulo.estado === 'reservado' ? (
         <section className="px-4 pt-6">
           <div className="rounded-xl border border-border bg-card p-4">
-            <p className="text-[17px] text-foreground">
+            <p className="text-body text-foreground">
               Se lo aceptaste a <span className="font-semibold">{nombreAceptado}</span>.
             </p>
             {horas !== null ? (
-              <p className="mt-2 text-[15px] text-muted-foreground">
+              <p className="mt-2 text-chip text-muted-foreground">
                 {horas === 0
                   ? 'La reserva está por vencerse; el artículo vuelve al catálogo solo.'
                   : `Faltan ${horas} ${horas === 1 ? 'hora' : 'horas'} para que vuelva al catálogo solo.`}
@@ -332,14 +332,14 @@ function Publicacion() {
           </div>
           <div className="mt-4 space-y-3">
             <Button
-              className="h-14 w-full rounded-xl text-[17px]"
+              className="h-14 w-full rounded-xl text-body"
               onClick={() => setConfirmandoEntrega(true)}
             >
               Ya lo entregué
             </Button>
             <Button
               variant="outline"
-              className="h-14 w-full rounded-xl text-[17px]"
+              className="h-14 w-full rounded-xl text-body"
               onClick={() => setNoApareceAbierto(true)}
             >
               No apareció
@@ -348,7 +348,7 @@ function Publicacion() {
         </section>
       ) : articulo.estado === 'disponible' ? (
         <section className="px-4 pt-6">
-          <h2 className="text-[15px] font-semibold text-foreground">
+          <h2 className="text-chip font-semibold text-foreground">
             {pendientes.length === 0
               ? 'Todavía no hay solicitudes'
               : pendientes.length === 1
@@ -356,7 +356,7 @@ function Publicacion() {
                 : `${pendientes.length} solicitudes`}
           </h2>
           {pendientes.length === 0 ? (
-            <p className="mt-2 text-[15px] text-muted-foreground">
+            <p className="mt-2 text-chip text-muted-foreground">
               Cuando un vecino lo pida, su solicitud te aparece acá con su situación.
             </p>
           ) : (
@@ -374,7 +374,7 @@ function Publicacion() {
         </section>
       ) : (
         <section className="px-4 pt-8 text-center">
-          <p className="text-[17px] text-foreground">
+          <p className="text-body text-foreground">
             {articulo.estado === 'entregado'
               ? '¡Gracias! Este artículo ya llegó a un vecino.'
               : 'Este artículo no está en el catálogo.'}
@@ -386,7 +386,7 @@ function Publicacion() {
         <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle>Antes de aceptar</DialogTitle>
-            <DialogDescription className="space-y-3 pt-2 text-left text-[17px] leading-relaxed text-foreground">
+            <DialogDescription className="space-y-3 pt-2 text-left text-body leading-relaxed text-foreground">
               <span className="block">
                 Vas a abrir WhatsApp con {porAceptar?.vecino?.nombre ?? 'este vecino'}.
               </span>
@@ -402,7 +402,7 @@ function Publicacion() {
             </DialogDescription>
           </DialogHeader>
           <Button
-            className="h-14 w-full rounded-xl text-[17px]"
+            className="h-14 w-full rounded-xl text-body"
             disabled={abriendo}
             onClick={() => void aceptar()}
           >
@@ -472,36 +472,36 @@ function TarjetaSolicitud({
         <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
           {foto ? <img src={foto} alt="" className="h-full w-full object-cover" /> : null}
         </div>
-        <p className="text-[17px] font-semibold text-foreground">{v?.nombre ?? 'Vecino'}</p>
+        <p className="text-body font-semibold text-foreground">{v?.nombre ?? 'Vecino'}</p>
       </div>
 
       {v?.mi_situacion ? (
-        <p className="mt-3 text-[17px] leading-relaxed text-foreground">{v.mi_situacion}</p>
+        <p className="mt-3 text-body leading-relaxed text-foreground">{v.mi_situacion}</p>
       ) : null}
 
       {solicitud.mensaje ? (
-        <p className="mt-3 rounded-xl bg-muted px-3 py-2 text-[15px] leading-relaxed text-foreground">
+        <p className="mt-3 rounded-xl bg-muted px-3 py-2 text-chip leading-relaxed text-foreground">
           {solicitud.mensaje}
         </p>
       ) : null}
 
       <div className="mt-3 space-y-1">
         {v ? (
-          <span className="inline-block rounded-lg bg-primary/10 px-2 py-1 text-[13px] font-medium text-primary">
+          <span className="inline-block rounded-lg bg-primary/10 px-2 py-1 text-small font-medium text-primary">
             {ETIQUETA_NIVEL[v.nivel]}
           </span>
         ) : null}
         {v ? (
-          <p className="text-[15px] text-muted-foreground">
+          <p className="text-chip text-muted-foreground">
             Miembro desde hace {miembroDesde(v.creado_en)}
           </p>
         ) : null}
-        <p className="text-[17px] font-semibold text-foreground">
+        <p className="text-body font-semibold text-foreground">
           {v?.recibidos_confirmados === 1
             ? 'Ha recibido 1 artículo'
             : `Ha recibido ${v?.recibidos_confirmados ?? 0} artículos`}
         </p>
-        <p className="flex items-center gap-1 text-[15px] text-muted-foreground">
+        <p className="flex items-center gap-1 text-chip text-muted-foreground">
           {v?.calificacion != null && (v?.num_calificaciones ?? 0) > 0 ? (
             <>
               <Star className="h-4 w-4 fill-current" aria-hidden />

@@ -81,13 +81,13 @@ function Entrar() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Entrá a Vecinos de Cali
         </h1>
-        <p className="mt-2 text-[17px] leading-relaxed text-muted-foreground">
+        <p className="mt-2 text-body leading-relaxed text-muted-foreground">
           Lo que a vos te sobra, a un vecino le cambia el día.
         </p>
 
         {enviado ? (
           <div className="mt-8 rounded-xl border border-border bg-card p-5">
-            <p className="text-[17px] font-medium text-foreground">Revisá tu correo</p>
+            <p className="text-body font-medium text-foreground">Revisá tu correo</p>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               Te mandamos un enlace a <span className="font-medium">{correo}</span>. Abrilo
               desde este mismo celular o computador y ya quedás dentro.
@@ -105,7 +105,7 @@ function Entrar() {
             <Button
               type="button"
               size="lg"
-              className="h-12 w-full rounded-xl text-[17px]"
+              className="h-12 w-full rounded-xl text-body"
               disabled={enviando}
               onClick={entrarConGoogle}
             >
@@ -152,7 +152,7 @@ function Entrar() {
           </div>
         )}
 
-        <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-8 text-small leading-relaxed text-muted-foreground">
           Al entrar aceptás nuestras{' '}
           <a href="/#reglas" className="underline">
             reglas

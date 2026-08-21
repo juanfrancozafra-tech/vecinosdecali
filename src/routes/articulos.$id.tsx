@@ -105,8 +105,8 @@ function NoDisponible() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="text-center">
-        <h1 className="text-[22px] font-semibold text-foreground">Esta publicación ya no está</h1>
-        <p className="mt-2 text-[15px] text-muted-foreground">
+        <h1 className="text-screen font-semibold text-foreground">Esta publicación ya no está</h1>
+        <p className="mt-2 text-chip text-muted-foreground">
           Pero hay más cosas de otros vecinos.
         </p>
         <Button asChild className="mt-6 h-12 rounded-xl px-6">
@@ -216,10 +216,10 @@ function DetalleArticulo() {
   const miembroDesde = vecino ? tiempoDesde(vecino.creado_en) : null
 
   return (
-    <div className="min-h-screen bg-background pb-28">
+    <div className="min-h-screen bg-background pb-[calc(6.5rem+env(safe-area-inset-bottom))]">
       <header className="border-b border-border">
         <div className="mx-auto max-w-2xl px-4 py-4">
-          <Link to="/articulos" className="text-[13px] text-muted-foreground">
+          <Link to="/articulos" className="text-small text-muted-foreground">
             ← Catálogo
           </Link>
         </div>
@@ -251,30 +251,30 @@ function DetalleArticulo() {
         </Carousel>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="rounded-lg bg-secondary px-2.5 py-1 text-[13px] font-medium text-secondary-foreground">
+          <span className="rounded-lg bg-secondary px-2.5 py-1 text-small font-medium text-secondary-foreground">
             {articulo.categoria}
           </span>
-          <span className="text-[13px] text-muted-foreground">
+          <span className="text-small text-muted-foreground">
             {ETIQUETA_CONDICION[articulo.condicion]}
           </span>
         </div>
 
-        <h1 className="mt-2 text-[24px] font-semibold text-foreground">{articulo.titulo}</h1>
-        <p className="mt-1 text-[15px] text-muted-foreground">{articulo.barrio}</p>
+        <h1 className="mt-2 text-screen font-semibold text-foreground">{articulo.titulo}</h1>
+        <p className="mt-1 text-chip text-muted-foreground">{articulo.barrio}</p>
         {articulo.estado !== 'disponible' ? (
-          <p className="mt-2 text-[15px] font-medium text-foreground">
+          <p className="mt-2 text-chip font-medium text-foreground">
             {articulo.estado === 'reservado' ? 'Reservado' : 'Ya lo entregaron'}
           </p>
         ) : null}
 
         {articulo.descripcion ? (
-          <p className="mt-4 whitespace-pre-line text-[17px] leading-relaxed text-foreground">
+          <p className="mt-4 whitespace-pre-line text-body leading-relaxed text-foreground">
             {articulo.descripcion}
           </p>
         ) : null}
 
         {!usuario ? (
-          <div className="mt-6 rounded-xl border border-violet-border bg-secondary px-4 py-3 text-[14px] leading-relaxed text-secondary-foreground">
+          <div className="mt-6 rounded-xl border border-violet-border bg-secondary px-4 py-3 text-small leading-relaxed text-secondary-foreground">
             Iniciá sesión para ver quién lo regala. Es gratis y toma diez segundos. Tocá
             «Solicitar» y te llevamos.
           </div>
@@ -295,15 +295,15 @@ function DetalleArticulo() {
                 ) : null}
               </span>
               <span className="min-w-0">
-                <span className="block text-[17px] font-medium text-foreground">
+                <span className="block text-body font-medium text-foreground">
                   {vecino?.nombre ?? 'Un vecino'}
                 </span>
-                <span className="block text-[13px] text-muted-foreground">
+                <span className="block text-small text-muted-foreground">
                   {vecino ? ETIQUETA_NIVEL[vecino.nivel] : 'Cargando…'}
                   {miembroDesde ? ` · miembro desde hace ${miembroDesde}` : ''}
                 </span>
                 {vecino ? (
-                  <span className="block text-[13px] text-muted-foreground">
+                  <span className="block text-small text-muted-foreground">
                     {vecino.entregas_confirmadas === 1
                       ? '1 artículo entregado'
                       : `${vecino.entregas_confirmadas} artículos entregados`}
@@ -312,7 +312,7 @@ function DetalleArticulo() {
               </span>
             </Link>
             {contador ? (
-              <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted-foreground">
+              <p className="mt-3 border-t border-border pt-3 text-small text-muted-foreground">
                 {contador}
               </p>
             ) : null}
@@ -337,7 +337,7 @@ function DetalleArticulo() {
           <button
             type="button"
             onClick={() => setReportando(true)}
-            className="inline-flex items-center gap-1.5 self-start text-[13px] text-muted-foreground underline"
+            className="inline-flex items-center gap-1.5 self-start text-small text-muted-foreground underline"
           >
             <Flag className="size-3.5" />
             Reportar
@@ -345,17 +345,20 @@ function DetalleArticulo() {
         </div>
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background px-4 py-3">
+      <div
+        className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background px-4 py-3"
+        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+      >
         <div className="mx-auto max-w-2xl">
           <Button
-            className="h-12 w-full rounded-xl text-[17px]"
+            className="w-full"
             disabled={accion.tipo === 'inactivo' || accion.tipo === 'rol'}
             onClick={tocarAccion}
           >
             {accion.texto}
           </Button>
           {accion.tipo === 'rol' ? (
-            <p className="mt-2 text-center text-[13px] text-muted-foreground">
+            <p className="mt-2 text-center text-small text-muted-foreground">
               <a href="/mi-cuenta" className="underline">
                 Cambiar el tipo de cuenta
               </a>
@@ -385,9 +388,9 @@ function DetalleArticulo() {
             placeholder="Opcional"
             className="min-h-24 rounded-xl text-base"
           />
-          <p className="text-[13px] text-muted-foreground">{mensaje.length}/140</p>
+          <p className="text-small text-muted-foreground">{mensaje.length}/140</p>
           <Button
-            className="h-12 w-full rounded-xl text-[17px]"
+            className="w-full"
             onClick={enviarSolicitud}
             disabled={enviando}
           >

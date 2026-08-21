@@ -59,8 +59,8 @@ function Publicar() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="max-w-sm text-center">
-          <h1 className="text-[22px] font-semibold text-foreground">Esta cuenta recibe cosas</h1>
-          <p className="mt-3 text-[17px] leading-relaxed text-foreground">
+          <h1 className="text-screen font-semibold text-foreground">Esta cuenta recibe cosas</h1>
+          <p className="mt-3 text-body leading-relaxed text-foreground">
             Tu cuenta está registrada para recibir cosas. Si también querés regalar algo, cambiá tu
             cuenta en{' '}
             <Link to="/mi-cuenta" className="font-medium text-primary underline">
@@ -227,17 +227,17 @@ function Formulario({
     <div className="min-h-screen bg-background pb-32">
       <header className="border-b border-border">
         <div className="mx-auto max-w-2xl px-4 py-4">
-          <Link to="/articulos" className="text-[13px] text-muted-foreground">
+          <Link to="/articulos" className="text-small text-muted-foreground">
             ← Catálogo
           </Link>
-          <h1 className="mt-1 text-[24px] font-semibold text-foreground">Publicar algo</h1>
+          <h1 className="mt-1 text-screen font-semibold text-foreground">Publicar algo</h1>
         </div>
       </header>
 
       <main className="mx-auto max-w-2xl space-y-8 px-4 py-6">
         <section>
-          <Label className="text-[15px] font-medium">Fotos</Label>
-          <p className="mt-1 text-[13px] text-muted-foreground">
+          <Label className="text-chip font-medium">Fotos</Label>
+          <p className="mt-1 text-small text-muted-foreground">
             De una a tres. La primera es la portada.
           </p>
           <div className="mt-3 grid grid-cols-3 gap-3">
@@ -247,7 +247,7 @@ function Formulario({
                   <img src={foto.vistaPrevia} alt="" className="size-full object-cover" />
                 </div>
                 {i === 0 ? (
-                  <span className="absolute left-1 top-1 rounded-md bg-secondary px-1.5 py-0.5 text-[11px] font-medium text-secondary-foreground">
+                  <span className="absolute left-1 top-1 rounded-md bg-secondary px-1.5 py-0.5 text-small font-medium text-secondary-foreground">
                     Portada
                   </span>
                 ) : null}
@@ -286,7 +286,7 @@ function Formulario({
                 type="button"
                 onClick={() => inputFoto.current?.click()}
                 disabled={procesando}
-                className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-[13px] text-muted-foreground"
+                className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-small text-muted-foreground"
               >
                 <Camera className="size-5" />
                 {procesando ? 'Procesando…' : 'Agregar'}
@@ -305,7 +305,7 @@ function Formulario({
         </section>
 
         <section>
-          <Label htmlFor="titulo" className="text-[15px] font-medium">
+          <Label htmlFor="titulo" className="text-chip font-medium">
             Título
           </Label>
           <Input
@@ -316,11 +316,11 @@ function Formulario({
             placeholder="Lavadora Haceb 24 libras"
             className="mt-2 h-12 rounded-xl text-base"
           />
-          <p className="mt-1 text-right text-[13px] text-muted-foreground">{titulo.length}/60</p>
+          <p className="mt-1 text-right text-small text-muted-foreground">{titulo.length}/60</p>
         </section>
 
         <section>
-          <Label className="text-[15px] font-medium">Categoría</Label>
+          <Label className="text-chip font-medium">Categoría</Label>
           <div className="mt-3 flex flex-wrap gap-2">
             {categorias.map((c) => (
               <Chip
@@ -335,7 +335,7 @@ function Formulario({
         </section>
 
         <section>
-          <Label className="text-[15px] font-medium">Condición</Label>
+          <Label className="text-chip font-medium">Condición</Label>
           <div className="mt-3 flex flex-wrap gap-2">
             {CONDICIONES.map((c) => (
               <Chip
@@ -350,7 +350,7 @@ function Formulario({
         </section>
 
         <section>
-          <Label htmlFor="descripcion" className="text-[15px] font-medium">
+          <Label htmlFor="descripcion" className="text-chip font-medium">
             Descripción
           </Label>
           <Textarea
@@ -361,13 +361,13 @@ function Formulario({
             placeholder="Funciona bien. La usé tres años. Hay que llevársela en camioneta."
             className="mt-2 min-h-28 rounded-xl text-base"
           />
-          <p className="mt-1 text-right text-[13px] text-muted-foreground">
+          <p className="mt-1 text-right text-small text-muted-foreground">
             {descripcion.length}/500
           </p>
         </section>
 
         <section>
-          <Label className="text-[15px] font-medium">Barrio</Label>
+          <Label className="text-chip font-medium">Barrio</Label>
           {cambiandoBarrio ? (
             <div className="mt-2">
               <SelectorBarrio
@@ -380,11 +380,11 @@ function Formulario({
             </div>
           ) : (
             <>
-              <p className="mt-2 text-[17px] text-foreground">{nombreBarrio ?? '—'}</p>
+              <p className="mt-2 text-body text-foreground">{nombreBarrio ?? '—'}</p>
               <button
                 type="button"
                 onClick={() => setCambiandoBarrio(true)}
-                className="mt-1 text-[13px] text-muted-foreground underline"
+                className="mt-1 text-small text-muted-foreground underline"
               >
                 está en otro barrio
               </button>
@@ -392,7 +392,7 @@ function Formulario({
           )}
         </section>
 
-        <p className="rounded-xl bg-aviso px-4 py-3 text-[14px] leading-relaxed text-aviso-foreground">
+        <p className="rounded-xl bg-aviso px-4 py-3 text-small leading-relaxed text-aviso-foreground">
           Acordate: en Vecinos de Cali nada tiene precio. Si publicás algo con valor o pidiendo algo
           a cambio, lo retiramos.
         </p>
@@ -401,7 +401,7 @@ function Formulario({
       <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background px-4 py-3">
         <div className="mx-auto max-w-2xl">
           <Button
-            className="h-12 w-full rounded-xl text-[17px]"
+            className="h-12 w-full rounded-xl text-body"
             disabled={!listo || enviando || procesando}
             onClick={publicar}
           >
@@ -428,7 +428,7 @@ function Chip({
       onClick={onClick}
       aria-pressed={activo}
       className={cn(
-        'rounded-lg border px-3 py-2 text-[14px] transition-colors',
+        'rounded-lg border px-3 py-2 text-small transition-colors',
         activo
           ? 'border-violet-border bg-secondary font-medium text-secondary-foreground'
           : 'border-border bg-background text-muted-foreground',
@@ -477,23 +477,23 @@ function Confirmacion({ articuloId }: { articuloId: string }) {
         <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
           <Check className="size-7" />
         </span>
-        <h1 className="mt-5 text-[24px] font-semibold text-foreground">Listo, ya está publicado.</h1>
-        <p className="mt-3 text-[17px] leading-relaxed text-muted-foreground">
+        <h1 className="mt-5 text-screen font-semibold text-foreground">Listo, ya está publicado.</h1>
+        <p className="mt-3 text-body leading-relaxed text-muted-foreground">
           Los vecinos que lo necesiten ya lo pueden ver y solicitar. Si lo compartís, llega más
           lejos.
         </p>
         <div className="mt-7 space-y-3">
-          <Button className="h-12 w-full rounded-xl text-[17px]" onClick={compartir}>
+          <Button className="h-12 w-full rounded-xl text-body" onClick={compartir}>
             <Share2 className="mr-2 size-4" />
             Compartir
           </Button>
-          <Button variant="outline" className="h-12 w-full rounded-xl text-[17px]" onClick={copiar}>
+          <Button variant="outline" className="h-12 w-full rounded-xl text-body" onClick={copiar}>
             {copiado ? 'Enlace copiado' : 'Copiar enlace'}
           </Button>
         </div>
         <Link
           to="/articulos"
-          className="mt-6 inline-block text-[15px] text-muted-foreground underline"
+          className="mt-6 inline-block text-chip text-muted-foreground underline"
         >
           Ver mis publicaciones
         </Link>

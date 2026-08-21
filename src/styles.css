@@ -83,12 +83,22 @@
   --color-no-bg: var(--no-bg);
   --color-no-fg: var(--no-fg);
 
-  /* Typography scale for Vecinos de Cali */
-  --text-display: var(--text-display-size);
-  --text-title: var(--text-title-size);
-  --text-lead: var(--text-lead-size);
-  --text-body: var(--text-body-size);
-  --text-small: var(--text-small-size);
+  /* Escala tipográfica de Vecinos de Cali.
+     Sale de la tabla de 04-sistema-de-diseno.md y de los tamaños reales de los
+     prototipos. Existe para que nadie vuelva a escribir text-[13px] a mano: la
+     regla dura del proyecto es que nada baja de 14 px, porque esto se lee de
+     pie en la calle y con sol. */
+  --text-display: var(--text-display-size); /* 36 → 48  título de la landing */
+  --text-title: var(--text-title-size); /* 25 → 30  título de sección */
+  --text-screen: var(--text-screen-size); /* 22       título de pantalla */
+  --text-lead: var(--text-lead-size); /* 20       entradilla */
+  --text-topbar: var(--text-topbar-size); /* 18       barra superior */
+  --text-body: var(--text-body-size); /* 17       cuerpo, botón, campo */
+  --text-request: var(--text-request-size); /* 16,5     cabecera de solicitud */
+  --text-secondary: var(--text-secondary-size); /* 16       texto secundario */
+  --text-tarjeta: var(--text-tarjeta-size); /* 15,5     título de tarjeta */
+  --text-chip: var(--text-chip-size); /* 15       etiqueta, chip, ayuda */
+  --text-small: var(--text-small-size); /* 14       metadato. El piso. */
 }
 
 :root {
@@ -149,12 +159,18 @@
   --sidebar-border: #e7e5e4;
   --sidebar-ring: var(--violet);
 
-  /* Typography sizes. Igualadas al prototipo: h1 36px, h2 25px. */
-  --text-display-size: 2.25rem;
-  --text-title-size: 1.5625rem;
-  --text-lead-size: 1.25rem;
-  --text-body-size: 1.0625rem;
-  --text-small-size: 0.875rem;
+  /* Tamaños. Igualados al prototipo. */
+  --text-display-size: 2.25rem; /* 36 */
+  --text-title-size: 1.5625rem; /* 25 */
+  --text-screen-size: 1.375rem; /* 22 */
+  --text-lead-size: 1.25rem; /* 20 */
+  --text-topbar-size: 1.125rem; /* 18 */
+  --text-body-size: 1.0625rem; /* 17 */
+  --text-request-size: 1.03125rem; /* 16,5 */
+  --text-secondary-size: 1rem; /* 16 */
+  --text-tarjeta-size: 0.96875rem; /* 15,5 */
+  --text-chip-size: 0.9375rem; /* 15 */
+  --text-small-size: 0.875rem; /* 14 */
 }
 
 .dark {

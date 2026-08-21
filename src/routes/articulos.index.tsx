@@ -1,7 +1,7 @@
 // Catálogo público. No requiere sesión y nunca muestra datos de personas.
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Search } from 'lucide-react'
+import { ImageOff, Search } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -155,10 +155,10 @@ function Catalogo() {
     <div className="min-h-screen bg-background pb-16">
       <header className="border-b border-border">
         <div className="mx-auto max-w-5xl px-4 py-5">
-          <Link to="/" className="text-[13px] text-muted-foreground">
+          <Link to="/" className="text-small text-muted-foreground">
             Vecinos de Cali
           </Link>
-          <h1 className="mt-1 text-[24px] font-semibold text-foreground">Catálogo</h1>
+          <h1 className="mt-1 text-screen font-semibold text-foreground">Catálogo</h1>
         </div>
       </header>
 
@@ -172,13 +172,13 @@ function Catalogo() {
                 onChange={(e) => setBusqueda(e.target.value)}
                 placeholder="Buscá algo…"
                 aria-label="Buscar en el catálogo"
-                className="h-11 rounded-xl pl-9 text-base"
+                className="pl-9"
               />
             </div>
             <Select value={barrioId} onValueChange={setBarrioId}>
               <SelectTrigger
                 aria-label="Filtrar por barrio"
-                className="h-11 w-[45%] rounded-xl text-base sm:w-56"
+                className="w-[45%] sm:w-56"
               >
                 <SelectValue placeholder="Barrio" />
               </SelectTrigger>
@@ -195,7 +195,7 @@ function Catalogo() {
 
           <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <Chip activo={categoria === 'todas'} onClick={() => setCategoria('todas')}>
-              Todas
+              Todo
             </Chip>
             {categorias.map((c) => (
               <Chip
@@ -211,7 +211,7 @@ function Catalogo() {
       </div>
 
       <main className="mx-auto max-w-5xl px-4 py-4">
-        <p className="mb-3 text-[13px] text-muted-foreground">
+        <p className="mb-3 text-small text-muted-foreground">
           {items === null ? 'Cargando…' : linea}
         </p>
 
@@ -227,12 +227,12 @@ function Catalogo() {
           </Cuadricula>
         ) : items.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="mx-auto max-w-sm text-[17px] text-foreground">
+            <p className="mx-auto max-w-sm text-body text-foreground">
               Todavía no hay nada en esta categoría. Volvé en un rato — los vecinos están
               publicando.
             </p>
             <Button
-              className="mt-5 h-12 rounded-xl px-5"
+              className="mt-5"
               onClick={() => {
                 setCategoria('todas')
                 setBarrioId('todos')
@@ -251,12 +251,7 @@ function Catalogo() {
             </Cuadricula>
             {items.length < total ? (
               <div className="mt-6 flex justify-center">
-                <Button
-                  variant="outline"
-                  className="h-12 rounded-xl px-6"
-                  onClick={verMas}
-                  disabled={cargandoMas}
-                >
+                <Button variant="outline" onClick={verMas} disabled={cargandoMas}>
                   {cargandoMas ? 'Cargando…' : 'Ver más'}
                 </Button>
               </div>
@@ -269,7 +264,7 @@ function Catalogo() {
 }
 
 function Cuadricula({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">{children}</div>
+  return <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{children}</div>
 }
 
 function Chip({
@@ -287,10 +282,10 @@ function Chip({
       onClick={onClick}
       aria-pressed={activo}
       className={cn(
-        'shrink-0 rounded-lg border px-3 py-2 text-[14px] transition-colors',
+        'shrink-0 rounded-full border px-3.5 py-2 text-chip transition-colors',
         activo
-          ? 'border-violet-border bg-secondary font-medium text-secondary-foreground'
-          : 'border-border bg-background text-muted-foreground',
+          ? 'border-violet bg-violet text-white'
+          : 'border-border bg-white text-foreground',
       )}
     >
       {children}
@@ -301,12 +296,15 @@ function Chip({
 function Tarjeta({ articulo }: { articulo: ArticuloPublico }) {
   const foto = fotoTransformada(articulo.foto_portada, 400)
   return (
+    // La tarjeta es una tarjeta: fondo blanco, borde y el texto adentro. Sin el
+    // contenedor, sobre el fondo hueso de la página, la retícula se lee como
+    // una lista de fotos sueltas y no como cosas que se pueden tocar.
     <Link
       to="/articulos/$id"
       params={{ id: articulo.id }}
-      className="group block rounded-xl"
+      className="group block overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-[#d6d3d1]"
     >
-      <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
+      <div className="flex aspect-[4/3] w-full items-center justify-center bg-violet-light text-violet-mid">
         {foto ? (
           <img
             src={foto}
@@ -314,14 +312,20 @@ function Tarjeta({ articulo }: { articulo: ArticuloPublico }) {
             loading="lazy"
             className="size-full object-cover"
           />
-        ) : null}
+        ) : (
+          <ImageOff className="size-7" aria-hidden="true" />
+        )}
       </div>
-      <h2 className="mt-2 line-clamp-2 text-[15px] font-medium text-foreground">
-        {articulo.titulo}
-      </h2>
-      <p className="mt-0.5 text-[13px] text-muted-foreground">
-        {articulo.barrio} · {ETIQUETA_CONDICION[articulo.condicion]}
-      </p>
+      <div className="px-2.5 pb-[11px] pt-[9px]">
+        <h2 className="line-clamp-2 text-tarjeta font-medium leading-[1.32] text-foreground">
+          {articulo.titulo}
+        </h2>
+        <p className="mt-1 text-small leading-[1.35] text-muted-foreground">
+          {articulo.barrio}
+          <br />
+          {ETIQUETA_CONDICION[articulo.condicion]}
+        </p>
+      </div>
     </Link>
   )
 }
