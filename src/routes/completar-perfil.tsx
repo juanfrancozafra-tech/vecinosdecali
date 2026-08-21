@@ -121,10 +121,32 @@ function CompletarPerfil() {
     try {
       const numero = normalizarWhatsapp(telefono)
 
-      const { error: errorPerfil } = await db
+      // UPDATE, no upsert. La fila del perfil ya existe: la crea el trigger
+      // `crear_perfil` cuando Google devuelve al vecino, así que acá nunca hay
+      // nada que insertar.
+      //
+      // El upsert además fallaba con "permission denied for table perfiles", y
+      // no por un permiso mal puesto sino por uno bien puesto. Un upsert es un
+      // INSERT ... ON CONFLICT DO UPDATE, y PostgREST mete en el SET todas las
+      // columnas del cuerpo, `id` incluida. El esquema revoca el UPDATE sobre
+      // `perfiles` y lo devuelve solo sobre nombre, foto_url, barrio_id y
+      // mi_situacion — justamente para que nadie se ascienda a admin ni se
+      // infle los contadores desde el navegador. `id` no está en esa lista, y
+      // ahí muere.
+      const { data: filaPerfil, error: errorPerfil } = await db
         .from('perfiles')
-        .upsert({ id: usuario.id, nombre: nombre.trim() }, { onConflict: 'id' })
+        .update({ nombre: nombre.trim() })
+        .eq('id', usuario.id)
+        .select('id')
+        .maybeSingle()
       if (errorPerfil) throw errorPerfil
+      // Si el trigger no alcanzó a crear la fila, el update no toca nada y
+      // `cambiar_rol` tampoco — todo "funciona" y no se guarda nada, y el
+      // vecino se queda dando vueltas en este mismo formulario sin entender
+      // por qué. Mejor decirlo.
+      if (!filaPerfil) {
+        throw new Error('No encontramos tu cuenta. Salí y volvé a entrar, por favor.')
+      }
 
       const { error: errorContacto } = await db
         .from('contactos')
