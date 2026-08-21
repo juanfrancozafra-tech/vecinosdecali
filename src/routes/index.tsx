@@ -13,7 +13,7 @@ import {
   Flag,
   Check,
   X,
-  User,
+  House,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,12 @@ import { guardarRolElegido, useAuth } from "@/lib/auth";
 import type { RolVecino } from "@/lib/database.types";
 
 const OG_IMAGE_URL = "/og-image.jpg";
+
+// Anchos del prototipo: 640 en móvil, 760 desde 600px, 1040 desde 960px.
+const CONT = "mx-auto w-full max-w-[640px] px-4 sm:max-w-[760px] lg:max-w-[1040px] lg:px-8";
+// Las secciones de lectura seguida se mantienen angostas a propósito.
+const CONT_ANGOSTO =
+  "mx-auto w-full max-w-[640px] px-4 sm:max-w-[760px] lg:max-w-[800px] lg:px-8";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -101,17 +107,79 @@ const proteccionItems = [
   },
 ];
 
+// Las catorce preguntas y sus respuestas salen de 05-landing-page.md, en el
+// mismo orden que landing.html. La decimoquinta, "¿Quién está detrás de esto?",
+// se arma aparte al final del acordeón porque lleva foto y nombre adentro.
 const faqs = [
-  { question: "¿Necesito cuenta para ver lo que publican?", answer: "Placeholder" },
-  { question: "¿Quién puede publicar cosas para regalar?", answer: "Placeholder" },
-  { question: "¿Cómo se elige a quién le doy algo?", answer: "Placeholder" },
-  { question: "¿Quién escribe primero por WhatsApp?", answer: "Placeholder" },
-  { question: "¿Qué pasa si no me contestan?", answer: "Placeholder" },
-  { question: "¿Puedo pedir más de una cosa a la vez?", answer: "Placeholder" },
-  { question: "¿Cómo se que la persona de verdad existe?", answer: "Placeholder" },
-  { question: "¿Se puede regalar dinero o comida?", answer: "Placeholder" },
-  { question: "¿Qué hago si una publicación me parece rara?", answer: "Placeholder" },
-  { question: "¿La app se queda con algo?", answer: "Placeholder" },
+  {
+    question: "¿Esto es gratis?",
+    answer:
+      "Sí, todo. Nadie cobra nada y la app tampoco cobra. Si alguien te pide plata, reportalo.",
+  },
+  {
+    question: "¿Quién puede pedir?",
+    answer:
+      "Cualquier vecino de Cali que lo necesite. No pedimos certificados ni papeles: la Alcaldía hace su censo aparte y esa información no es pública. Acá quien da es quien decide, con la información que ve del perfil.",
+  },
+  {
+    question: "¿Y si alguien pide sin necesitarlo?",
+    answer:
+      "Puede pasar, y no te lo vamos a negar. Por eso el vecino que da ve todo el historial de quien pide —cuántas cosas ha recibido, hace cuánto entró, qué dicen otros— y elige. Además nadie puede tener dos solicitudes activas de la misma categoría.",
+  },
+  {
+    question: "¿Puedo regalar y pedir cosas con la misma cuenta?",
+    answer:
+      "No. Al entrar elegís si venís a regalar o a recibir, y la cuenta queda de ese lado. Es a propósito: mantiene los dos flujos simples y claros. Si te equivocaste o cambió tu situación, podés cambiarlo en Mi cuenta.",
+  },
+  {
+    question: "¿Necesito cuenta para mirar?",
+    answer:
+      "No para ver el catálogo. Sí para ver quién regala cada cosa y para solicitar. Protegemos así a los vecinos que están regalando: nadie puede navegar de forma anónima anotando qué hay y en qué barrio.",
+  },
+  {
+    question: "¿Quién escribe primero?",
+    answer:
+      "Siempre quien regala. Cuando elige a una persona de las que le solicitaron, la app le abre WhatsApp hacia ella con un mensaje ya escrito. Quien recibe no puede escribirle a nadie: solo espera a que lo elijan. Así nadie recibe mensajes de desconocidos.",
+  },
+  {
+    question: "¿Mi número queda público?",
+    answer:
+      "No. Nunca aparece en tus publicaciones ni en tu perfil ni en ningún listado. Solo se le muestra a la otra persona en el momento en que quien regala elige a quién entregarle y le abre la conversación de WhatsApp.",
+  },
+  {
+    question: "¿Quién lleva las cosas?",
+    answer:
+      "Quien recibe va y recoge. La app no transporta nada. Si es algo grande, ponelo en la descripción para que el vecino llegue preparado.",
+  },
+  {
+    question: "¿Y si acepto a alguien y no aparece?",
+    answer:
+      "A las 48 horas tu artículo vuelve solo al catálogo y las otras solicitudes se reabren. No tenés que hacer nada.",
+  },
+  {
+    question: "Acepté a uno pero terminé dándoselo a otro. ¿Qué hago?",
+    answer:
+      "Al confirmar la entrega la app te pregunta a quién se lo diste, y ahí elegís de la lista. También podés decir que se lo diste a alguien que no está en la app.",
+  },
+  {
+    question: "¿Puedo darle varias cosas a la misma persona?",
+    answer:
+      "Sí, y es lo ideal. Cuando aceptás a alguien, la app le muestra las otras cosas que tenés publicadas para que se lleve todo en un solo viaje.",
+  },
+  {
+    question: "¿Qué datos guardan de mí?",
+    answer:
+      "Tu nombre, tu foto y tu correo de Google, y tu número de WhatsApp. Si vas a regalar cosas, también tu barrio, para que un vecino sepa si le queda cerca. Si venís a recibir, no te pedimos dónde vivís. Nada más. No los vendemos, no los compartimos, no los usamos para publicidad. Podés pedir que los borremos cuando quieras escribiendo a shipinflow@gmail.com. Detalles en la política de tratamiento de datos.",
+  },
+  {
+    question: "¿Quién responde si algo sale mal?",
+    answer:
+      "Vecinos de Cali conecta vecinos, no participa en la entrega ni responde por el estado de los artículos ni por lo que ocurra entre las personas. Usá el sentido común y los consejos de seguridad.",
+  },
+  {
+    question: "¿Esto va a seguir después de la emergencia?",
+    answer: "Nació por el terremoto. Si sigue sirviendo, seguirá.",
+  },
 ];
 
 const siRules = [
@@ -214,48 +282,68 @@ function Index() {
 
   return (
     <div className="relative min-h-screen bg-background">
-      {/* SECCIÓN 1 — Hero */}
-      <section
+      {/* SECCIÓN 1 — Hero.
+          Alineado a la izquierda y con la promesa como título, siguiendo
+          landing.html. El violeta cubre la sección entera: antes se cortaba a
+          dos tercios y la costura pasaba por la mitad de los botones. */}
+      <header
         id="hero"
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-neutral-bg px-5 py-10"
+        className="border-b border-violet-border bg-violet-light py-14 sm:py-[68px] lg:py-[76px]"
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-2/3 bg-violet-light" />
-        <div className="relative z-10 mx-auto w-full max-w-3xl text-center">
-          <h1 className="text-display font-semibold tracking-tight text-violet-dark">
-            Vecinos de Cali
-          </h1>
-          <p className="mt-5 text-lead font-medium text-foreground">
-            Lo que a vos te sobra, a un vecino le cambia el día.
-          </p>
-          <p className="mx-auto mt-5 max-w-xl text-body text-muted-foreground">
-            Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada. Acá los
-            vecinos que tienen algo para regalar se encuentran con los vecinos que lo necesitan.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              size="lg"
-              onClick={() => empezar("doy")}
-              className="h-12 w-full rounded-xl bg-violet px-6 text-base font-medium text-white hover:bg-violet/90 sm:w-auto"
-            >
-              Quiero regalar algo
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => empezar("recibo")}
-              className="h-12 w-full rounded-xl border-violet-border bg-white px-6 text-base font-medium text-violet-dark hover:bg-violet-light sm:w-auto"
-            >
-              Necesito algo
-            </Button>
+        <div className={CONT}>
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start lg:gap-x-14">
+            <div className="mb-7 flex items-center gap-[9px] lg:col-span-2 lg:row-start-1">
+              <House className="h-[26px] w-[26px] text-violet" strokeWidth={1.5} aria-hidden="true" />
+              <span className="text-body font-semibold text-violet-dark">Vecinos de Cali</span>
+            </div>
+
+            <h1 className="text-[36px] font-semibold leading-[1.18] tracking-[-0.02em] text-violet-dark sm:text-[42px] lg:col-start-1 lg:row-start-2 lg:text-[48px]">
+              Lo que a vos te sobra,
+              <br />a un vecino le cambia el día.
+            </h1>
+
+            <p className="mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-3">
+              Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada. Acá
+              los vecinos que tienen algo para regalar se encuentran con los vecinos que lo necesitan.
+            </p>
+
+            <img
+              src="/hero.png"
+              width={800}
+              height={632}
+              fetchPriority="high"
+              decoding="async"
+              alt="Dos vecinos de pie, de frente y a la misma altura, sostienen juntos una caja con una manta, una olla y una lámpara. A su alrededor hay una olla, una silla y dos cajas."
+              className="mx-auto mb-6 mt-5 block aspect-[800/632] w-full sm:max-w-[480px] lg:col-start-2 lg:row-start-2 lg:row-end-6 lg:m-0 lg:max-w-[400px] lg:self-center"
+            />
+
+            <div className="flex flex-col gap-2.5 sm:flex-row lg:col-start-1 lg:row-start-4">
+              <Button
+                onClick={() => empezar("doy")}
+                className="w-full bg-violet text-white hover:bg-violet-deep sm:max-w-[280px]"
+              >
+                Quiero regalar algo
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => empezar("recibo")}
+                className="w-full border-border bg-white text-foreground hover:bg-neutral-bg sm:max-w-[280px]"
+              >
+                Necesito algo
+              </Button>
+            </div>
+
+            <p className="mt-3.5 text-center text-small text-violet-deep sm:text-left lg:col-start-1 lg:row-start-5">
+              Gratis siempre. Acá nada tiene precio.
+            </p>
           </div>
-          <p className="mt-4 text-small text-muted-foreground">Gratis siempre. Acá nada tiene precio.</p>
         </div>
-      </section>
+      </header>
 
       {/* SECCIÓN 2 — Cómo funciona */}
-      <section className="bg-white px-5 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-title font-semibold text-foreground">Cómo funciona</h2>
+      <section className="bg-white py-16">
+        <div className={CONT}>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo funciona</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {/* Regalar */}
             <div className="rounded-2xl border border-violet-border bg-violet-light p-6">
@@ -284,9 +372,9 @@ function Index() {
       </section>
 
       {/* SECCIÓN 3 — Cómo cuidamos a los dos lados */}
-      <section className="bg-neutral-bg px-5 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-title font-semibold text-foreground">Cómo cuidamos a los dos lados</h2>
+      <section className="bg-neutral-bg py-16">
+        <div className={CONT_ANGOSTO}>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo cuidamos a los dos lados</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {proteccionItems.map((item) => (
               <ProtectionCard key={item.text.slice(0, 40)} {...item} />
@@ -303,31 +391,27 @@ function Index() {
       </section>
 
       {/* SECCIÓN 4 — Las reglas son cortas */}
-      <section id="reglas" className="bg-white px-5 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-title font-semibold text-foreground">Las reglas son cortas</h2>
+      <section id="reglas" className="bg-white py-16">
+        <div className={CONT}>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Las reglas son cortas</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-border p-6">
+            <div className="rounded-xl bg-si-bg p-[22px] text-si-fg lg:p-6">
               <div className="flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-violet text-white">
-                  <Check className="h-4 w-4" />
-                </div>
-                <h3 className="text-lead font-semibold text-foreground">Sí</h3>
+                <Check className="h-5 w-5 shrink-0" strokeWidth={2} />
+                <h3 className="text-lead font-semibold">Sí</h3>
               </div>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-body text-muted-foreground">
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-body">
                 {siRules.map((rule) => (
                   <li key={rule}>{rule}</li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-border p-6">
+            <div className="rounded-xl bg-no-bg p-[22px] text-no-fg lg:p-6">
               <div className="flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                  <X className="h-4 w-4" />
-                </div>
-                <h3 className="text-lead font-semibold text-foreground">No</h3>
+                <X className="h-5 w-5 shrink-0" strokeWidth={2} />
+                <h3 className="text-lead font-semibold">No</h3>
               </div>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-body text-muted-foreground">
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-body">
                 {noRules.map((rule) => (
                   <li key={rule}>{rule}</li>
                 ))}
@@ -340,43 +424,71 @@ function Index() {
         </div>
       </section>
 
-      {/* SECCIÓN 5 — Preguntas frecuentes */}
-      <section id="preguntas" className="bg-neutral-bg px-5 py-16">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-title font-semibold text-foreground">Preguntas frecuentes</h2>
-          <Accordion type="single" collapsible className="mt-8 rounded-2xl border border-border bg-card px-5">
+      {/* SECCIÓN 5 — Preguntas frecuentes.
+          "Quién está detrás" ya no es sección propia: es la última pregunta del
+          acordeón, con la foto y el nombre adentro. */}
+      <section id="preguntas" className="bg-neutral-bg py-16">
+        <div className={CONT_ANGOSTO}>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
+            Preguntas frecuentes
+          </h2>
+          <Accordion
+            type="single"
+            collapsible
+            className="mt-6 rounded-xl border border-border bg-card px-5"
+          >
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b last:border-b-0">
                 <AccordionTrigger className="text-left text-body font-medium text-foreground hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-body text-muted-foreground">{faq.answer}</AccordionContent>
+                <AccordionContent className="text-body text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
               </AccordionItem>
             ))}
+
+            <AccordionItem value="quien-esta-detras" className="border-b last:border-b-0">
+              <AccordionTrigger className="text-left text-body font-medium text-foreground hover:no-underline">
+                ¿Quién está detrás de esto?
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="flex gap-4">
+                  <div
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-light text-body font-semibold text-violet"
+                    aria-hidden="true"
+                  >
+                    JC
+                  </div>
+                  <div>
+                    <p className="text-body font-semibold text-foreground">Juan Carlos Franco</p>
+                    <p className="mt-1 text-body text-muted-foreground">
+                      Soy caleño. Después del terremoto vi que en mi casa había cosas que a alguien le
+                      podían servir hoy mismo, y que no tenía cómo hacerlas llegar. Hice esta página en
+                      unos días para resolver eso, para mí y para cualquiera que esté igual.
+                    </p>
+                    <p className="mt-3 text-body text-muted-foreground">
+                      Esto no es una empresa ni una fundación: es un vecino con una página. Si algo no
+                      funciona o tenés una idea, escribime a{" "}
+                      <a href="mailto:shipinflow@gmail.com" className="text-violet hover:underline">
+                        shipinflow@gmail.com
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </section>
 
-      {/* SECCIÓN 6 — Quién está detrás */}
-      <section className="bg-white px-5 py-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-title font-semibold text-foreground">Quién está detrás</h2>
-          <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-violet-light text-violet">
-              <User className="h-10 w-10" />
-            </div>
-            <p className="text-lead font-semibold text-foreground">Marcador de posición</p>
-            <p className="max-w-lg text-body text-muted-foreground">
-              Acá va el nombre y una breve historia de quienes armamos Vecinos de Cali. Texto de marcador de
-              posición.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Pie */}
-      <footer className="border-t border-border bg-background px-5 py-10">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      {/* Pie. El nombre propio queda visible acá a propósito: al meter "quién
+          está detrás" en un acordeón se pierde esa señal de confianza. */}
+      <footer className="border-t border-border bg-background py-10">
+        <div
+          className={`${CONT} flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left`}
+        >
           <div className="flex flex-wrap items-center justify-center gap-4 text-small text-muted-foreground">
             <a href="#reglas" className="hover:text-foreground">
               Reglas
@@ -393,8 +505,9 @@ function Index() {
           </div>
           <div className="text-small text-muted-foreground">
             <p>
-              <a href="mailto:hola@vecinosdecali.org" className="hover:text-foreground">
-                hola@vecinosdecali.org
+              Hecho por Juan Carlos Franco ·{" "}
+              <a href="mailto:shipinflow@gmail.com" className="hover:text-foreground">
+                shipinflow@gmail.com
               </a>
             </p>
             <p className="mt-1">Hecho en Cali, para Cali.</p>
@@ -412,14 +525,14 @@ function Index() {
         <div className="mx-auto flex max-w-3xl gap-3">
           <Button
             onClick={() => empezar("doy")}
-            className="h-12 flex-1 rounded-xl bg-violet text-base font-medium text-white hover:bg-violet/90"
+            className="flex-1 bg-violet text-white hover:bg-violet-deep sm:max-w-[260px]"
           >
             Quiero regalar algo
           </Button>
           <Button
             variant="outline"
             onClick={() => empezar("recibo")}
-            className="h-12 flex-1 rounded-xl border-violet-border bg-white text-base font-medium text-violet-dark hover:bg-violet-light"
+            className="flex-1 border-border bg-white text-foreground hover:bg-neutral-bg sm:max-w-[260px]"
           >
             Necesito algo
           </Button>
