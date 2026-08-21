@@ -11,6 +11,7 @@ import {
   UserCheck,
   Award,
   Flag,
+  EyeOff,
   Check,
   X,
   House,
@@ -88,22 +89,35 @@ const pasosRecibir = [
   },
 ];
 
+// Son cinco, no cuatro, y cada una tiene título propio. Lovable las había
+// fundido en frases corridas sin titular y se había saltado entera "sin cuenta
+// no se ve a nadie", que es justamente la que explica por qué el catálogo es
+// público pero las personas no.
 const proteccionItems = [
   {
     icon: Shield,
-    text: "Nunca publicamos tu dirección ni tu teléfono. Nadie puede escribirte porque sí: quien regala elige a una persona y le escribe por WhatsApp; ahí, y solo ahí, se abre el contacto.",
+    title: "Nunca publicamos tu dirección ni tu teléfono",
+    text: "Nadie puede escribirte porque sí. Quien regala elige a una persona y le escribe por WhatsApp; ahí, y solo ahí, se abre el contacto.",
+  },
+  {
+    icon: EyeOff,
+    title: "Sin cuenta no se ve a nadie",
+    text: "Cualquiera puede mirar el catálogo, pero para ver quién regala cada cosa hay que iniciar sesión. Nadie puede navegar de forma anónima haciendo una lista de casas.",
   },
   {
     icon: UserCheck,
-    text: "Vos elegís a quién le das. Ves hace cuánto está cada persona en la app, cuántas cosas ha recibido y qué dicen otros vecinos.",
+    title: "Vos elegís a quién le das",
+    text: "Ves quién es cada persona que solicita: hace cuánto está en la app, cuántas cosas ha recibido, qué dicen otros vecinos de ella.",
   },
   {
     icon: Award,
-    text: "La confianza se gana en la vida real. Se sube de nivel cuando otro vecino confirma que se vieron y se entregaron algo.",
+    title: "La confianza se gana en la vida real",
+    text: "Un vecino sube de nivel cuando otro vecino confirma que se vieron y se entregaron algo. No se compra ni se declara.",
   },
   {
     icon: Flag,
-    text: "Si algo se sale de lugar, avisanos. Cada publicación tiene botón de reportar.",
+    title: "Si algo se sale de lugar, avisanos",
+    text: "Cada publicación y cada perfil tiene un botón para reportar. Lo revisamos.",
   },
 ];
 
@@ -228,17 +242,20 @@ function StepCard({
 
 function ProtectionCard({
   icon: Icon,
+  title,
   text,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
   text: string;
 }) {
   return (
-    <div className="flex gap-4">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-light text-violet">
-        <Icon className="h-5 w-5" />
+    <div className="mb-[22px] flex gap-[13px] last:mb-0">
+      <Icon className="mt-0.5 h-7 w-7 shrink-0 text-violet" strokeWidth={1.5} />
+      <div>
+        <h3 className="text-body font-semibold text-foreground">{title}</h3>
+        <p className="mt-1 text-suave leading-[1.5] text-muted-foreground">{text}</p>
       </div>
-      <p className="text-body text-foreground">{text}</p>
     </div>
   );
 }
@@ -302,7 +319,7 @@ function Index() {
               <br />a un vecino le cambia el día.
             </h1>
 
-            <p className="mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-3">
+            <p className="mb-5 mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-3">
               Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada. Acá
               los vecinos que tienen algo para regalar se encuentran con los vecinos que lo necesitan.
             </p>
@@ -314,7 +331,7 @@ function Index() {
               fetchPriority="high"
               decoding="async"
               alt="Dos vecinos de pie, de frente y a la misma altura, sostienen juntos una caja con una manta, una olla y una lámpara. A su alrededor hay una olla, una silla y dos cajas."
-              className="mx-auto mb-6 mt-5 block aspect-[800/632] w-full sm:max-w-[480px] lg:col-start-2 lg:row-start-2 lg:row-end-6 lg:m-0 lg:max-w-[400px] lg:self-center"
+              className="mx-auto mb-6 block aspect-[800/632] w-full sm:max-w-[480px] lg:col-start-2 lg:row-start-2 lg:row-end-6 lg:m-0 lg:max-w-[400px] lg:self-center"
             />
 
             <div className="flex flex-col gap-2.5 sm:flex-row lg:col-start-1 lg:row-start-4">
@@ -341,7 +358,7 @@ function Index() {
       </header>
 
       {/* SECCIÓN 2 — Cómo funciona */}
-      <section className="bg-white py-16">
+      <section className="bg-neutral-bg py-16">
         <div className={CONT}>
           <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo funciona</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -371,18 +388,26 @@ function Index() {
         </div>
       </section>
 
-      {/* SECCIÓN 3 — Cómo cuidamos a los dos lados */}
-      <section className="bg-neutral-bg py-16">
+      {/* SECCIÓN 3 — Cómo cuidamos a los dos lados.
+          Lista vertical, no rejilla de cuatro columnas: metidas en la medida
+          angosta que pide el prototipo, cuatro columnas dejaban renglones de
+          dos palabras. */}
+      <section
+        id="seguridad"
+        className="border-y border-border bg-white py-16"
+      >
         <div className={CONT_ANGOSTO}>
-          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo cuidamos a los dos lados</h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="mb-[22px] text-title font-semibold tracking-[-0.01em] text-foreground">
+            Cómo cuidamos a los dos lados
+          </h2>
+          <div>
             {proteccionItems.map((item) => (
-              <ProtectionCard key={item.text.slice(0, 40)} {...item} />
+              <ProtectionCard key={item.title} {...item} />
             ))}
           </div>
-          <div className="mt-8 rounded-2xl bg-violet-light p-5 text-violet-dark">
-            <p className="font-semibold">Un consejo de vecino</p>
-            <p className="mt-1 text-body">
+          <div className="mt-[26px] rounded-xl bg-violet-light p-5 text-violet-dark">
+            <p className="text-topbar font-semibold">Un consejo de vecino</p>
+            <p className="mt-1 text-suave leading-[1.55]">
               Entregá y recibí en la portería o en la puerta, de día. No dejés entrar a desconocidos a tu
               casa. Si algo te da mala espina, no lo hagás.
             </p>
@@ -391,7 +416,7 @@ function Index() {
       </section>
 
       {/* SECCIÓN 4 — Las reglas son cortas */}
-      <section id="reglas" className="bg-white py-16">
+      <section id="reglas" className="bg-neutral-bg py-16">
         <div className={CONT}>
           <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Las reglas son cortas</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -427,7 +452,7 @@ function Index() {
       {/* SECCIÓN 5 — Preguntas frecuentes.
           "Quién está detrás" ya no es sección propia: es la última pregunta del
           acordeón, con la foto y el nombre adentro. */}
-      <section id="preguntas" className="bg-neutral-bg py-16">
+      <section id="preguntas" className="border-y border-border bg-white py-16">
         <div className={CONT_ANGOSTO}>
           <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
             Preguntas frecuentes

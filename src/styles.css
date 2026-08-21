@@ -95,7 +95,7 @@
   --text-topbar: var(--text-topbar-size); /* 18       barra superior */
   --text-body: var(--text-body-size); /* 17       cuerpo, botón, campo */
   --text-request: var(--text-request-size); /* 16,5     cabecera de solicitud */
-  --text-secondary: var(--text-secondary-size); /* 16       texto secundario */
+  --text-suave: var(--text-suave-size); /* 16       texto secundario */
   --text-tarjeta: var(--text-tarjeta-size); /* 15,5     título de tarjeta */
   --text-chip: var(--text-chip-size); /* 15       etiqueta, chip, ayuda */
   --text-small: var(--text-small-size); /* 14       metadato. El piso. */
@@ -167,7 +167,7 @@
   --text-topbar-size: 1.125rem; /* 18 */
   --text-body-size: 1.0625rem; /* 17 */
   --text-request-size: 1.03125rem; /* 16,5 */
-  --text-secondary-size: 1rem; /* 16 */
+  --text-suave-size: 1rem; /* 16 */
   --text-tarjeta-size: 0.96875rem; /* 15,5 */
   --text-chip-size: 0.9375rem; /* 15 */
   --text-small-size: 0.875rem; /* 14 */

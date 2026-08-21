@@ -22,7 +22,7 @@ const TAMANOS = [
   "topbar",
   "body",
   "request",
-  "secondary",
+  "suave",
   "tarjeta",
   "chip",
   "small",
