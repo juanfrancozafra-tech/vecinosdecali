@@ -5,7 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  // El botón venía con los valores de fábrica de shadcn: 36px de alto y letra
+  // de 14px. El sistema de diseño pide controles de 48px, letra de 17px y radio
+  // de 8px, porque esto se usa con una mano y al sol. Se corrige acá, en el
+  // componente, para que valga en toda la app y no haya que recordarlo pantalla
+  // por pantalla.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[0.5rem] text-body font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -18,10 +23,12 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-12 px-5",
+        // Solo para zonas densas (filtros, acciones secundarias en listas).
+        // Nunca por debajo de 14px de letra.
+        sm: "h-10 px-4 text-small",
+        lg: "h-12 px-6",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {
