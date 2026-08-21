@@ -135,11 +135,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setWhatsapp(null)
       return
     }
-    cargarPerfil(userId).then((datos) => {
+    ;(async () => {
+      let datos = await cargarPerfil(userId)
+
+      // La fila del perfil la crea el trigger `crear_perfil` en la misma
+      // transacción que el alta, así que a esta altura ya debería estar. Un
+      // reintento cubre la carrera por si alguna vez no.
+      if (!datos.perfil) {
+        await new Promise((r) => setTimeout(r, 700))
+        if (!activo) return
+        datos = await cargarPerfil(userId)
+      }
       if (!activo) return
+
+      // Sesión fantasma: el token sigue guardado en el navegador pero la
+      // cuenta ya no existe en la base. Pasa al borrar un usuario desde
+      // Supabase con la pestaña abierta, y es una trampa sin salida: la app te
+      // cree conectado, te manda a completar el perfil, y ahí no hay fila que
+      // actualizar. Ni siquiera se puede cerrar sesión, porque ese botón vive
+      // en una pantalla a la que ya no se llega. Se cierra sola.
+      if (!datos.perfil) {
+        await db.auth.signOut()
+        if (!activo) return
+        setSession(null)
+        setPerfil(null)
+        setWhatsapp(null)
+        return
+      }
+
       setPerfil(datos.perfil)
       setWhatsapp(datos.whatsapp)
-    })
+    })()
     return () => {
       activo = false
     }

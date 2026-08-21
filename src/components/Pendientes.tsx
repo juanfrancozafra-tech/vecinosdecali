@@ -1,13 +1,14 @@
 // Franja de pendientes y punto en el menú. Las notificaciones viven dentro de
 // la app y en el hilo de WhatsApp que ya existe entre los dos vecinos.
 import { useEffect, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Menu, X } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/lib/auth'
@@ -64,8 +65,9 @@ export function FranjaPendientes() {
 }
 
 export function MenuVecino() {
-  const { usuario, perfil } = useAuth()
+  const { usuario, perfil, cerrarSesion } = useAuth()
   const { hayAlgo } = usePendientes()
+  const navigate = useNavigate()
 
   if (!usuario) return null
   const doy = perfil?.rol_principal === 'doy'
@@ -108,6 +110,17 @@ export function MenuVecino() {
           )}
           <DropdownMenuItem asChild>
             <Link to="/mi-cuenta">Mi cuenta</Link>
+          </DropdownMenuItem>
+          {/* Salir estaba solo al final de Mi cuenta, como botón fantasma. Si
+              esa pantalla no carga —una sesión que quedó huérfana, por
+              ejemplo— no había forma de salir de la app. */}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onSelect={() => {
+              void cerrarSesion().then(() => navigate({ to: '/', replace: true }))
+            }}
+          >
+            Cerrar sesión
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
