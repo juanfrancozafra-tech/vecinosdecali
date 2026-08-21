@@ -162,19 +162,19 @@ function CompletarPerfil() {
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">
             ¿Cómo querés participar?
           </h1>
-          <p className="mt-2 text-[17px] leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-body leading-relaxed text-muted-foreground">
             Podés cambiarlo después desde tu cuenta.
           </p>
           <div className="mt-8 space-y-3">
             <Button
-              className="h-14 w-full rounded-xl text-[17px]"
+              className="h-14 w-full rounded-xl text-body"
               onClick={() => setRol('doy')}
             >
               Quiero regalar algo
             </Button>
             <Button
               variant="outline"
-              className="h-14 w-full rounded-xl text-[17px]"
+              className="h-14 w-full rounded-xl text-body"
               onClick={() => setRol('recibo')}
             >
               Necesito algo
@@ -191,7 +191,7 @@ function CompletarPerfil() {
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Completá tu perfil
         </h1>
-        <p className="mt-2 text-[17px] leading-relaxed text-muted-foreground">
+        <p className="mt-2 text-body leading-relaxed text-muted-foreground">
           {rol === 'doy'
             ? 'Con esto un vecino sabe quién le está regalando.'
             : 'Con esto los vecinos saben a quién le están ayudando.'}
@@ -287,7 +287,7 @@ function CompletarPerfil() {
           <div className="mx-auto w-full max-w-sm">
             <Button
               type="submit"
-              className="h-12 w-full rounded-xl text-[17px]"
+              className="h-12 w-full rounded-xl text-body"
               disabled={guardando}
             >
               {guardando ? 'Guardando…' : 'Listo'}

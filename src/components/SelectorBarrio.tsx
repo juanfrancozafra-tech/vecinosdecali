@@ -81,7 +81,7 @@ export function SelectorBarrio({
                   />
                   <span>{barrio.nombre}</span>
                   {barrio.comuna ? (
-                    <span className="ml-auto text-xs text-muted-foreground">
+                    <span className="ml-auto text-small text-muted-foreground">
                       Comuna {barrio.comuna}
                     </span>
                   ) : null}

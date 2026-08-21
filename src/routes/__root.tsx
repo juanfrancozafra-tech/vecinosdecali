@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
 import { FranjaPendientes, MenuVecino } from "../components/Pendientes";
+import { NavegacionRecibo } from "../components/NavegacionRecibo";
 
 function NotFoundComponent() {
   return (
@@ -126,6 +127,7 @@ function RootComponent() {
         <MenuVecino />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <NavegacionRecibo />
         <Toaster position="top-center" />
       </AuthProvider>
     </QueryClientProvider>

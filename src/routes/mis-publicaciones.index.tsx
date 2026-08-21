@@ -194,8 +194,8 @@ function MisPublicaciones() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="max-w-sm text-center">
-          <h1 className="text-[22px] font-semibold text-foreground">Esta cuenta recibe cosas</h1>
-          <p className="mt-3 text-[17px] leading-relaxed text-foreground">
+          <h1 className="text-screen font-semibold text-foreground">Esta cuenta recibe cosas</h1>
+          <p className="mt-3 text-body leading-relaxed text-foreground">
             Acá aparecen las publicaciones de quien regala. Si también querés regalar algo, cambiá tu
             cuenta en{' '}
             <Link to="/mi-cuenta" className="font-medium text-primary underline">
@@ -211,7 +211,7 @@ function MisPublicaciones() {
   return (
     <div className="min-h-screen bg-background pb-28">
       <header className="border-b border-border bg-background px-4 pb-3 pt-6">
-        <h1 className="text-[22px] font-semibold text-foreground">Mis publicaciones</h1>
+        <h1 className="text-screen font-semibold text-foreground">Mis publicaciones</h1>
         <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTROS.map((f) => (
             <button
@@ -219,7 +219,7 @@ function MisPublicaciones() {
               type="button"
               onClick={() => setFiltro(f.clave)}
               className={cn(
-                'shrink-0 rounded-xl border px-3 py-2 text-[15px] font-medium transition-colors',
+                'shrink-0 rounded-xl border px-3 py-2 text-chip font-medium transition-colors',
                 filtro === f.clave
                   ? 'border-primary bg-primary text-primary-foreground'
                   : 'border-border bg-background text-foreground',
@@ -228,7 +228,7 @@ function MisPublicaciones() {
               {f.etiqueta}
               <span
                 className={cn(
-                  'ml-2 text-[13px]',
+                  'ml-2 text-small',
                   filtro === f.clave ? 'text-primary-foreground/80' : 'text-muted-foreground',
                 )}
               >
@@ -247,8 +247,8 @@ function MisPublicaciones() {
         </div>
       ) : filas.length === 0 ? (
         <div className="px-4 pt-16 text-center">
-          <p className="text-[17px] text-foreground">Todavía no publicaste nada.</p>
-          <p className="mt-2 text-[15px] text-muted-foreground">
+          <p className="text-body text-foreground">Todavía no publicaste nada.</p>
+          <p className="mt-2 text-chip text-muted-foreground">
             Lo que a vos te sobra, a un vecino le cambia el día.
           </p>
           <Button asChild className="mt-6 h-12 rounded-xl px-6">
@@ -259,7 +259,7 @@ function MisPublicaciones() {
         <div className="px-4 pt-2">
           {grupos.map((grupo) => (
             <section key={grupo.titulo} className="pt-5">
-              <h2 className="pb-2 text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
+              <h2 className="pb-2 text-small font-semibold uppercase tracking-wide text-muted-foreground">
                 {grupo.titulo}
               </h2>
               <div className="space-y-3">
@@ -271,7 +271,7 @@ function MisPublicaciones() {
           ))}
         </div>
       ) : planas.length === 0 ? (
-        <p className="px-4 pt-16 text-center text-[17px] text-muted-foreground">
+        <p className="px-4 pt-16 text-center text-body text-muted-foreground">
           Acá no hay nada por ahora.
         </p>
       ) : (
@@ -283,7 +283,7 @@ function MisPublicaciones() {
       )}
 
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 py-3">
-        <Button asChild className="h-12 w-full rounded-xl text-[17px]">
+        <Button asChild className="h-12 w-full rounded-xl text-body">
           <Link to="/publicar">Publicar algo</Link>
         </Button>
       </div>
@@ -328,17 +328,17 @@ function FilaArticulo({ fila, onRetirar }: { fila: Fila; onRetirar: () => void }
           ) : null}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[17px] font-medium text-foreground">{fila.titulo}</p>
+          <p className="truncate text-body font-medium text-foreground">{fila.titulo}</p>
           <span
             className={cn(
-              'mt-1 inline-block rounded-lg px-2 py-1 text-[13px] font-medium',
+              'mt-1 inline-block rounded-lg px-2 py-1 text-small font-medium',
               COLOR_ESTADO[fila.estado],
             )}
           >
             {ETIQUETA_ESTADO[fila.estado]}
           </span>
           {fila.estado === 'disponible' && fila.solicitudes_abiertas > 0 ? (
-            <p className="mt-1 text-[15px] font-semibold text-primary">
+            <p className="mt-1 text-chip font-semibold text-primary">
               {fila.solicitudes_abiertas === 1
                 ? '1 solicitud'
                 : `${fila.solicitudes_abiertas} solicitudes`}

@@ -125,23 +125,23 @@ export function FlujoEntrega({
       <div className="mx-auto flex min-h-full max-w-md flex-col px-4 pb-8 pt-6">
         {paso === 1 ? (
           <>
-            <h1 className="text-[24px] font-semibold leading-snug text-foreground">
+            <h1 className="text-screen font-semibold leading-snug text-foreground">
               ¿Ya entregaste {tituloArticulo}?
             </h1>
             <div className="mt-8 space-y-3">
-              <Button className="h-14 w-full rounded-xl text-[17px]" onClick={() => setPaso(2)}>
+              <Button className="h-14 w-full rounded-xl text-body" onClick={() => setPaso(2)}>
                 Sí, ya lo entregué
               </Button>
               <Button
                 variant="outline"
-                className="h-14 w-full rounded-xl text-[17px]"
+                className="h-14 w-full rounded-xl text-body"
                 onClick={onCerrar}
               >
                 Todavía no
               </Button>
               <Button
                 variant="ghost"
-                className="h-14 w-full rounded-xl text-[17px]"
+                className="h-14 w-full rounded-xl text-body"
                 disabled={trabajando}
                 onClick={() => void liberar()}
               >
@@ -151,12 +151,12 @@ export function FlujoEntrega({
           </>
         ) : paso === 2 ? (
           <>
-            <h1 className="text-[24px] font-semibold leading-snug text-foreground">
+            <h1 className="text-screen font-semibold leading-snug text-foreground">
               ¿A quién se lo entregaste?
             </h1>
             <div className="mt-6 space-y-3">
               {candidatos === null ? (
-                <p className="text-[15px] text-muted-foreground">Un momento…</p>
+                <p className="text-chip text-muted-foreground">Un momento…</p>
               ) : (
                 <>
                   {candidatos.map((c) => (
@@ -181,10 +181,10 @@ export function FlujoEntrega({
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-[17px] font-medium text-foreground">
+                        <p className="truncate text-body font-medium text-foreground">
                           {c.nombre ?? 'Vecino'}
                         </p>
-                        <p className="text-[13px] text-muted-foreground">
+                        <p className="text-small text-muted-foreground">
                           {ETIQUETA_NIVEL[c.nivel]}
                           {c.fue_aceptado ? ' · le habías aceptado' : ''}
                         </p>
@@ -195,7 +195,7 @@ export function FlujoEntrega({
                     type="button"
                     onClick={() => setElegido(FUERA)}
                     className={cn(
-                      'w-full rounded-xl border p-4 text-left text-[17px] font-medium text-foreground',
+                      'w-full rounded-xl border p-4 text-left text-body font-medium text-foreground',
                       elegido === FUERA ? 'border-primary bg-primary/5' : 'border-border bg-card',
                     )}
                   >
@@ -206,7 +206,7 @@ export function FlujoEntrega({
             </div>
             <div className="mt-8 space-y-3">
               <Button
-                className="h-14 w-full rounded-xl text-[17px]"
+                className="h-14 w-full rounded-xl text-body"
                 disabled={!elegido || trabajando}
                 onClick={() => {
                   if (elegido === FUERA) void confirmar()
@@ -217,7 +217,7 @@ export function FlujoEntrega({
               </Button>
               <button
                 type="button"
-                className="w-full text-center text-[15px] text-muted-foreground"
+                className="w-full text-center text-chip text-muted-foreground"
                 onClick={onCerrar}
               >
                 Cancelar
@@ -226,7 +226,7 @@ export function FlujoEntrega({
           </>
         ) : (
           <>
-            <h1 className="text-[24px] font-semibold leading-snug text-foreground">
+            <h1 className="text-screen font-semibold leading-snug text-foreground">
               ¿Cómo te fue con{' '}
               {(candidatos ?? []).find((c) => c.perfil_id === elegido)?.nombre ?? 'tu vecino'}?
             </h1>
@@ -253,15 +253,15 @@ export function FlujoEntrega({
                 value={comentario}
                 onChange={(e) => setComentario(e.target.value.slice(0, 300))}
                 placeholder="¿Algo que quieras contar? (opcional)"
-                className="min-h-24 rounded-xl text-[17px]"
+                className="min-h-24 rounded-xl text-body"
               />
-              <p className="mt-1 text-right text-[13px] text-muted-foreground">
+              <p className="mt-1 text-right text-small text-muted-foreground">
                 {comentario.length}/300
               </p>
             </div>
             <div className="mt-8 space-y-4">
               <Button
-                className="h-14 w-full rounded-xl text-[17px]"
+                className="h-14 w-full rounded-xl text-body"
                 disabled={estrellas === 0 || trabajando}
                 onClick={() => void confirmar({ conCalificacion: true })}
               >
@@ -269,7 +269,7 @@ export function FlujoEntrega({
               </Button>
               <button
                 type="button"
-                className="w-full text-center text-[15px] text-primary underline"
+                className="w-full text-center text-chip text-primary underline"
                 disabled={trabajando}
                 onClick={() => void confirmar()}
               >
@@ -317,7 +317,7 @@ function Celebracion({
           Gracias, {primerNombre}.
         </h1>
         <p className="mt-2 text-[19px] font-semibold text-primary">Sos una bacanería.</p>
-        <p className="mt-4 text-[17px] leading-relaxed text-foreground">{frase}</p>
+        <p className="mt-4 text-body leading-relaxed text-foreground">{frase}</p>
 
         <div className="mt-8 w-full rounded-xl border border-border bg-card p-6">
           {primera && nombreReceptor !== null ? (
@@ -325,14 +325,14 @@ function Celebracion({
               <p className="text-[19px] font-semibold text-foreground">
                 Ya sos un vecino verificado
               </p>
-              <p className="mt-2 text-[15px] text-muted-foreground">
+              <p className="mt-2 text-chip text-muted-foreground">
                 Otro vecino confirmó que se vieron en persona.
               </p>
             </>
           ) : (
             <>
               <p className="text-[40px] font-semibold leading-none text-foreground">{entregas}</p>
-              <p className="mt-2 text-[15px] text-muted-foreground">
+              <p className="mt-2 text-chip text-muted-foreground">
                 vecinos que ayudaste desde que entraste
               </p>
             </>
@@ -340,12 +340,12 @@ function Celebracion({
         </div>
 
         <div className="mt-8 w-full space-y-3">
-          <Button className="h-14 w-full rounded-xl text-[17px]" onClick={onPublicarOtra}>
+          <Button className="h-14 w-full rounded-xl text-body" onClick={onPublicarOtra}>
             Publicar otra cosa
           </Button>
           <button
             type="button"
-            className="w-full text-center text-[15px] text-muted-foreground"
+            className="w-full text-center text-chip text-muted-foreground"
             onClick={onCerrar}
           >
             Cerrar

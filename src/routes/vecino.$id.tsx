@@ -134,7 +134,7 @@ function PerfilDelVecino() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="text-center">
-          <h1 className="text-[22px] font-semibold text-foreground">Este vecino ya no está</h1>
+          <h1 className="text-screen font-semibold text-foreground">Este vecino ya no está</h1>
           <Button asChild className="mt-6 h-12 rounded-xl px-6">
             <Link to="/articulos">Ver el catálogo</Link>
           </Button>
@@ -150,7 +150,7 @@ function PerfilDelVecino() {
     <div className="min-h-screen bg-background pb-16">
       <header className="border-b border-border">
         <div className="mx-auto max-w-2xl px-4 py-4">
-          <Link to="/articulos" className="text-[13px] text-muted-foreground">
+          <Link to="/articulos" className="text-small text-muted-foreground">
             ← Catálogo
           </Link>
         </div>
@@ -168,13 +168,13 @@ function PerfilDelVecino() {
             ) : null}
           </span>
           <div className="min-w-0">
-            <h1 className="text-[24px] font-semibold text-foreground">
+            <h1 className="text-screen font-semibold text-foreground">
               {vecino.nombre ?? 'Un vecino'}
             </h1>
-            <p className="mt-1 inline-block rounded-lg bg-secondary px-2.5 py-1 text-[13px] font-medium text-secondary-foreground">
+            <p className="mt-1 inline-block rounded-lg bg-secondary px-2.5 py-1 text-small font-medium text-secondary-foreground">
               {ETIQUETA_NIVEL[vecino.nivel]}
             </p>
-            <p className="mt-1 text-[13px] text-muted-foreground">
+            <p className="mt-1 text-small text-muted-foreground">
               Miembro desde hace {tiempoDesde(vecino.creado_en)}
               {mostrarBarrio ? ` · ${vecino.barrio}` : ''}
             </p>
@@ -183,10 +183,10 @@ function PerfilDelVecino() {
 
         {vecino.mi_situacion && vecino.mi_situacion.trim() ? (
           <section className="mt-6 rounded-xl border border-border p-4">
-            <h2 className="text-[13px] font-medium uppercase tracking-wide text-muted-foreground">
+            <h2 className="text-small font-medium uppercase tracking-wide text-muted-foreground">
               Mi situación
             </h2>
-            <p className="mt-2 whitespace-pre-line text-[17px] leading-relaxed text-foreground">
+            <p className="mt-2 whitespace-pre-line text-body leading-relaxed text-foreground">
               {vecino.mi_situacion}
             </p>
           </section>
@@ -194,35 +194,35 @@ function PerfilDelVecino() {
 
         <section className="mt-6 grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-border px-4 py-3">
-            <p className="text-[22px] font-semibold tabular-nums text-foreground">
+            <p className="text-screen font-semibold tabular-nums text-foreground">
               {vecino.entregas_confirmadas}
             </p>
-            <p className="text-[13px] text-muted-foreground">artículos entregados</p>
+            <p className="text-small text-muted-foreground">artículos entregados</p>
           </div>
           <div className="rounded-xl border border-border px-4 py-3">
-            <p className="text-[22px] font-semibold tabular-nums text-foreground">
+            <p className="text-screen font-semibold tabular-nums text-foreground">
               {vecino.recibidos_confirmados}
             </p>
-            <p className="text-[13px] text-muted-foreground">artículos recibidos</p>
+            <p className="text-small text-muted-foreground">artículos recibidos</p>
           </div>
         </section>
 
         <section className="mt-6">
-          <h2 className="text-[17px] font-medium text-foreground">Calificación</h2>
+          <h2 className="text-body font-medium text-foreground">Calificación</h2>
           {vecino.calificacion != null && vecino.num_calificaciones > 0 ? (
             <div className="mt-2 flex items-center gap-2">
               <Star className="size-4 fill-current text-primary" />
-              <span className="text-[17px] font-medium tabular-nums text-foreground">
+              <span className="text-body font-medium tabular-nums text-foreground">
                 {vecino.calificacion.toFixed(1)}
               </span>
-              <span className="text-[13px] text-muted-foreground">
+              <span className="text-small text-muted-foreground">
                 {vecino.num_calificaciones === 1
                   ? '1 calificación'
                   : `${vecino.num_calificaciones} calificaciones`}
               </span>
             </div>
           ) : (
-            <p className="mt-2 text-[15px] text-muted-foreground">Todavía no tiene calificaciones.</p>
+            <p className="mt-2 text-chip text-muted-foreground">Todavía no tiene calificaciones.</p>
           )}
 
           {conComentario.length ? (
@@ -240,11 +240,11 @@ function PerfilDelVecino() {
                         }
                       />
                     ))}
-                    <span className="ml-2 text-[13px] text-muted-foreground">
+                    <span className="ml-2 text-small text-muted-foreground">
                       {c.autor ?? 'Un vecino'}
                     </span>
                   </div>
-                  <p className="mt-2 text-[15px] leading-relaxed text-foreground">{c.comentario}</p>
+                  <p className="mt-2 text-chip leading-relaxed text-foreground">{c.comentario}</p>
                 </li>
               ))}
             </ul>
@@ -252,7 +252,7 @@ function PerfilDelVecino() {
         </section>
 
         <section className="mt-8">
-          <h2 className="text-[17px] font-medium text-foreground">
+          <h2 className="text-body font-medium text-foreground">
             {articulos.length ? 'Lo que está regalando' : 'No tiene nada publicado ahora'}
           </h2>
           {articulos.length ? (
@@ -274,7 +274,7 @@ function PerfilDelVecino() {
                       />
                     ) : null}
                   </span>
-                  <span className="block px-3 py-2 text-[15px] font-medium text-foreground">
+                  <span className="block px-3 py-2 text-chip font-medium text-foreground">
                     {a.titulo}
                   </span>
                 </Link>
@@ -286,7 +286,7 @@ function PerfilDelVecino() {
         <button
           type="button"
           onClick={() => setReportando(true)}
-          className="mt-10 inline-flex items-center gap-1.5 text-[13px] text-muted-foreground underline"
+          className="mt-10 inline-flex items-center gap-1.5 text-small text-muted-foreground underline"
         >
           <Flag className="size-3.5" />
           Reportar a este vecino

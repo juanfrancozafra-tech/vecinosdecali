@@ -228,7 +228,7 @@ function MiCuenta() {
 
           <Button
             type="submit"
-            className="h-12 w-full rounded-xl text-[17px]"
+            className="h-12 w-full rounded-xl text-body"
             disabled={guardando}
           >
             {guardando ? 'Guardando…' : 'Guardar cambios'}
@@ -236,7 +236,7 @@ function MiCuenta() {
         </form>
 
         <section className="mt-10 rounded-xl border border-border p-4">
-          <h2 className="text-[17px] font-medium text-foreground">Cambiar el tipo de cuenta</h2>
+          <h2 className="text-body font-medium text-foreground">Cambiar el tipo de cuenta</h2>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
             {rol === 'doy'
               ? 'Hoy estás regalando cosas. Podés pasar a pedir lo que necesitás.'

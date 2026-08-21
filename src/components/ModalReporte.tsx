@@ -85,7 +85,7 @@ export function ModalReporte({
               </DialogDescription>
             </DialogHeader>
             <Button
-              className="h-12 w-full rounded-xl text-[17px]"
+              className="h-12 w-full rounded-xl text-body"
               onClick={() => onOpenChange(false)}
             >
               Cerrar
@@ -105,7 +105,7 @@ export function ModalReporte({
                 <Label
                   key={m.valor}
                   htmlFor={`motivo-${m.valor}`}
-                  className="flex items-center gap-3 rounded-xl border border-border px-3 py-3 text-[15px] font-normal"
+                  className="flex items-center gap-3 rounded-xl border border-border px-3 py-3 text-chip font-normal"
                 >
                   <RadioGroupItem id={`motivo-${m.valor}`} value={m.valor} />
                   {m.etiqueta}
@@ -123,13 +123,13 @@ export function ModalReporte({
                 onChange={(e) => setDetalle(e.target.value.slice(0, MAX_DETALLE))}
                 className="rounded-xl text-base"
               />
-              <span className="block text-right text-[13px] tabular-nums text-muted-foreground">
+              <span className="block text-right text-small tabular-nums text-muted-foreground">
                 {detalle.length}/{MAX_DETALLE}
               </span>
             </div>
 
             <Button
-              className="h-12 w-full rounded-xl text-[17px]"
+              className="h-12 w-full rounded-xl text-body"
               onClick={enviar}
               disabled={enviando}
             >
