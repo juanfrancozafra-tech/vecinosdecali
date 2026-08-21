@@ -179,7 +179,9 @@ function MisPublicaciones() {
   const retirar = async () => {
     if (!porRetirar) return
     setTrabajando(true)
-    const { error } = await db.rpc('liberar_articulo', { p_articulo_id: porRetirar.id })
+    // liberar_articulo devuelve el artículo al catálogo; lo que hace este botón
+    // es sacarlo. Son cosas opuestas y antes se usaba la primera para las dos.
+    const { error } = await db.rpc('retirar_articulo', { p_articulo_id: porRetirar.id })
     setTrabajando(false)
     if (error) {
       toast.error(mensajeDeError(error))

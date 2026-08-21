@@ -1,7 +1,7 @@
 // La pantalla donde se decide a quién le llega el artículo.
 // Requiere sesión, perfil completo y rol 'doy'.
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Star } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -132,7 +132,7 @@ function Publicacion() {
   const [foto, setFoto] = useState<string | null>(null)
   const [solicitudes, setSolicitudes] = useState<SolicitudConVecino[]>([])
   const [aceptada, setAceptada] = useState<SolicitudConVecino | null>(null)
-  const [descartadas, setDescartadas] = useState<string[]>([])
+  const [porDescartar, setPorDescartar] = useState<SolicitudConVecino | null>(null)
   const [porAceptar, setPorAceptar] = useState<SolicitudConVecino | null>(null)
   const [abriendo, setAbriendo] = useState(false)
   const [confirmandoEntrega, setConfirmandoEntrega] = useState(false)
@@ -190,10 +190,24 @@ function Publicacion() {
     if (confirmar && articulo?.estado === 'reservado') setConfirmandoEntrega(true)
   }, [confirmar, articulo?.estado])
 
-  const pendientes = useMemo(
-    () => solicitudes.filter((s) => !descartadas.includes(s.id)),
-    [solicitudes, descartadas],
-  )
+  // Antes esto filtraba contra una lista en memoria: descartar solo escondía la
+  // solicitud en esta sesión. El otro vecino seguía viendo "pendiente" para
+  // siempre, y al recargar la tarjeta volvía. Ahora `rechazar_solicitud` la
+  // cierra de verdad en la base y `cargar()` trae la lista ya sin ella.
+  const pendientes = solicitudes
+
+  const descartar = async () => {
+    if (!porDescartar) return
+    setTrabajando(true)
+    const { error } = await db.rpc('rechazar_solicitud', { p_solicitud_id: porDescartar.id })
+    setTrabajando(false)
+    if (error) {
+      toast.error(mensajeDeError(error))
+      return
+    }
+    setPorDescartar(null)
+    void cargar()
+  }
 
   const aceptar = async () => {
     if (!porAceptar || !articulo) return
@@ -365,7 +379,7 @@ function Publicacion() {
                 <TarjetaSolicitud
                   key={s.id}
                   solicitud={s}
-                  onDescartar={() => setDescartadas((prev) => [...prev, s.id])}
+                  onDescartar={() => setPorDescartar(s)}
                   onAceptar={() => setPorAceptar(s)}
                 />
               ))}
@@ -427,6 +441,36 @@ function Publicacion() {
         />
       ) : null}
 
+
+      {/* Descartar no tiene vuelta atrás: la restricción única de la base impide
+          que esa persona vuelva a pedir este mismo artículo. Por eso pregunta,
+          igual que las demás acciones que no se pueden deshacer. */}
+      <AlertDialog open={porDescartar !== null} onOpenChange={(o) => !o && setPorDescartar(null)}>
+        <AlertDialogContent className="rounded-xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              ¿Descartar a {porDescartar?.vecino?.nombre ?? 'este vecino'}?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              No va a poder volver a pedir esta cosa, y le queda el puesto libre a otro vecino. No
+              le llega ningún mensaje tuyo.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="h-12 rounded-xl">Dejarlo en la lista</AlertDialogCancel>
+            <AlertDialogAction
+              className="h-12 rounded-xl"
+              disabled={trabajando}
+              onClick={(e) => {
+                e.preventDefault()
+                void descartar()
+              }}
+            >
+              Descartar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <AlertDialog open={noApareceAbierto} onOpenChange={setNoApareceAbierto}>
         <AlertDialogContent className="rounded-xl">
