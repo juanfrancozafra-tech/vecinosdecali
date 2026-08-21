@@ -277,6 +277,12 @@ export type Database = {
         Returns: undefined
       }
       liberar_articulo: { Args: { p_articulo_id: string }; Returns: undefined }
+      // "Volver al catálogo" y "sacarlo del catálogo" son cosas distintas.
+      // liberar_articulo suelta la reserva y lo devuelve a la vitrina;
+      // retirar_articulo lo saca, y expira las solicitudes que quedaran vivas.
+      retirar_articulo: { Args: { p_articulo_id: string }; Returns: undefined }
+      // Descartar a un vecino de la cola. Libera uno de los cinco puestos.
+      rechazar_solicitud: { Args: { p_solicitud_id: string }; Returns: undefined }
       liberar_reservas_vencidas: { Args: Record<string, never>; Returns: number }
       admin_cola_reportes: { Args: Record<string, never>; Returns: Json[] }
       admin_ocultar_articulo: {
