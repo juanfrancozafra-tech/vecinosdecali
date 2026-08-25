@@ -9,9 +9,9 @@
 // landing, la navegación de quien recibe— y dos elementos fijos dejan poca
 // pantalla. En un teléfono lo que importa va abajo, donde llega el pulgar.
 import { Link, useRouterState } from "@tanstack/react-router";
-import { House } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/Logo";
 import { MenuVecino } from "@/components/Pendientes";
 import { guardarRolElegido, guardarRutaOrigen, useAuth } from "@/lib/auth";
 
@@ -45,21 +45,23 @@ export function FranjaSuperior() {
   return (
     <div className="border-b border-border bg-white">
       <div className="mx-auto flex min-h-[60px] w-full max-w-[640px] items-center gap-4 px-4 sm:max-w-[760px] lg:max-w-[1040px] lg:px-8">
-        <Link to="/" className="flex min-w-0 items-center gap-[9px]">
-          <House className="h-[26px] w-[26px] shrink-0 text-violet" strokeWidth={1.5} />
-          <span className="truncate text-body font-semibold text-violet-dark">Vecinos de Cali</span>
+        <Link to="/" className="flex shrink-0 items-center gap-[9px]">
+          <Logo className="h-[26px] w-[26px] shrink-0" />
+          <span className="whitespace-nowrap text-body font-semibold text-violet-dark">
+            Vecinos de Cali
+          </span>
         </Link>
 
         {/* Los enlaces de sección solo existen en la landing, y solo desde
             600px: cuatro enlaces más el acceso no caben en 390 sin apretarse,
             y quien llega por primera vez no viene a navegar secciones. */}
         {enLanding ? (
-          <nav className="ml-auto hidden gap-5 sm:flex">
+          <nav className="ml-auto hidden gap-5 lg:flex">
             {ENLACES.map((e) => (
               <a
                 key={e.href}
                 href={e.href}
-                className="text-chip text-muted-foreground hover:text-foreground"
+                className="whitespace-nowrap text-chip text-muted-foreground hover:text-foreground"
               >
                 {e.texto}
               </a>
@@ -67,7 +69,7 @@ export function FranjaSuperior() {
           </nav>
         ) : null}
 
-        <div className={`flex items-center gap-3 ${enLanding ? "ml-auto sm:ml-4" : "ml-auto"}`}>
+        <div className={`flex items-center gap-3 ${enLanding ? "ml-auto lg:ml-4" : "ml-auto"}`}>
           {usuario ? (
             <MenuVecino />
           ) : (
