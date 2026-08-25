@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Camera,
@@ -14,7 +14,7 @@ import {
   EyeOff,
   Check,
   X,
-  House,
+  ImageOff,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -24,8 +24,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
+import { empezarARegalar } from "@/components/FranjaSuperior";
 import { guardarRolElegido, useAuth } from "@/lib/auth";
-import type { RolVecino } from "@/lib/database.types";
+import { db } from "@/lib/db";
+import { fotoTransformada } from "@/lib/imagenes";
+import type { ArticuloPublico, Categoria, CondicionArticulo } from "@/lib/database.types";
+
+const ETIQUETA_CONDICION: Record<CondicionArticulo, string> = {
+  nuevo: "Nuevo",
+  como_nuevo: "Como nuevo",
+  buen_estado: "Buen estado",
+  usado_con_detalles: "Usado con detalles",
+};
 
 const OG_IMAGE_URL = "/og-image.jpg";
 
@@ -287,13 +298,24 @@ function Index() {
   const navigate = useNavigate();
   const { usuario, perfilCompleto } = useAuth();
 
-  function empezar(rol: RolVecino) {
-    guardarRolElegido(rol);
+  // Quien viene a regalar sí necesita cuenta antes de nada: no se puede
+  // publicar sin barrio ni sin WhatsApp. Termina en /publicar, que es lo que
+  // en realidad quería hacer.
+  function empezarADar() {
+    empezarARegalar();
     if (!usuario) {
       navigate({ to: "/entrar" });
       return;
     }
-    navigate({ to: perfilCompleto ? "/mi-cuenta" : "/completar-perfil" });
+    navigate({ to: perfilCompleto ? "/publicar" : "/completar-perfil" });
+  }
+
+  // Quien viene a recibir va derecho al catálogo. Crear una cuenta antes de
+  // ver si hay algo que le sirva es fricción puesta en el peor momento: la
+  // cuenta tiene sentido cuando ya encontró algo y quiere pedirlo.
+  function empezarARecibir() {
+    guardarRolElegido("recibo");
+    navigate({ to: "/articulos" });
   }
 
 
@@ -309,17 +331,12 @@ function Index() {
       >
         <div className={CONT}>
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start lg:gap-x-14">
-            <div className="mb-7 flex items-center gap-[9px] lg:col-span-2 lg:row-start-1">
-              <House className="h-[26px] w-[26px] text-violet" strokeWidth={1.5} aria-hidden="true" />
-              <span className="text-body font-semibold text-violet-dark">Vecinos de Cali</span>
-            </div>
-
-            <h1 className="text-[36px] font-semibold leading-[1.18] tracking-[-0.02em] text-violet-dark sm:text-[42px] lg:col-start-1 lg:row-start-2 lg:text-[48px]">
+            <h1 className="text-[36px] font-semibold leading-[1.18] tracking-[-0.02em] text-violet-dark sm:text-[42px] lg:col-start-1 lg:row-start-1 lg:text-[48px]">
               Lo que a vos te sobra,
               <br />a un vecino le cambia el día.
             </h1>
 
-            <p className="mb-5 mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-3">
+            <p className="mb-5 mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-2">
               Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada. Acá
               los vecinos que tienen algo para regalar se encuentran con los vecinos que lo necesitan.
             </p>
@@ -331,34 +348,40 @@ function Index() {
               fetchPriority="high"
               decoding="async"
               alt="Dos vecinos de pie, de frente y a la misma altura, sostienen juntos una caja con una manta, una olla y una lámpara. A su alrededor hay una olla, una silla y dos cajas."
-              className="mx-auto mb-6 block aspect-[800/632] w-full sm:max-w-[480px] lg:col-start-2 lg:row-start-2 lg:row-end-6 lg:m-0 lg:max-w-[400px] lg:self-center"
+              className="mx-auto mb-6 block aspect-[800/632] w-full sm:max-w-[480px] lg:col-start-2 lg:row-start-1 lg:row-end-5 lg:m-0 lg:max-w-[400px] lg:self-center"
             />
 
-            <div className="flex flex-col gap-2.5 sm:flex-row lg:col-start-1 lg:row-start-4">
+            <div className="flex flex-col gap-2.5 sm:flex-row lg:col-start-1 lg:row-start-3">
               <Button
-                onClick={() => empezar("doy")}
+                onClick={empezarADar}
                 className="w-full bg-violet text-white hover:bg-violet-deep sm:max-w-[280px]"
               >
                 Quiero regalar algo
               </Button>
               <Button
                 variant="outline"
-                onClick={() => empezar("recibo")}
+                onClick={empezarARecibir}
                 className="w-full border-border bg-white text-foreground hover:bg-neutral-bg sm:max-w-[280px]"
               >
                 Necesito algo
               </Button>
             </div>
 
-            <p className="mt-3.5 text-center text-small text-violet-deep sm:text-left lg:col-start-1 lg:row-start-5">
+            <p className="mt-3.5 text-center text-small text-violet-deep sm:text-left lg:col-start-1 lg:row-start-4">
               Gratis siempre. Acá nada tiene precio.
             </p>
           </div>
         </div>
       </header>
 
-      {/* SECCIÓN 2 — Cómo funciona */}
-      <section className="bg-neutral-bg py-16">
+      {/* SECCIÓN 2 — Vista previa del catálogo.
+          Va antes de "Cómo funciona" a propósito: la mayoría llega por un
+          enlace de WhatsApp y viene a ver si hay algo que le sirva, no a que
+          le expliquen el trato. */}
+      <VistaPreviaCatalogo />
+
+      {/* SECCIÓN 3 — Cómo funciona */}
+      <section id="como" className="bg-neutral-bg py-16">
         <div className={CONT}>
           <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo funciona</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -521,12 +544,12 @@ function Index() {
             <a href="#preguntas" className="hover:text-foreground">
               Preguntas frecuentes
             </a>
-            <a href="#datos" className="hover:text-foreground">
+            <Link to="/datos" className="hover:text-foreground">
               Tratamiento de datos
-            </a>
-            <a href="#terminos" className="hover:text-foreground">
+            </Link>
+            <Link to="/terminos" className="hover:text-foreground">
               Términos
-            </a>
+            </Link>
           </div>
           <div className="text-small text-muted-foreground">
             <p>
@@ -549,14 +572,14 @@ function Index() {
       >
         <div className="mx-auto flex max-w-3xl gap-3">
           <Button
-            onClick={() => empezar("doy")}
+            onClick={empezarADar}
             className="flex-1 bg-violet text-white hover:bg-violet-deep sm:max-w-[260px]"
           >
             Quiero regalar algo
           </Button>
           <Button
             variant="outline"
-            onClick={() => empezar("recibo")}
+            onClick={empezarARecibir}
             className="flex-1 border-border bg-white text-foreground hover:bg-neutral-bg sm:max-w-[260px]"
           >
             Necesito algo
@@ -564,5 +587,164 @@ function Index() {
         </div>
       </div>
     </div>
+  );
+}
+
+const CUANTOS = 8;
+
+/**
+ * Vista previa del catálogo en la landing.
+ *
+ * Muestra solo datos del artículo: foto, título, barrio y condición. Nunca
+ * quién lo regala. El catálogo es público justamente para que un enlace
+ * compartido por WhatsApp abra y funcione; las personas detrás, no.
+ */
+function VistaPreviaCatalogo() {
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [items, setItems] = useState<ArticuloPublico[] | null>(null);
+
+  useEffect(() => {
+    let activo = true;
+    db.from("categorias")
+      .select("*")
+      .order("orden", { ascending: true })
+      .then(({ data }) => {
+        if (activo && data) setCategorias(data as Categoria[]);
+      });
+    db.from("articulos_publicos")
+      .select("*")
+      .eq("estado", "disponible")
+      .order("creado_en", { ascending: false })
+      .limit(CUANTOS)
+      .then(({ data }) => {
+        if (activo) setItems((data ?? []) as ArticuloPublico[]);
+      });
+    return () => {
+      activo = false;
+    };
+  }, []);
+
+  const vacio = items !== null && items.length === 0;
+
+  return (
+    <section id="catalogo" className="bg-neutral-bg py-16">
+      <div className={CONT}>
+        <h2 className="mb-[18px] text-title font-semibold tracking-[-0.01em] text-foreground">
+          Mirá lo que hay ahora
+        </h2>
+
+        {/* Los chips saltan al catálogo con el filtro ya puesto. Se quedan
+            también cuando no hay nada publicado: son la forma más rápida de
+            llegar al catálogo, y eso no depende de que hoy haya cosas. */}
+        <div className="-mx-4 mb-4 flex gap-[7px] overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:-mx-8 lg:px-8">
+          <Chip to="/articulos" activo>
+            Todo
+          </Chip>
+          {categorias.map((c) => (
+            <Chip key={c.id} to="/articulos" search={{ categoria: c.slug }}>
+              {c.nombre}
+            </Chip>
+          ))}
+        </div>
+
+        {items === null ? (
+          <Rejilla>
+            {Array.from({ length: CUANTOS }).map((_, i) => (
+              <Skeleton key={i} className={`aspect-[4/3] w-full rounded-xl ${i > 3 ? "hidden sm:block" : ""}`} />
+            ))}
+          </Rejilla>
+        ) : vacio ? (
+          <div className="rounded-xl border border-border bg-card px-5 py-7 text-center">
+            <p className="text-suave text-muted-foreground">
+              Todavía no hay nada publicado. Volvé en un rato, que los vecinos están subiendo sus
+              cosas.
+            </p>
+            <p className="mt-3 text-suave text-muted-foreground">
+              ¿Vos tenés algo para regalar?{" "}
+              <Link to="/entrar" onClick={empezarARegalar} className="text-violet underline">
+                Empezá acá
+              </Link>
+              .
+            </p>
+          </div>
+        ) : (
+          <>
+            <Rejilla>
+              {items.map((a, i) => (
+                <TarjetaPrevia key={a.id} articulo={a} oculta={i > 3} />
+              ))}
+            </Rejilla>
+            <div className="mt-[18px]">
+              <Button asChild className="mx-auto flex w-full max-w-[320px]">
+                <Link to="/articulos">Ver todo el catálogo</Link>
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function Rejilla({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{children}</div>;
+}
+
+function Chip({
+  to,
+  search,
+  activo = false,
+  children,
+}: {
+  to: string;
+  search?: { categoria: string };
+  activo?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      search={search ?? {}}
+      className={`shrink-0 rounded-full border px-3.5 py-2 text-chip transition-colors ${
+        activo
+          ? "border-violet bg-violet text-white"
+          : "border-border bg-white text-foreground hover:border-[#d6d3d1]"
+      }`}
+    >
+      {children}
+    </Link>
+  );
+}
+
+/** Ocho tarjetas en móvil son cuatro filas antes de "Cómo funciona". Se
+ *  muestran cuatro, y el resto aparece cuando hay ancho para dos filas. */
+function TarjetaPrevia({ articulo, oculta }: { articulo: ArticuloPublico; oculta: boolean }) {
+  const foto = fotoTransformada(articulo.foto_portada, 400);
+  return (
+    <Link
+      to="/articulos/$id"
+      params={{ id: articulo.id }}
+      className={`group block overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-[#d6d3d1] ${
+        oculta ? "hidden sm:block" : ""
+      }`}
+    >
+      <div className="flex aspect-[4/3] w-full items-center justify-center bg-violet-light text-violet-mid">
+        {foto ? (
+          <img src={foto} alt={articulo.titulo} loading="lazy" className="size-full object-cover" />
+        ) : (
+          <ImageOff className="size-7" />
+        )}
+      </div>
+      <div className="px-2.5 pb-[11px] pt-[9px]">
+        <h3 className="line-clamp-2 text-tarjeta font-medium leading-[1.32] text-foreground">
+          {articulo.titulo}
+        </h3>
+        <p className="mt-1 text-small leading-[1.35] text-muted-foreground">
+          {articulo.barrio}
+          <br />
+          {ETIQUETA_CONDICION[articulo.condicion]}
+        </p>
+      </div>
+    </Link>
   );
 }

@@ -1,5 +1,5 @@
 // Catálogo público. No requiere sesión y nunca muestra datos de personas.
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ImageOff, Search } from 'lucide-react'
 
@@ -27,8 +27,19 @@ const ETIQUETA_CONDICION: Record<CondicionArticulo, string> = {
   usado_con_detalles: 'Usado con detalles',
 }
 
+type BusquedaCatalogo = { categoria?: string; barrio?: string }
+
 export const Route = createFileRoute('/articulos/')({
   component: Catalogo,
+  // Los filtros viven en la URL. Así los chips de la landing pueden saltar acá
+  // con la categoría ya puesta, el botón de atrás funciona, y un vecino puede
+  // mandar por WhatsApp "mirá lo que hay en San Fernando" y que abra filtrado.
+  validateSearch: (busqueda: Record<string, unknown>): BusquedaCatalogo => {
+    const limpia: BusquedaCatalogo = {}
+    if (typeof busqueda['categoria'] === 'string') limpia.categoria = busqueda['categoria']
+    if (typeof busqueda['barrio'] === 'string') limpia.barrio = busqueda['barrio']
+    return limpia
+  },
   head: () => ({
     meta: [
       { title: 'Catálogo — Vecinos de Cali' },
@@ -53,10 +64,35 @@ function plural(n: number) {
 }
 
 function Catalogo() {
+  const busqueda_url = Route.useSearch()
+  const navigate = useNavigate({ from: '/articulos/' })
   const [categorias, setCategorias] = useState<Categoria[]>([])
   const [barrios, setBarrios] = useState<{ id: number; nombre: string }[]>([])
-  const [categoria, setCategoria] = useState<string>('todas')
-  const [barrioId, setBarrioId] = useState<string>('todos')
+  const categoria = busqueda_url.categoria ?? 'todas'
+  const barrioId = busqueda_url.barrio ?? 'todos'
+
+  // Quitar el filtro borra la clave de la URL en vez de dejarla vacía: así
+  // /articulos y /articulos?categoria= no son dos direcciones distintas para
+  // la misma pantalla.
+  function filtrar(cambio: Partial<Record<'categoria' | 'barrio', string | null>>) {
+    void navigate({
+      replace: true,
+      search: (previo) => {
+        const proximo: BusquedaCatalogo = { ...previo }
+        for (const [clave, valor] of Object.entries(cambio) as [
+          'categoria' | 'barrio',
+          string | null,
+        ][]) {
+          if (valor === null) delete proximo[clave]
+          else proximo[clave] = valor
+        }
+        return proximo
+      },
+    })
+  }
+
+  const setCategoria = (valor: string) => filtrar({ categoria: valor === 'todas' ? null : valor })
+  const setBarrioId = (valor: string) => filtrar({ barrio: valor === 'todos' ? null : valor })
   const [busqueda, setBusqueda] = useState('')
   const [busquedaAplicada, setBusquedaAplicada] = useState('')
   const [items, setItems] = useState<ArticuloPublico[] | null>(null)
@@ -153,14 +189,9 @@ function Catalogo() {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-5xl px-4 py-5">
-          <Link to="/" className="text-small text-muted-foreground">
-            Vecinos de Cali
-          </Link>
-          <h1 className="mt-1 text-screen font-semibold text-foreground">Catálogo</h1>
-        </div>
-      </header>
+      <div className="mx-auto max-w-5xl px-4 pb-1 pt-6">
+        <h1 className="text-screen font-semibold text-foreground">Catálogo</h1>
+      </div>
 
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto max-w-5xl space-y-3 px-4 py-3">

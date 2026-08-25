@@ -294,7 +294,7 @@ function Publicacion() {
 
   return (
     <div className="min-h-screen bg-background pb-32">
-      <header className="border-b border-border bg-background px-4 pb-4 pt-6">
+      <div className="bg-background px-4 pb-4 pt-6">
         <Link to="/mis-publicaciones" className="text-chip text-primary">
           ← Mis publicaciones
         </Link>
@@ -320,7 +320,7 @@ function Publicacion() {
             </span>
           </div>
         </div>
-      </header>
+      </div>
 
       {articulo.estado === 'reservado' ? (
         <section className="px-4 pt-6">

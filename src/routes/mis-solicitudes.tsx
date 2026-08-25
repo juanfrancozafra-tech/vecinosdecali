@@ -221,7 +221,7 @@ function MisSolicitudes() {
 
   return (
     <div className="min-h-screen bg-background pb-28">
-      <header className="border-b border-border bg-background px-4 pb-3 pt-6">
+      <div className="bg-background px-4 pb-3 pt-6">
         <h1 className="text-screen font-semibold text-foreground">Mis solicitudes</h1>
         <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTROS.map((f) => (
@@ -248,7 +248,7 @@ function MisSolicitudes() {
             </button>
           ))}
         </div>
-      </header>
+      </div>
 
       {items === null ? (
         <div className="space-y-3 px-4 pt-4">

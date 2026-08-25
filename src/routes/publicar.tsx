@@ -225,14 +225,12 @@ function Formulario({
 
   return (
     <div className="min-h-screen bg-background pb-32">
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-2xl px-4 py-4">
-          <Link to="/articulos" className="text-small text-muted-foreground">
-            ← Catálogo
-          </Link>
-          <h1 className="mt-1 text-screen font-semibold text-foreground">Publicar algo</h1>
-        </div>
-      </header>
+      <div className="mx-auto max-w-2xl px-4 pt-6">
+        <Link to="/articulos" className="text-small text-muted-foreground hover:text-foreground">
+          ← Catálogo
+        </Link>
+        <h1 className="mt-1 text-screen font-semibold text-foreground">Publicar algo</h1>
+      </div>
 
       <main className="mx-auto max-w-2xl space-y-8 px-4 py-6">
         <section>
