@@ -40,7 +40,11 @@ export function FranjaSuperior() {
   // A quien viene a recibir no se le ofrece publicar. No puede —los roles
   // están separados en la base— y proponérselo a alguien que acaba de salir
   // de su casa suena mal.
-  const puedeOfrecerRegalar = !usuario || perfil?.rol_principal === "doy";
+  //
+  // En la landing tampoco aparece: el hero ya tiene ese mismo botón, grande y
+  // junto a su par. Repetirlo arriba no agrega un camino, agrega ruido al lado
+  // de la única decisión que la portada tiene que dejar clara.
+  const ofrecerRegalar = (!usuario || perfil?.rol_principal === "doy") && !enLanding;
 
   return (
     <div className="border-b border-border bg-white">
@@ -74,7 +78,7 @@ export function FranjaSuperior() {
             <MenuVecino />
           ) : (
             <>
-              {puedeOfrecerRegalar ? (
+              {ofrecerRegalar ? (
                 // En móvil las etiquetas se acortan. Con los textos largos la
                 // franja mide 441px en una pantalla de 390 y empuja la página
                 // entera hacia el costado.
