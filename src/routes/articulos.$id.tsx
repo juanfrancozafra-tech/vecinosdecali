@@ -24,6 +24,7 @@ import { ModalReporte } from '@/components/ModalReporte'
 import { db, mensajeDeError } from '@/lib/db'
 import { fotoTransformada } from '@/lib/imagenes'
 import { guardarRutaOrigen, useAuth } from '@/lib/auth'
+import { urlAbsoluta } from '@/lib/sitio'
 import type {
   ArticuloPublico,
   CondicionArticulo,
@@ -78,7 +79,7 @@ export const Route = createFileRoute('/articulos/$id')({
     const descripcion =
       articulo.descripcion?.slice(0, 155) ??
       `${articulo.titulo} en ${articulo.barrio}. Lo regala un vecino de Cali.`
-    const imagen = articulo.foto_portada
+    const imagen = articulo.foto_portada ?? urlAbsoluta('/og-image.jpg')
     return {
       meta: [
         { title: titulo },
@@ -87,12 +88,8 @@ export const Route = createFileRoute('/articulos/$id')({
         { property: 'og:description', content: descripcion },
         { property: 'og:type', content: 'article' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        ...(imagen
-          ? [
-              { property: 'og:image', content: imagen },
-              { name: 'twitter:image', content: imagen },
-            ]
-          : []),
+        { property: 'og:image', content: imagen },
+        { name: 'twitter:image', content: imagen },
       ],
     }
   },
@@ -154,7 +151,7 @@ function DetalleArticulo() {
     }
   }, [usuario, articulo])
 
-  const enlace = typeof window !== 'undefined' ? window.location.href : ''
+  const enlace = urlAbsoluta(`/articulos/${id}`)
 
   const accion = useMemo(() => {
     if (!articulo) return { texto: 'Solicitar', tipo: 'inactivo' as const }

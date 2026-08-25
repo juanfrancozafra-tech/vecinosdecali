@@ -28,6 +28,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { empezarARegalar } from "@/components/FranjaSuperior";
 import { guardarRolElegido, useAuth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { urlAbsoluta } from "@/lib/sitio";
 import { fotoTransformada } from "@/lib/imagenes";
 import type { ArticuloPublico, Categoria, CondicionArticulo } from "@/lib/database.types";
 
@@ -38,30 +39,38 @@ const ETIQUETA_CONDICION: Record<CondicionArticulo, string> = {
   usado_con_detalles: "Usado con detalles",
 };
 
-const OG_IMAGE_URL = "/og-image.jpg";
-
 // Anchos del prototipo: 640 en móvil, 760 desde 600px, 1040 desde 960px.
 const CONT = "mx-auto w-full max-w-[640px] px-4 sm:max-w-[760px] lg:max-w-[1040px] lg:px-8";
 // Las secciones de lectura seguida se mantienen angostas a propósito.
-const CONT_ANGOSTO =
-  "mx-auto w-full max-w-[640px] px-4 sm:max-w-[760px] lg:max-w-[800px] lg:px-8";
+const CONT_ANGOSTO = "mx-auto w-full max-w-[640px] px-4 sm:max-w-[760px] lg:max-w-[800px] lg:px-8";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  head: () => ({
-    meta: [
-      { title: "Vecinos de Cali" },
-      { name: "description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
-      { property: "og:title", content: "Vecinos de Cali" },
-      { property: "og:description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
-      { property: "og:image", content: OG_IMAGE_URL },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Vecinos de Cali" },
-      { name: "twitter:description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
-      { name: "twitter:image", content: OG_IMAGE_URL },
-    ],
-  }),
+  head: () => {
+    const imagen = urlAbsoluta("/og-image.jpg");
+    return {
+      meta: [
+        { title: "Vecinos de Cali" },
+        { name: "description", content: "Lo que a vos te sobra, a un vecino le cambia el día." },
+        { property: "og:title", content: "Vecinos de Cali" },
+        {
+          property: "og:description",
+          content: "Lo que a vos te sobra, a un vecino le cambia el día.",
+        },
+        { property: "og:image", content: imagen },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Vecinos de Cali" },
+        {
+          name: "twitter:description",
+          content: "Lo que a vos te sobra, a un vecino le cambia el día.",
+        },
+        { name: "twitter:image", content: imagen },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+      ],
+    };
+  },
 });
 
 const pasosRegalar = [
@@ -318,7 +327,6 @@ function Index() {
     navigate({ to: "/articulos" });
   }
 
-
   return (
     <div className="relative min-h-screen bg-background">
       {/* SECCIÓN 1 — Hero.
@@ -337,8 +345,9 @@ function Index() {
             </h1>
 
             <p className="mb-5 mt-2.5 max-w-[42ch] text-body text-muted-foreground lg:col-start-1 lg:row-start-2">
-              Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada. Acá
-              los vecinos que tienen algo para regalar se encuentran con los vecinos que lo necesitan.
+              Después del terremoto, muchas familias salieron de sus casas sin poder llevarse nada.
+              Acá los vecinos que tienen algo para regalar se encuentran con los vecinos que lo
+              necesitan.
             </p>
 
             <img
@@ -383,11 +392,15 @@ function Index() {
       {/* SECCIÓN 3 — Cómo funciona */}
       <section id="como" className="bg-neutral-bg py-16">
         <div className={CONT}>
-          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Cómo funciona</h2>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
+            Cómo funciona
+          </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {/* Regalar */}
             <div className="rounded-2xl border border-violet-border bg-violet-light p-6">
-              <h3 className="text-[1.3125rem] font-semibold text-violet-dark">Si tenés algo para regalar</h3>
+              <h3 className="text-[1.3125rem] font-semibold text-violet-dark">
+                Si tenés algo para regalar
+              </h3>
               <div className="mt-6 space-y-6">
                 {pasosRegalar.map((paso, i) => (
                   <StepCard key={paso.title} {...paso} index={i + 1} />
@@ -406,7 +419,8 @@ function Index() {
             </div>
           </div>
           <p className="mt-6 text-center text-small text-muted-foreground">
-            Quien regala es SIEMPRE quien escribe primero. Quien recibe nunca puede iniciar el contacto.
+            Quien regala es SIEMPRE quien escribe primero. Quien recibe nunca puede iniciar el
+            contacto.
           </p>
         </div>
       </section>
@@ -415,10 +429,7 @@ function Index() {
           Lista vertical, no rejilla de cuatro columnas: metidas en la medida
           angosta que pide el prototipo, cuatro columnas dejaban renglones de
           dos palabras. */}
-      <section
-        id="seguridad"
-        className="border-y border-border bg-white py-16"
-      >
+      <section id="seguridad" className="border-y border-border bg-white py-16">
         <div className={CONT_ANGOSTO}>
           <h2 className="mb-[22px] text-title font-semibold tracking-[-0.01em] text-foreground">
             Cómo cuidamos a los dos lados
@@ -431,8 +442,8 @@ function Index() {
           <div className="mt-[26px] rounded-xl bg-violet-light p-5 text-violet-dark">
             <p className="text-topbar font-semibold">Un consejo de vecino</p>
             <p className="mt-1 text-suave leading-[1.55]">
-              Entregá y recibí en la portería o en la puerta, de día. No dejés entrar a desconocidos a tu
-              casa. Si algo te da mala espina, no lo hagás.
+              Entregá y recibí en la portería o en la puerta, de día. No dejés entrar a desconocidos
+              a tu casa. Si algo te da mala espina, no lo hagás.
             </p>
           </div>
         </div>
@@ -441,7 +452,9 @@ function Index() {
       {/* SECCIÓN 4 — Las reglas son cortas */}
       <section id="reglas" className="bg-neutral-bg py-16">
         <div className={CONT}>
-          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">Las reglas son cortas</h2>
+          <h2 className="text-title font-semibold tracking-[-0.01em] text-foreground">
+            Las reglas son cortas
+          </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-xl bg-si-bg p-[22px] text-si-fg lg:p-6">
               <div className="flex items-center gap-2">
@@ -467,7 +480,8 @@ function Index() {
             </div>
           </div>
           <p className="mt-6 text-center text-body text-muted-foreground">
-            Si algo está usado pero sirve, contá en la descripción cómo está y dejá que el vecino decida.
+            Si algo está usado pero sirve, contá en la descripción cómo está y dejá que el vecino
+            decida.
           </p>
         </div>
       </section>
@@ -486,7 +500,11 @@ function Index() {
             className="mt-6 rounded-xl border border-border bg-card px-5"
           >
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b last:border-b-0">
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="border-b last:border-b-0"
+              >
                 <AccordionTrigger className="text-left text-body font-medium text-foreground hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
@@ -511,13 +529,14 @@ function Index() {
                   <div>
                     <p className="text-body font-semibold text-foreground">Juan Carlos Franco</p>
                     <p className="mt-1 text-body text-muted-foreground">
-                      Soy caleño. Después del terremoto vi que en mi casa había cosas que a alguien le
-                      podían servir hoy mismo, y que no tenía cómo hacerlas llegar. Hice esta página en
-                      unos días para resolver eso, para mí y para cualquiera que esté igual.
+                      Soy caleño. Después del terremoto vi que en mi casa había cosas que a alguien
+                      le podían servir hoy mismo, y que no tenía cómo hacerlas llegar. Hice esta
+                      página en unos días para resolver eso, para mí y para cualquiera que esté
+                      igual.
                     </p>
                     <p className="mt-3 text-body text-muted-foreground">
-                      Esto no es una empresa ni una fundación: es un vecino con una página. Si algo no
-                      funciona o tenés una idea, escribime a{" "}
+                      Esto no es una empresa ni una fundación: es un vecino con una página. Si algo
+                      no funciona o tenés una idea, escribime a{" "}
                       <a href="mailto:shipinflow@gmail.com" className="text-violet hover:underline">
                         shipinflow@gmail.com
                       </a>
@@ -570,7 +589,7 @@ function Index() {
         }`}
         style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
       >
-        <div className="mx-auto flex max-w-3xl gap-3">
+        <div className="mx-auto flex max-w-3xl justify-center gap-3">
           <Button
             onClick={empezarADar}
             className="flex-1 bg-violet text-white hover:bg-violet-deep sm:max-w-[260px]"
@@ -650,7 +669,10 @@ function VistaPreviaCatalogo() {
         {items === null ? (
           <Rejilla>
             {Array.from({ length: CUANTOS }).map((_, i) => (
-              <Skeleton key={i} className={`aspect-[4/3] w-full rounded-xl ${i > 3 ? "hidden sm:block" : ""}`} />
+              <Skeleton
+                key={i}
+                className={`aspect-[4/3] w-full rounded-xl ${i > 3 ? "hidden sm:block" : ""}`}
+              />
             ))}
           </Rejilla>
         ) : vacio ? (
