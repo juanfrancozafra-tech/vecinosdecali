@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Paquetes de entrega de Claude: se extraen sobre el repo y no van al historial.
+vecinos-*.tar.gz
+_to_delete/
