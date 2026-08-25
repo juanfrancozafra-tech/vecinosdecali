@@ -8,7 +8,6 @@ import { useAuth } from '@/lib/auth'
 import type { Articulo } from '@/lib/database.types'
 
 const CLAVE_VISTO = 'vdc:solicitudes-vistas'
-const CLAVE_CERRADO = 'vdc:franja-cerrada'
 
 /** Marca como vistas las solicitudes de mis publicaciones. */
 export function marcarSolicitudesVistas() {
@@ -43,8 +42,6 @@ export type EstadoPendientes = {
    * hasta que la solicitud deja de estar aceptada.
    */
   aceptadas: number
-  /** El pendiente más antiguo: es el que se muestra en la franja. */
-  principal: Pendiente | null
   refrescar: () => void
 }
 
@@ -162,24 +159,6 @@ export function usePendientes(): EstadoPendientes {
     solicitudesSinVer: solicitudes?.tipo === 'solicitudes' ? solicitudes.cantidad : 0,
     entregasSinConfirmar: entregas,
     aceptadas,
-    principal: candidatos[0] ?? null,
     refrescar,
-  }
-}
-
-/** La franja se puede cerrar, pero vuelve en la siguiente sesión. */
-export function franjaCerrada(): boolean {
-  try {
-    return window.sessionStorage.getItem(CLAVE_CERRADO) === '1'
-  } catch {
-    return false
-  }
-}
-
-export function cerrarFranja() {
-  try {
-    window.sessionStorage.setItem(CLAVE_CERRADO, '1')
-  } catch {
-    /* nada */
   }
 }

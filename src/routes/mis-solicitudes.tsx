@@ -221,7 +221,7 @@ function MisSolicitudes() {
 
   return (
     <div className="min-h-screen bg-background pb-28">
-      <div className="bg-background px-4 pb-3 pt-6">
+      <div className="mx-auto w-full max-w-2xl bg-background px-4 pb-3 pt-6">
         <h1 className="text-screen font-semibold text-foreground">Mis solicitudes</h1>
         <div className="-mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTROS.map((f) => (
@@ -251,13 +251,13 @@ function MisSolicitudes() {
       </div>
 
       {items === null ? (
-        <div className="space-y-3 px-4 pt-4">
+        <div className="mx-auto w-full max-w-2xl space-y-3 px-4 pt-4">
           {[0, 1, 2].map((i) => (
             <Skeleton key={i} className="h-28 w-full rounded-xl" />
           ))}
         </div>
       ) : visibles.length === 0 ? (
-        <div className="px-4 pt-16 text-center">
+        <div className="mx-auto w-full max-w-2xl px-4 pt-16 text-center">
           <p className="text-body text-foreground">
             {items.length === 0 ? 'Todavía no pediste nada.' : 'Acá no hay nada por ahora.'}
           </p>
@@ -266,7 +266,7 @@ function MisSolicitudes() {
           </Button>
         </div>
       ) : (
-        <div className="space-y-4 px-4 pt-5">
+        <div className="mx-auto w-full max-w-2xl space-y-4 px-4 pt-5">
           {visibles.map((item) => (
             <TarjetaSolicitud
               key={item.solicitud.id}
