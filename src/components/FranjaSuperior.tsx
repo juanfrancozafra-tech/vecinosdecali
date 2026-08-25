@@ -36,6 +36,9 @@ export function FranjaSuperior() {
   const { usuario, perfil } = useAuth();
   const ruta = useRouterState({ select: (s) => s.location.pathname });
   const enLanding = ruta === "/";
+  // En las pantallas de entrar y de completar el perfil no va nada que saque a
+  // la persona del trámite que está haciendo.
+  const enTramite = ruta.startsWith("/entrar") || ruta.startsWith("/completar-perfil");
 
   // A quien viene a recibir no se le ofrece publicar. No puede —los roles
   // están separados en la base— y proponérselo a alguien que acaba de salir
@@ -44,7 +47,13 @@ export function FranjaSuperior() {
   // En la landing tampoco aparece: el hero ya tiene ese mismo botón, grande y
   // junto a su par. Repetirlo arriba no agrega un camino, agrega ruido al lado
   // de la única decisión que la portada tiene que dejar clara.
-  const ofrecerRegalar = (!usuario || perfil?.rol_principal === "doy") && !enLanding;
+  const ofrecerRegalar = !usuario && !enLanding && !enTramite;
+
+  // 9 · Quien ya tiene cuenta para regalar ve su acción principal siempre a
+  // mano, en vez de tenerla escondida detrás de la hamburguesa. No aparece en
+  // /publicar, que es donde ya está.
+  const ofrecerPublicar =
+    perfil?.rol_principal === "doy" && !ruta.startsWith("/publicar") && !enTramite;
 
   return (
     <div className="border-b border-border bg-white">
@@ -75,7 +84,17 @@ export function FranjaSuperior() {
 
         <div className={`flex items-center gap-3 ${enLanding ? "ml-auto lg:ml-4" : "ml-auto"}`}>
           {usuario ? (
-            <MenuVecino />
+            <>
+              {ofrecerPublicar ? (
+                <Button asChild size="sm" variant="outline" className="shrink-0">
+                  <Link to="/publicar">
+                    <span className="sm:hidden">Publicar</span>
+                    <span className="hidden sm:inline">Publicar algo</span>
+                  </Link>
+                </Button>
+              ) : null}
+              <MenuVecino />
+            </>
           ) : (
             <>
               {ofrecerRegalar ? (
@@ -89,13 +108,15 @@ export function FranjaSuperior() {
                   </Link>
                 </Button>
               ) : null}
-              <Link
-                to="/entrar"
-                className="shrink-0 text-chip font-medium text-violet hover:underline"
-              >
-                <span className="sm:hidden">Entrar</span>
-                <span className="hidden sm:inline">Ya tengo cuenta</span>
-              </Link>
+              {!enTramite ? (
+                <Link
+                  to="/entrar"
+                  className="shrink-0 text-chip font-medium text-violet hover:underline"
+                >
+                  <span className="sm:hidden">Entrar</span>
+                  <span className="hidden sm:inline">Ya tengo cuenta</span>
+                </Link>
+              ) : null}
             </>
           )}
         </div>
