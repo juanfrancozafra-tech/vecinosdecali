@@ -91,17 +91,13 @@ export function MenuVecino() {
           <Link to="/articulos">Catálogo</Link>
         </DropdownMenuItem>
         {doy ? (
-          <>
-            <DropdownMenuItem asChild>
-              <Link to="/publicar">Publicar algo</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/mis-publicaciones" className="justify-between">
-                Mis publicaciones
-                {hayAlgo ? <span className="size-2 rounded-full bg-primary" /> : null}
-              </Link>
-            </DropdownMenuItem>
-          </>
+          // "Publicar algo" salió de acá: vive en la franja, siempre visible.
+          <DropdownMenuItem asChild>
+            <Link to="/mis-publicaciones" className="justify-between">
+              Mis publicaciones
+              {hayAlgo ? <span className="size-2 rounded-full bg-primary" /> : null}
+            </Link>
+          </DropdownMenuItem>
         ) : (
           <DropdownMenuItem asChild>
             <Link to="/mis-solicitudes">Mis solicitudes</Link>

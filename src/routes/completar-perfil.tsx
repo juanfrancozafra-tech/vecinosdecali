@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -9,9 +9,11 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { RutaProtegida } from '@/components/RutaProtegida'
 import { SelectorBarrio } from '@/components/SelectorBarrio'
+import { CampoWhatsapp } from '@/components/CampoWhatsapp'
 import { db, mensajeDeError } from '@/lib/db'
 import type { RolVecino } from '@/lib/database.types'
 import {
+  digitosWhatsapp,
   errorWhatsapp,
   leerRolElegido,
   normalizarWhatsapp,
@@ -51,6 +53,11 @@ function CompletarPerfil() {
   const { usuario, perfil, whatsapp, perfilCompleto, refrescarPerfil } = useAuth()
   const navigate = useNavigate()
 
+  // `tomarRutaOrigen` consume el valor al leerlo. Si el efecto corre dos veces
+  // —React lo hace en desarrollo— la segunda lectura devuelve null y manda a la
+  // casa del rol en vez de al artículo del que la persona venía. Se lee una
+  // sola vez y se recuerda.
+  const destinoRef = useRef<string | null | undefined>(undefined)
   const [rol, setRol] = useState<RolVecino | null>(null)
   const [nombre, setNombre] = useState('')
   const [telefono, setTelefono] = useState('')
@@ -77,16 +84,29 @@ function CompletarPerfil() {
   useEffect(() => {
     if (perfil?.barrio_id) setBarrioId((a) => a ?? perfil.barrio_id)
     if (perfil?.mi_situacion) setSituacion((a) => (a ? a : (perfil.mi_situacion ?? '')))
-    if (whatsapp) setTelefono((a) => (a ? a : whatsapp))
+    if (whatsapp) setTelefono((a) => (a ? a : digitosWhatsapp(whatsapp)))
   }, [perfil?.barrio_id, perfil?.mi_situacion, whatsapp])
 
   useEffect(() => {
     if (perfilCompleto) {
       olvidarRolElegido()
-      const destino = tomarRutaOrigen()
-      navigate({ to: destino ?? '/', replace: true })
+      if (destinoRef.current === undefined) destinoRef.current = tomarRutaOrigen()
+      const destino = destinoRef.current
+      const casa = perfil?.rol_principal === 'doy' ? '/mis-publicaciones' : '/articulos'
+      navigate({ to: destino ?? casa, replace: true })
     }
-  }, [perfilCompleto, navigate])
+  }, [perfilCompleto, perfil?.rol_principal, navigate])
+
+  // Lo que hace falta para poder guardar, según el rol. Se calcula igual que
+  // las validaciones de `guardar`, para que el botón y el envío nunca digan
+  // cosas distintas.
+  const faltantes: string[] = []
+  if (!nombre.trim()) faltantes.push('tu nombre')
+  if (errorWhatsapp(telefono)) faltantes.push('tu WhatsApp')
+  if (rol === 'doy' && !barrioId) faltantes.push('tu barrio')
+  if (rol === 'recibo' && !situacion.trim()) faltantes.push('tu situación')
+  if (!autoriza) faltantes.push('la autorización de datos')
+  const puedeGuardar = faltantes.length === 0
 
   function alCambiarTelefono(valor: string) {
     setTelefono(valor)
@@ -233,19 +253,14 @@ function CompletarPerfil() {
 
           <div className="space-y-2">
             <Label htmlFor="whatsapp">WhatsApp</Label>
-            <Input
-              id="whatsapp"
-              inputMode="tel"
-              placeholder="+57 300 000 0000"
-              value={telefono}
-              onBlur={() => {
+            <CampoWhatsapp
+              valor={telefono}
+              alCambiar={alCambiarTelefono}
+              alSalir={() => {
                 setTocado(true)
                 setErrorTelefono(errorWhatsapp(telefono))
               }}
-              onChange={(e) => alCambiarTelefono(e.target.value)}
-              aria-invalid={Boolean(errorTelefono)}
-              className="h-12 rounded-xl text-base"
-              required
+              hayError={Boolean(errorTelefono)}
             />
             {errorTelefono ? (
               <p className="text-sm text-destructive">{errorTelefono}</p>
@@ -297,9 +312,9 @@ function CompletarPerfil() {
             />
             <span>
               Autorizo el tratamiento de mis datos personales según la{' '}
-              <a href="/#datos" className="underline">
-                política
-              </a>
+              <Link to="/datos" className="underline">
+                política de tratamiento de datos
+              </Link>
               .
             </span>
           </label>
@@ -310,10 +325,17 @@ function CompletarPerfil() {
             <Button
               type="submit"
               className="h-12 w-full rounded-xl text-body"
-              disabled={guardando}
+              disabled={guardando || !puedeGuardar}
             >
               {guardando ? 'Guardando…' : 'Listo'}
             </Button>
+            {/* Un botón apagado sin explicación deja a la persona sin saber qué
+                le falta. Se lo decimos. */}
+            {!puedeGuardar && !guardando ? (
+              <p className="mt-2 text-center text-small text-muted-foreground">
+                Falta {faltantes.join(', ').replace(/, ([^,]*)$/, ' y $1')}.
+              </p>
+            ) : null}
           </div>
         </div>
       </form>

@@ -94,8 +94,8 @@ const pasosRegalar = [
 const pasosRecibir = [
   {
     icon: MapPin,
-    title: "Buscá por barrio",
-    text: "Mirá lo que hay cerca. No necesitás cuenta para ver.",
+    title: "Mirá el catálogo",
+    text: "Filtrá por barrio y por categoría. No necesitás cuenta para ver.",
   },
   {
     icon: FileText,
@@ -105,7 +105,7 @@ const pasosRecibir = [
   {
     icon: Bell,
     title: "Esperá y recogelo",
-    text: "Si te elige, esa persona te escribe por WhatsApp. Vos no tenés que buscar a nadie.",
+    text: "Si te elige, esa persona te escribe por WhatsApp.",
   },
 ];
 
@@ -217,21 +217,21 @@ const faqs = [
 ];
 
 const siRules = [
-  "muebles",
-  "camas",
-  "electrodomésticos que funcionen",
-  "ropa y calzado en buen estado",
-  "ollas y cosas de cocina",
-  "juguetes y útiles escolares",
-  "herramientas y cosas de aseo",
+  "Muebles",
+  "Camas",
+  "Electrodomésticos que funcionen",
+  "Ropa y calzado en buen estado",
+  "Ollas y cosas de cocina",
+  "Juguetes y útiles escolares",
+  "Herramientas y cosas de aseo",
 ];
 
 const noRules = [
-  "nada con precio, ni ventas ni permutas ni “una colaboración”",
-  "dinero, arriendos, empleos ni servicios",
-  "medicamentos ni alimentos",
-  "ropa interior",
-  "cosas dañadas o que no sirvan",
+  "Nada con precio, ni ventas ni permutas ni “una colaboración”",
+  "Dinero, arriendos, empleos ni servicios",
+  "Medicamentos ni alimentos",
+  "Ropa interior",
+  "Cosas dañadas o que no sirvan",
 ];
 
 function StepCard({

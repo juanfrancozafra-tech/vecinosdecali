@@ -368,7 +368,7 @@ function TarjetaSolicitud({
         <>
           <p className="mt-3 rounded-xl bg-aviso px-3 py-3 text-chip leading-relaxed text-aviso-foreground">
             {nombreVecino} te escribe por WhatsApp. Revisá tus mensajes y acordá dónde y cuándo
-            recogerlo. Vos no tenés que buscarla.
+            recogerlo.
           </p>
 
           {otros.length > 0 ? (

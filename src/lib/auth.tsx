@@ -217,6 +217,17 @@ export function normalizarWhatsapp(entrada: string): string {
   return `+57${sin57}`
 }
 
+/**
+ * Deja solo los diez dígitos locales. El +57 lo pone la interfaz al lado del
+ * campo, no la persona: escribirlo era la duda más común al registrarse.
+ * Acepta pegar un número completo y le quita el indicativo.
+ */
+export function digitosWhatsapp(entrada: string): string {
+  const digitos = entrada.replace(/\D/g, '')
+  const sin57 = digitos.startsWith('57') && digitos.length > 10 ? digitos.slice(2) : digitos
+  return sin57.slice(0, 10)
+}
+
 export function errorWhatsapp(entrada: string): string | null {
   const digitos = entrada.replace(/\D/g, '')
   const sin57 = digitos.startsWith('57') ? digitos.slice(2) : digitos
