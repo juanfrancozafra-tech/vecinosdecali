@@ -73,57 +73,55 @@ export function MenuVecino() {
   const doy = perfil?.rol_principal === 'doy'
 
   return (
-    <div className="fixed right-3 top-3 z-50">
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          aria-label="Menú"
-          className="relative inline-flex size-11 items-center justify-center rounded-full border border-border bg-background shadow-sm"
-        >
-          <Menu className="size-5 text-foreground" />
-          {hayAlgo ? (
-            <span
-              aria-label="Tenés algo sin ver"
-              className="absolute right-2 top-2 size-2.5 rounded-full bg-primary ring-2 ring-background"
-            />
-          ) : null}
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 rounded-xl">
-          <DropdownMenuItem asChild>
-            <Link to="/articulos">Catálogo</Link>
-          </DropdownMenuItem>
-          {doy ? (
-            <>
-              <DropdownMenuItem asChild>
-                <Link to="/publicar">Publicar algo</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/mis-publicaciones" className="justify-between">
-                  Mis publicaciones
-                  {hayAlgo ? <span className="size-2 rounded-full bg-primary" /> : null}
-                </Link>
-              </DropdownMenuItem>
-            </>
-          ) : (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="Menú"
+        className="relative -mr-2 inline-flex size-11 items-center justify-center rounded-full"
+      >
+        <Menu className="size-5 text-foreground" />
+        {hayAlgo ? (
+          <span
+            aria-label="Tenés algo sin ver"
+            className="absolute right-2 top-2 size-2.5 rounded-full bg-primary ring-2 ring-background"
+          />
+        ) : null}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56 rounded-xl">
+        <DropdownMenuItem asChild>
+          <Link to="/articulos">Catálogo</Link>
+        </DropdownMenuItem>
+        {doy ? (
+          <>
             <DropdownMenuItem asChild>
-              <Link to="/mis-solicitudes">Mis solicitudes</Link>
+              <Link to="/publicar">Publicar algo</Link>
             </DropdownMenuItem>
-          )}
+            <DropdownMenuItem asChild>
+              <Link to="/mis-publicaciones" className="justify-between">
+                Mis publicaciones
+                {hayAlgo ? <span className="size-2 rounded-full bg-primary" /> : null}
+              </Link>
+            </DropdownMenuItem>
+          </>
+        ) : (
           <DropdownMenuItem asChild>
-            <Link to="/mi-cuenta">Mi cuenta</Link>
+            <Link to="/mis-solicitudes">Mis solicitudes</Link>
           </DropdownMenuItem>
-          {/* Salir estaba solo al final de Mi cuenta, como botón fantasma. Si
-              esa pantalla no carga —una sesión que quedó huérfana, por
-              ejemplo— no había forma de salir de la app. */}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onSelect={() => {
-              void cerrarSesion().then(() => navigate({ to: '/', replace: true }))
-            }}
-          >
-            Cerrar sesión
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        )}
+        <DropdownMenuItem asChild>
+          <Link to="/mi-cuenta">Mi cuenta</Link>
+        </DropdownMenuItem>
+        {/* Salir estaba solo al final de Mi cuenta, como botón fantasma. Si
+            esa pantalla no carga —una sesión que quedó huérfana, por
+            ejemplo— no había forma de salir de la app. */}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onSelect={() => {
+            void cerrarSesion().then(() => navigate({ to: '/', replace: true }))
+          }}
+        >
+          Cerrar sesión
+        </DropdownMenuItem>
+    </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

@@ -217,13 +217,13 @@ function DetalleArticulo() {
 
   return (
     <div className="min-h-screen bg-background pb-[calc(6.5rem+env(safe-area-inset-bottom))]">
-      <header className="border-b border-border">
+      <div>
         <div className="mx-auto max-w-2xl px-4 py-4">
           <Link to="/articulos" className="text-small text-muted-foreground">
             ← Catálogo
           </Link>
         </div>
-      </header>
+      </div>
 
       <main className="mx-auto max-w-2xl px-4 py-4">
         <Carousel className="w-full">

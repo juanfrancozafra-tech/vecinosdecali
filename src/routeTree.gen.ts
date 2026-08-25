@@ -11,11 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
+import { Route as DatosRouteImport } from './routes/datos'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as MiCuentaRouteImport } from './routes/mi-cuenta'
 import { Route as MisSolicitudesRouteImport } from './routes/mis-solicitudes'
 import { Route as ModeracionRouteImport } from './routes/moderacion'
 import { Route as PublicarRouteImport } from './routes/publicar'
+import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ArticulosIndexRouteImport } from './routes/articulos.index'
 import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
 import { Route as MisPublicacionesIndexRouteImport } from './routes/mis-publicaciones.index'
@@ -30,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const CompletarPerfilRoute = CompletarPerfilRouteImport.update({
   id: '/completar-perfil',
   path: '/completar-perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DatosRoute = DatosRouteImport.update({
+  id: '/datos',
+  path: '/datos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EntrarRoute = EntrarRouteImport.update({
@@ -55,6 +62,11 @@ const ModeracionRoute = ModeracionRouteImport.update({
 const PublicarRoute = PublicarRouteImport.update({
   id: '/publicar',
   path: '/publicar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticulosIndexRoute = ArticulosIndexRouteImport.update({
@@ -86,11 +98,13 @@ const VecinoIdRoute = VecinoIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
+  '/datos': typeof DatosRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
   '/mis-solicitudes': typeof MisSolicitudesRoute
   '/moderacion': typeof ModeracionRoute
   '/publicar': typeof PublicarRoute
+  '/terminos': typeof TerminosRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/vecino/$id': typeof VecinoIdRoute
@@ -100,11 +114,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
+  '/datos': typeof DatosRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
   '/mis-solicitudes': typeof MisSolicitudesRoute
   '/moderacion': typeof ModeracionRoute
   '/publicar': typeof PublicarRoute
+  '/terminos': typeof TerminosRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/vecino/$id': typeof VecinoIdRoute
@@ -115,11 +131,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/completar-perfil': typeof CompletarPerfilRoute
+  '/datos': typeof DatosRoute
   '/entrar': typeof EntrarRoute
   '/mi-cuenta': typeof MiCuentaRoute
   '/mis-solicitudes': typeof MisSolicitudesRoute
   '/moderacion': typeof ModeracionRoute
   '/publicar': typeof PublicarRoute
+  '/terminos': typeof TerminosRoute
   '/articulos/$id': typeof ArticulosIdRoute
   '/mis-publicaciones/$id': typeof MisPublicacionesIdRoute
   '/vecino/$id': typeof VecinoIdRoute
@@ -131,11 +149,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/completar-perfil'
+    | '/datos'
     | '/entrar'
     | '/mi-cuenta'
     | '/mis-solicitudes'
     | '/moderacion'
     | '/publicar'
+    | '/terminos'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
     | '/vecino/$id'
@@ -145,11 +165,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/completar-perfil'
+    | '/datos'
     | '/entrar'
     | '/mi-cuenta'
     | '/mis-solicitudes'
     | '/moderacion'
     | '/publicar'
+    | '/terminos'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
     | '/vecino/$id'
@@ -159,11 +181,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/completar-perfil'
+    | '/datos'
     | '/entrar'
     | '/mi-cuenta'
     | '/mis-solicitudes'
     | '/moderacion'
     | '/publicar'
+    | '/terminos'
     | '/articulos/$id'
     | '/mis-publicaciones/$id'
     | '/vecino/$id'
@@ -174,11 +198,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompletarPerfilRoute: typeof CompletarPerfilRoute
+  DatosRoute: typeof DatosRoute
   EntrarRoute: typeof EntrarRoute
   MiCuentaRoute: typeof MiCuentaRoute
   MisSolicitudesRoute: typeof MisSolicitudesRoute
   ModeracionRoute: typeof ModeracionRoute
   PublicarRoute: typeof PublicarRoute
+  TerminosRoute: typeof TerminosRoute
   ArticulosIdRoute: typeof ArticulosIdRoute
   MisPublicacionesIdRoute: typeof MisPublicacionesIdRoute
   VecinoIdRoute: typeof VecinoIdRoute
@@ -200,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/completar-perfil'
       fullPath: '/completar-perfil'
       preLoaderRoute: typeof CompletarPerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/datos': {
+      id: '/datos'
+      path: '/datos'
+      fullPath: '/datos'
+      preLoaderRoute: typeof DatosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/entrar': {
@@ -235,6 +268,13 @@ declare module '@tanstack/react-router' {
       path: '/publicar'
       fullPath: '/publicar'
       preLoaderRoute: typeof PublicarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articulos/': {
@@ -278,11 +318,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompletarPerfilRoute: CompletarPerfilRoute,
+  DatosRoute: DatosRoute,
   EntrarRoute: EntrarRoute,
   MiCuentaRoute: MiCuentaRoute,
   MisSolicitudesRoute: MisSolicitudesRoute,
   ModeracionRoute: ModeracionRoute,
   PublicarRoute: PublicarRoute,
+  TerminosRoute: TerminosRoute,
   ArticulosIdRoute: ArticulosIdRoute,
   MisPublicacionesIdRoute: MisPublicacionesIdRoute,
   VecinoIdRoute: VecinoIdRoute,

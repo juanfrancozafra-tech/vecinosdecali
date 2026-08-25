@@ -148,13 +148,13 @@ function PerfilDelVecino() {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      <header className="border-b border-border">
+      <div>
         <div className="mx-auto max-w-2xl px-4 py-4">
           <Link to="/articulos" className="text-small text-muted-foreground">
             ← Catálogo
           </Link>
         </div>
-      </header>
+      </div>
 
       <main className="mx-auto max-w-2xl px-4 py-6">
         <div className="flex items-center gap-4">

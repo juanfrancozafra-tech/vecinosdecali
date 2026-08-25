@@ -200,14 +200,14 @@ function Moderacion() {
 
   return (
     <main className="min-h-screen bg-background pb-16">
-      <header className="border-b border-border">
+      <div>
         <div className="mx-auto max-w-2xl px-4 py-4">
           <Link to="/" className="text-small text-muted-foreground">
             ← Inicio
           </Link>
           <h1 className="mt-2 text-screen font-semibold text-foreground">Moderación</h1>
         </div>
-      </header>
+      </div>
 
       <div className="mx-auto max-w-2xl px-4 py-4">
         <Input
