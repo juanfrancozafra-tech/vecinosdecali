@@ -225,7 +225,7 @@ function Publicacion() {
       toast.error('No pudimos abrir WhatsApp. Volvé a intentarlo.')
       return
     }
-    const mensaje = `Hola ${fila.nombre}, soy ${perfil?.nombre ?? 'un vecino'} de Vecinos de Cali. Te acepté la solicitud de ${articulo.titulo}. ¿Cuándo podés venir a recogerlo? Cuando lo tengas, te confirmo la entrega acá: ${urlArticulo(articulo.id)}`
+    const mensaje = `Hola ${fila.nombre}, soy ${perfil?.nombre ?? 'un vecino'} de Vecinos de Cali. Te acepté la solicitud de ${articulo.titulo}. ¿Cuándo podés venir a recogerlo? ${urlArticulo(articulo.id)}`
     abrirWhatsApp(fila.whatsapp, mensaje)
     setPorAceptar(null)
     void cargar()
@@ -241,7 +241,7 @@ function Publicacion() {
       return
     }
     const nombre = aceptada.vecino?.nombre ?? 'vecino'
-    const mensaje = `Hola ${nombre}, soy ${perfil?.nombre ?? 'un vecino'} de Vecinos de Cali. Te acepté la solicitud de ${articulo.titulo}. ¿Cuándo podés venir a recogerlo? Cuando lo tengas, te confirmo la entrega acá: ${urlArticulo(articulo.id)}`
+    const mensaje = `Hola ${nombre}, soy ${perfil?.nombre ?? 'un vecino'} de Vecinos de Cali. Te acepté la solicitud de ${articulo.titulo}. ¿Cuándo podés venir a recogerlo? ${urlArticulo(articulo.id)}`
     abrirWhatsApp(String(data), mensaje)
   }
 
