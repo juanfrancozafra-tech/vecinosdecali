@@ -269,7 +269,7 @@ function Publicacion() {
 
   if (articulo === undefined) {
     return (
-      <div className="min-h-screen space-y-3 bg-background px-4 pt-6">
+      <div className="min-h-screen mx-auto w-full max-w-2xl space-y-3 bg-background px-4 pt-6">
         <Skeleton className="h-24 w-full rounded-xl" />
         <Skeleton className="h-48 w-full rounded-xl" />
       </div>
@@ -294,7 +294,7 @@ function Publicacion() {
 
   return (
     <div className="min-h-screen bg-background pb-32">
-      <div className="bg-background px-4 pb-4 pt-6">
+      <div className="mx-auto w-full max-w-2xl bg-background px-4 pb-4 pt-6">
         <Link to="/mis-publicaciones" className="text-chip text-primary">
           ← Mis publicaciones
         </Link>
@@ -323,7 +323,7 @@ function Publicacion() {
       </div>
 
       {articulo.estado === 'reservado' ? (
-        <section className="px-4 pt-6">
+        <section className="mx-auto w-full max-w-2xl px-4 pt-6">
           <div className="rounded-xl border border-border bg-card p-4">
             <p className="text-body text-foreground">
               Se lo aceptaste a <span className="font-semibold">{nombreAceptado}</span>.
@@ -361,7 +361,7 @@ function Publicacion() {
           </div>
         </section>
       ) : articulo.estado === 'disponible' ? (
-        <section className="px-4 pt-6">
+        <section className="mx-auto w-full max-w-2xl px-4 pt-6">
           <h2 className="text-chip font-semibold text-foreground">
             {pendientes.length === 0
               ? 'Todavía no hay solicitudes'
@@ -387,7 +387,7 @@ function Publicacion() {
           )}
         </section>
       ) : (
-        <section className="px-4 pt-8 text-center">
+        <section className="mx-auto w-full max-w-2xl px-4 pt-8 text-center">
           <p className="text-body text-foreground">
             {articulo.estado === 'entregado'
               ? '¡Gracias! Este artículo ya llegó a un vecino.'
