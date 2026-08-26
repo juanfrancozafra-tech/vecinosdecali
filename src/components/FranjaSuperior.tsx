@@ -86,7 +86,11 @@ export function FranjaSuperior() {
           {usuario ? (
             <>
               {ofrecerPublicar ? (
-                <Button asChild size="sm" variant="outline" className="shrink-0">
+                // Violeta, no contorneada: es la acción principal de quien
+                // regala, la misma que en la landing invita a entrar. Que
+                // cambie de peso al iniciar sesión hacía parecer que era otra
+                // cosa.
+                <Button asChild size="sm" className="shrink-0">
                   <Link to="/publicar">
                     <span className="sm:hidden">Publicar</span>
                     <span className="hidden sm:inline">Publicar algo</span>
