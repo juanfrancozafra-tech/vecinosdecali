@@ -168,11 +168,15 @@ function Entrar() {
 
         <p className="mt-8 text-small leading-relaxed text-muted-foreground">
           Al entrar aceptás nuestras{" "}
-          <Link to="/terminos" className="underline">
+          {/* En pestaña nueva: quien está por entrar ya escribió su correo, y
+              mandarlo a leer un documento legal en la misma pestaña le borra
+              lo que llevaba. Volver del documento debería costar cerrar una
+              pestaña, no rehacer el formulario. */}
+          <Link to="/terminos" target="_blank" rel="noopener noreferrer" className="underline">
             términos
           </Link>{" "}
           y el{" "}
-          <Link to="/datos" className="underline">
+          <Link to="/datos" target="_blank" rel="noopener noreferrer" className="underline">
             tratamiento de tus datos
           </Link>
           .
