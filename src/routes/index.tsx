@@ -563,10 +563,20 @@ function Index() {
             <a href="#preguntas" className="hover:text-foreground">
               Preguntas frecuentes
             </a>
-            <Link to="/datos" className="hover:text-foreground">
+            <Link
+              to="/datos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground"
+            >
               Tratamiento de datos
             </Link>
-            <Link to="/terminos" className="hover:text-foreground">
+            <Link
+              to="/terminos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground"
+            >
               Términos
             </Link>
           </div>

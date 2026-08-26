@@ -312,7 +312,16 @@ function CompletarPerfil() {
             />
             <span>
               Autorizo el tratamiento de mis datos personales según la{' '}
-              <Link to="/datos" className="underline">
+              {/* En pestaña nueva. Es el caso más claro: el enlace vive al
+                  lado de una casilla que hay que marcar, dentro de un
+                  formulario a medio llenar. Nadie debería perder lo escrito
+                  por leer aquello que se le pide aceptar. */}
+              <Link
+                to="/datos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
                 política de tratamiento de datos
               </Link>
               .
