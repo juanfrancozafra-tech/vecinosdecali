@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
+import { AvisoApertura } from "../components/AvisoApertura";
 import { FranjaSuperior } from "../components/FranjaSuperior";
 import { NavegacionRecibo } from "../components/NavegacionRecibo";
 
@@ -127,6 +128,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <AvisoApertura />
         <FranjaSuperior />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
