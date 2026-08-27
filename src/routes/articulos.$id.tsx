@@ -24,6 +24,7 @@ import { ModalReporte } from '@/components/ModalReporte'
 import { db, mensajeDeError } from '@/lib/db'
 import { fotoTransformada } from '@/lib/imagenes'
 import { guardarRutaOrigen, useAuth } from '@/lib/auth'
+import { FECHA_APERTURA, recibirAbierto } from '@/lib/apertura'
 import { urlAbsoluta } from '@/lib/sitio'
 import type {
   ArticuloPublico,
@@ -122,6 +123,7 @@ function DetalleArticulo() {
   const [vecino, setVecino] = useState<PerfilVecino | null>(null)
   const [yaSolicitado, setYaSolicitado] = useState(false)
   const [modalAbierto, setModalAbierto] = useState(false)
+  const [modalCerrado, setModalCerrado] = useState(false)
   const [mensaje, setMensaje] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [reportando, setReportando] = useState(false)
@@ -155,6 +157,12 @@ function DetalleArticulo() {
 
   const accion = useMemo(() => {
     if (!articulo) return { texto: 'Solicitar', tipo: 'inactivo' as const }
+    // Hasta la apertura no se crean cuentas de receptor: el catálogo se puede
+    // mirar entero, pero pedir todavía no. El corte está acá y no más abajo a
+    // propósito — quien YA tiene cuenta de recibo sigue el camino normal, así
+    // el ciclo completo se puede seguir probando.
+    if (!recibirAbierto() && (!usuario || !perfilCompleto))
+      return { texto: 'Solicitar', tipo: 'cerrado' as const }
     if (!usuario) return { texto: 'Solicitar', tipo: 'entrar' as const }
     if (!perfilCompleto) return { texto: 'Solicitar', tipo: 'completar' as const }
     if (articulo.donante_id === usuario.id) return { texto: 'Es tuyo', tipo: 'inactivo' as const }
@@ -172,6 +180,10 @@ function DetalleArticulo() {
   if (!articulo || oculto) return <NoDisponible />
 
   function tocarAccion() {
+    if (accion.tipo === 'cerrado') {
+      setModalCerrado(true)
+      return
+    }
     if (accion.tipo === 'entrar') {
       guardarRutaOrigen(`/articulos/${id}`)
       navigate({ to: '/entrar' })
@@ -272,8 +284,19 @@ function DetalleArticulo() {
 
         {!usuario ? (
           <div className="mt-6 rounded-xl border border-violet-border bg-secondary px-4 py-3 text-small leading-relaxed text-secondary-foreground">
-            Iniciá sesión para ver quién lo regala. Es gratis y toma diez segundos. Tocá
-            «Solicitar» y te llevamos.
+            {recibirAbierto() ? (
+              <>
+                Iniciá sesión para ver quién lo regala. Es gratis y toma diez segundos. Tocá
+                «Solicitar» y te llevamos.
+              </>
+            ) : (
+              // Mientras esté cerrado, «tocá Solicitar y te llevamos» sería
+              // mentira: hoy ese botón abre un aviso, no la entrada.
+              <>
+                Todavía no se puede solicitar. Desde el {FECHA_APERTURA} vas a poder crear tu
+                cuenta y pedir lo que te sirva.
+              </>
+            )}
           </div>
         ) : (
           <div className="mt-6 rounded-xl border border-border p-4">
@@ -369,6 +392,28 @@ function DetalleArticulo() {
         onOpenChange={setReportando}
         articuloId={articulo.id}
       />
+
+      {/* No lleva ni pre-registro ni aviso por correo: pedirle los datos a
+          alguien para avisarle después es una promesa que hay que cumplir, y
+          la fecha ya está escrita acá y en la franja de arriba. */}
+      <Dialog open={modalCerrado} onOpenChange={setModalCerrado}>
+        <DialogContent className="rounded-xl">
+          <DialogHeader>
+            <DialogTitle>Todavía no se puede solicitar</DialogTitle>
+            <DialogDescription className="leading-relaxed">
+              Estamos reuniendo cosas para que cuando abramos haya de dónde
+              elegir. Desde el {FECHA_APERTURA} vas a poder pedir lo que te
+              sirva.
+            </DialogDescription>
+          </DialogHeader>
+          <p className="text-body leading-relaxed text-foreground">
+            Mientras tanto podés mirar el catálogo y ver qué hay cerca tuyo.
+          </p>
+          <Button className="w-full" onClick={() => setModalCerrado(false)}>
+            Seguir mirando
+          </Button>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={modalAbierto} onOpenChange={setModalAbierto}>
         <DialogContent className="rounded-xl">
