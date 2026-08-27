@@ -250,7 +250,7 @@ function Catalogo() {
           <Cuadricula>
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="space-y-2">
-                <Skeleton className="aspect-[4/3] w-full rounded-xl" />
+                <Skeleton className="aspect-square w-full rounded-xl" />
                 <Skeleton className="h-4 w-4/5" />
                 <Skeleton className="h-3 w-3/5" />
               </div>
@@ -335,7 +335,7 @@ function Tarjeta({ articulo }: { articulo: ArticuloPublico }) {
       params={{ id: articulo.id }}
       className="group block overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-[#d6d3d1]"
     >
-      <div className="flex aspect-[4/3] w-full items-center justify-center bg-violet-light text-violet-mid">
+      <div className="flex aspect-square w-full items-center justify-center bg-violet-light text-violet-mid">
         {foto ? (
           <img
             src={foto}

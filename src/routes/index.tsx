@@ -681,7 +681,7 @@ function VistaPreviaCatalogo() {
             {Array.from({ length: CUANTOS }).map((_, i) => (
               <Skeleton
                 key={i}
-                className={`aspect-[4/3] w-full rounded-xl ${i > 3 ? "hidden sm:block" : ""}`}
+                className={`aspect-square w-full rounded-xl ${i > 3 ? "hidden sm:block" : ""}`}
               />
             ))}
           </Rejilla>
@@ -760,7 +760,7 @@ function TarjetaPrevia({ articulo, oculta }: { articulo: ArticuloPublico; oculta
         oculta ? "hidden sm:block" : ""
       }`}
     >
-      <div className="flex aspect-[4/3] w-full items-center justify-center bg-violet-light text-violet-mid">
+      <div className="flex aspect-square w-full items-center justify-center bg-violet-light text-violet-mid">
         {foto ? (
           <img src={foto} alt={articulo.titulo} loading="lazy" className="size-full object-cover" />
         ) : (

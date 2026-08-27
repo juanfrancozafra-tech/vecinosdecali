@@ -241,7 +241,7 @@ function Formulario({
           <div className="mt-3 grid grid-cols-3 gap-3">
             {fotos.map((foto, i) => (
               <div key={foto.id} className="relative">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
+                <div className="aspect-square w-full overflow-hidden rounded-xl bg-muted">
                   <img src={foto.vistaPrevia} alt="" className="size-full object-cover" />
                 </div>
                 {i === 0 ? (
@@ -284,7 +284,7 @@ function Formulario({
                 type="button"
                 onClick={() => inputFoto.current?.click()}
                 disabled={procesando}
-                className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-small text-muted-foreground"
+                className="flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-small text-muted-foreground"
               >
                 <Camera className="size-5" />
                 {procesando ? 'Procesando…' : 'Agregar'}

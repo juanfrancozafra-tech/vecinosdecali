@@ -227,12 +227,12 @@ function DetalleArticulo() {
           <CarouselContent>
             {(fotos.length ? fotos : [null]).map((url, i) => (
               <CarouselItem key={i}>
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
+                <div className="aspect-[4/5] w-full overflow-hidden rounded-xl bg-violet-light">
                   {url ? (
                     <img
                       src={fotoTransformada(url, 900) ?? url}
                       alt={`${articulo.titulo} — foto ${i + 1}`}
-                      className="size-full object-cover"
+                      className="size-full object-contain"
                     />
                   ) : null}
                 </div>
