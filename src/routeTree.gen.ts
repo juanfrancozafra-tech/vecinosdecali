@@ -23,6 +23,7 @@ import { Route as ArticulosIdRouteImport } from './routes/articulos.$id'
 import { Route as MisPublicacionesIndexRouteImport } from './routes/mis-publicaciones.index'
 import { Route as MisPublicacionesIdRouteImport } from './routes/mis-publicaciones.$id'
 import { Route as VecinoIdRouteImport } from './routes/vecino.$id'
+import { Route as MisPublicacionesEditarIdRouteImport } from './routes/mis-publicaciones.editar.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,12 @@ const VecinoIdRoute = VecinoIdRouteImport.update({
   path: '/vecino/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MisPublicacionesEditarIdRoute =
+  MisPublicacionesEditarIdRouteImport.update({
+    id: '/mis-publicaciones/editar/$id',
+    path: '/mis-publicaciones/editar/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/vecino/$id': typeof VecinoIdRoute
   '/articulos/': typeof ArticulosIndexRoute
   '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
+  '/mis-publicaciones/editar/$id': typeof MisPublicacionesEditarIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +134,7 @@ export interface FileRoutesByTo {
   '/vecino/$id': typeof VecinoIdRoute
   '/articulos': typeof ArticulosIndexRoute
   '/mis-publicaciones': typeof MisPublicacionesIndexRoute
+  '/mis-publicaciones/editar/$id': typeof MisPublicacionesEditarIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +152,7 @@ export interface FileRoutesById {
   '/vecino/$id': typeof VecinoIdRoute
   '/articulos/': typeof ArticulosIndexRoute
   '/mis-publicaciones/': typeof MisPublicacionesIndexRoute
+  '/mis-publicaciones/editar/$id': typeof MisPublicacionesEditarIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/vecino/$id'
     | '/articulos/'
     | '/mis-publicaciones/'
+    | '/mis-publicaciones/editar/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +188,7 @@ export interface FileRouteTypes {
     | '/vecino/$id'
     | '/articulos'
     | '/mis-publicaciones'
+    | '/mis-publicaciones/editar/$id'
   id:
     | '__root__'
     | '/'
@@ -193,6 +205,7 @@ export interface FileRouteTypes {
     | '/vecino/$id'
     | '/articulos/'
     | '/mis-publicaciones/'
+    | '/mis-publicaciones/editar/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +223,7 @@ export interface RootRouteChildren {
   VecinoIdRoute: typeof VecinoIdRoute
   ArticulosIndexRoute: typeof ArticulosIndexRoute
   MisPublicacionesIndexRoute: typeof MisPublicacionesIndexRoute
+  MisPublicacionesEditarIdRoute: typeof MisPublicacionesEditarIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -312,6 +326,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VecinoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mis-publicaciones/editar/$id': {
+      id: '/mis-publicaciones/editar/$id'
+      path: '/mis-publicaciones/editar/$id'
+      fullPath: '/mis-publicaciones/editar/$id'
+      preLoaderRoute: typeof MisPublicacionesEditarIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -330,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   VecinoIdRoute: VecinoIdRoute,
   ArticulosIndexRoute: ArticulosIndexRoute,
   MisPublicacionesIndexRoute: MisPublicacionesIndexRoute,
+  MisPublicacionesEditarIdRoute: MisPublicacionesEditarIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -371,6 +371,16 @@ function FilaArticulo({ fila, onRetirar }: { fila: Fila; onRetirar: () => void }
             {fila.estado === "reservado" ? "Ver la entrega" : "Ver solicitudes"}
           </Link>
         </Button>
+        {/* Editar solo mientras está disponible: una reservada tiene a un
+            vecino esperando algo concreto, y lo cerrado sostiene el historial
+            de los dos lados. */}
+        {fila.estado === "disponible" ? (
+          <Button asChild variant="ghost" className="h-11 rounded-xl">
+            <Link to="/mis-publicaciones/editar/$id" params={{ id: fila.id }}>
+              Editar
+            </Link>
+          </Button>
+        ) : null}
         {puedeRetirar ? (
           <Button variant="ghost" className="h-11 rounded-xl" onClick={onRetirar}>
             Retirar
