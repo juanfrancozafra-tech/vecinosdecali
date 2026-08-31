@@ -22,15 +22,24 @@
  *
  * Se le quita el "www." para que circule una sola dirección y no dos.
  */
-export function sitioUrl(): string {
-  if (typeof window !== "undefined") {
-    return window.location.origin.replace("://www.", "://");
-  }
-  const configurada = import.meta.env["VITE_SITIO_URL"];
-  if (typeof configurada === "string" && configurada.trim()) {
-    return configurada.trim().replace(/\/+$/, "").replace("://www.", "://");
+function configurada(): string {
+  const valor = import.meta.env["VITE_SITIO_URL"];
+  if (typeof valor === "string" && valor.trim()) {
+    return valor.trim().replace(/\/+$/, "").replace("://www.", "://");
   }
   return "";
+}
+
+export function sitioUrl(): string {
+  if (typeof window !== "undefined") {
+    // Las compilaciones de rama se sirven desde una dirección efímera de
+    // Cloudflare, que se recicla. Un enlace compartido desde ahí queda muerto,
+    // así que en ese caso vale más el dominio configurado.
+    const efimera = window.location.hostname.endsWith(".workers.dev");
+    if (!efimera) return window.location.origin.replace("://www.", "://");
+    return configurada() || window.location.origin;
+  }
+  return configurada();
 }
 
 /** Convierte "/algo" en "https://dominio/algo". Devuelve la ruta tal cual si
