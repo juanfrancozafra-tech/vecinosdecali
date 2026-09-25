@@ -115,8 +115,8 @@ function Terminos() {
 
       <Apartado titulo="10. Contacto">
         <p>
-          <a href="mailto:shipinflow@gmail.com" className="text-violet underline">
-            shipinflow@gmail.com
+          <a href="mailto:hola@vecinosdecali.com" className="text-violet underline">
+            hola@vecinosdecali.com
           </a>
         </p>
       </Apartado>

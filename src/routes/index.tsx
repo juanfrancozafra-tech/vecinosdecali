@@ -203,7 +203,7 @@ const faqs = [
   {
     question: "¿Qué datos guardan de mí?",
     answer:
-      "Tu nombre, tu foto y tu correo de Google, y tu número de WhatsApp. Si vas a regalar cosas, también tu barrio, para que un vecino sepa si le queda cerca. Si venís a recibir, no te pedimos dónde vivís. Nada más. No los vendemos, no los compartimos, no los usamos para publicidad. Podés pedir que los borremos cuando quieras escribiendo a shipinflow@gmail.com. Detalles en la política de tratamiento de datos.",
+      "Tu nombre, tu foto y tu correo de Google, y tu número de WhatsApp. Si vas a regalar cosas, también tu barrio, para que un vecino sepa si le queda cerca. Si venís a recibir, no te pedimos dónde vivís. Nada más. No los vendemos, no los compartimos, no los usamos para publicidad. Podés pedir que los borremos cuando quieras escribiendo a hola@vecinosdecali.com. Detalles en la política de tratamiento de datos.",
   },
   {
     question: "¿Quién responde si algo sale mal?",
@@ -537,8 +537,8 @@ function Index() {
                     <p className="mt-3 text-body text-muted-foreground">
                       Esto no es una empresa ni una fundación: es un vecino con una página. Si algo
                       no funciona o tenés una idea, escribime a{" "}
-                      <a href="mailto:shipinflow@gmail.com" className="text-violet hover:underline">
-                        shipinflow@gmail.com
+                      <a href="mailto:hola@vecinosdecali.com" className="text-violet hover:underline">
+                        hola@vecinosdecali.com
                       </a>
                       .
                     </p>
@@ -583,8 +583,8 @@ function Index() {
           <div className="text-small text-muted-foreground">
             <p>
               Hecho por Juan Carlos Franco ·{" "}
-              <a href="mailto:shipinflow@gmail.com" className="hover:text-foreground">
-                shipinflow@gmail.com
+              <a href="mailto:hola@vecinosdecali.com" className="hover:text-foreground">
+                hola@vecinosdecali.com
               </a>
             </p>
             <p className="mt-1">Hecho en Cali, para Cali.</p>
