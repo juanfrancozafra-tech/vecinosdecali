@@ -31,8 +31,8 @@ function Datos() {
         <p>
           Juan Carlos Franco, persona natural, identificado con cédula de ciudadanía 16.931.005,
           domiciliado en Cali, Colombia. Correo de contacto:{" "}
-          <a href="mailto:shipinflow@gmail.com" className="text-violet underline">
-            shipinflow@gmail.com
+          <a href="mailto:hola@vecinosdecali.com" className="text-violet underline">
+            hola@vecinosdecali.com
           </a>
           .
         </p>
@@ -103,8 +103,8 @@ function Datos() {
         />
         <p>
           Para ejercerlos, escribí a{" "}
-          <a href="mailto:shipinflow@gmail.com" className="text-violet underline">
-            shipinflow@gmail.com
+          <a href="mailto:hola@vecinosdecali.com" className="text-violet underline">
+            hola@vecinosdecali.com
           </a>
           . Respondemos consultas en máximo diez días hábiles y reclamos en máximo quince, conforme
           a la Ley 1581 de 2012.
@@ -114,8 +114,8 @@ function Datos() {
       <Apartado titulo="6. Eliminación de la cuenta">
         <p>
           Podés pedir que borremos tu cuenta y tus datos escribiendo a{" "}
-          <a href="mailto:shipinflow@gmail.com" className="text-violet underline">
-            shipinflow@gmail.com
+          <a href="mailto:hola@vecinosdecali.com" className="text-violet underline">
+            hola@vecinosdecali.com
           </a>
           . Al hacerlo se eliminan tu perfil, tu número y tus publicaciones activas. Las
           calificaciones que otros vecinos te dejaron pueden conservarse de forma anónima, porque
